@@ -19,10 +19,9 @@ namespace Bantam
     public class Lexer /*: List<Token>*/ : ILexer
     {
         /// <summary>
-        ///     Creates a new Lexer to tokenize the given string.
-        ///     @param text String to tokenize.
+        /// Creates a new Lexer to tokenize the given string.
+        /// @param text String to tokenize.
         /// </summary>
-        /// <param name="text"></param>
         public Lexer(String text)
         {
             mIndex = 0;
