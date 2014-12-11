@@ -1,6 +1,5 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,57 +12,55 @@ namespace BantamTests
         void Setup()
         {
             // Function call.
-            _expectations.Add(new Tuple<string, string>("a()","a()"));
-            _expectations.Add(new Tuple<string, string>("a(b)","a(b)"));
-            _expectations.Add(new Tuple<string, string>("a(b, c)","a(b, c)"));
-            _expectations.Add(new Tuple<string, string>("a(b)(c)","a(b)(c)"));
-            _expectations.Add(new Tuple<string, string>("a(b) + c(d)","(a(b) + c(d))"));
-            _expectations.Add(new Tuple<string, string>("a(b ? c : d, e + f)","a((b ? c : d), (e + f))"));
+            _expectationses.AddExpectation("a()", "a()");
+            _expectationses.AddExpectation("a(b)", "a(b)");
+            _expectationses.AddExpectation("a(b, c)", "a(b, c)");
+            _expectationses.AddExpectation("a(b)(c)", "a(b)(c)");
+            _expectationses.AddExpectation("a(b) + c(d)", "(a(b) + c(d))");
+            _expectationses.AddExpectation("a(b ? c : d, e + f)", "a((b ? c : d), (e + f))");
 
             // Unary precedence.
-            _expectations.Add(new Tuple<string, string>("~!-+a","(~(!(-(+a))))"));
-            _expectations.Add(new Tuple<string, string>("a!!!","(((a!)!)!)"));
+            _expectationses.AddExpectation("~!-+a", "(~(!(-(+a))))");
+            _expectationses.AddExpectation("a!!!", "(((a!)!)!)");
 
             // Unary and binary predecence.
-            _expectations.Add(new Tuple<string, string>("-a * b","((-a) * b)"));
-            _expectations.Add(new Tuple<string, string>("!a + b","((!a) + b)"));
-            _expectations.Add(new Tuple<string, string>("~a ^ b","((~a) ^ b)"));
-            _expectations.Add(new Tuple<string, string>("-a!","(-(a!))"));
-            _expectations.Add(new Tuple<string, string>("!a!","(!(a!))"));
+            _expectationses.AddExpectation("-a * b", "((-a) * b)");
+            _expectationses.AddExpectation("!a + b", "((!a) + b)");
+            _expectationses.AddExpectation("~a ^ b", "((~a) ^ b)");
+            _expectationses.AddExpectation("-a!", "(-(a!))");
+            _expectationses.AddExpectation("!a!", "(!(a!))");
 
             // Binary precedence.
-            _expectations.Add(new Tuple<string, string>("a = b + c * d ^ e - f / g","(a = ((b + (c * (d ^ e))) - (f / g)))"));
+            _expectationses.AddExpectation("a = b + c * d ^ e - f / g", "(a = ((b + (c * (d ^ e))) - (f / g)))");
 
             // Binary associativity.
-            _expectations.Add(new Tuple<string, string>("a = b = c","(a = (b = c))"));
-            _expectations.Add(new Tuple<string, string>("a + b - c","((a + b) - c)"));
-            _expectations.Add(new Tuple<string, string>("a * b / c","((a * b) / c)"));
-            _expectations.Add(new Tuple<string, string>("a ^ b ^ c","(a ^ (b ^ c))"));
+            _expectationses.AddExpectation("a = b = c", "(a = (b = c))");
+            _expectationses.AddExpectation("a + b - c", "((a + b) - c)");
+            _expectationses.AddExpectation("a * b / c", "((a * b) / c)");
+            _expectationses.AddExpectation("a ^ b ^ c", "(a ^ (b ^ c))");
 
             // Conditional operator.
-            _expectations.Add(new Tuple<string, string>("a ? b : c ? d : e","(a ? b : (c ? d : e))"));
-            _expectations.Add(new Tuple<string, string>("a ? b ? c : d : e","(a ? (b ? c : d) : e)"));
-            _expectations.Add(new Tuple<string, string>("a + b ? c * d : e / f","((a + b) ? (c * d) : (e / f))"));
+            _expectationses.AddExpectation("a ? b : c ? d : e", "(a ? b : (c ? d : e))");
+            _expectationses.AddExpectation("a ? b ? c : d : e", "(a ? (b ? c : d) : e)");
+            _expectationses.AddExpectation("a + b ? c * d : e / f", "((a + b) ? (c * d) : (e / f))");
 
             // Grouping.
-            _expectations.Add(new Tuple<string, string>("a + (b + c) + d","((a + (b + c)) + d)"));
-            _expectations.Add(new Tuple<string, string>("a ^ (b + c)","(a ^ (b + c))"));
-            _expectations.Add(new Tuple<string, string>("(!a)!","((!a)!)"));
+            _expectationses.AddExpectation("a + (b + c) + d", "((a + (b + c)) + d)");
+            _expectationses.AddExpectation("a ^ (b + c)", "(a ^ (b + c))");
+            _expectationses.AddExpectation("(!a)!", "((!a)!)");
         }
 
-        private readonly List<Tuple<string, string>>  _expectations = new List<Tuple<string, string>>();
+        private readonly Expectations<string> _expectationses = new Expectations<string>();
 
         [TestMethod]
         public void TestMethod1()
         {
             Setup();
-            foreach (var expectation in _expectations)
+            foreach (var expectation in _expectationses)
             {
-                var source = expectation.Item2;
-                var expected = expectation.Item1;
-
+                var source = expectation.Source;
+                var expected = expectation.Expected;
                 var actual = Parse(source);
-
                 Assert.AreEqual(expected, actual);
             }
     
@@ -82,5 +79,38 @@ namespace BantamTests
         }
 
 
+    }
+
+    internal class Expectations<T> : IEnumerable<Expectation<T>>
+    {
+        private readonly IList<Expectation<T>> _expectations= new List<Expectation<T>>();
+
+        public void AddExpectation(T source, T expected)
+        {
+            _expectations.Add(new Expectation<T>(source, expected));
+        }
+
+        public IEnumerator<Expectation<T>> GetEnumerator()
+        {
+            return _expectations.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+
+    internal class Expectation<T>
+    {
+        public Expectation(T source,T expected)
+        {
+            Source = source;
+            Expected = expected;
+        }
+
+        public T Expected { get; private set; }
+
+        public T Source { get; private set; }
     }
 }

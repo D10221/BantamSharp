@@ -4,17 +4,17 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace BantamTests
 {
     [TestClass]
-    public class BantamParserTests
+    public class BantamParserFunctionCallTests
     {
         [TestMethod]
-        public void ParseExpressionTest()
+        public void FunctionCallTest()
         {
             var s =Parse("a()");
             Assert.AreEqual("a()",s);
         }
         
         [TestMethod]
-        public void ParseExpressionTest1()
+        public void FunctionCallTest1()
         {
             const string expression = "a(b)";
             var s =Parse(expression);
@@ -22,7 +22,7 @@ namespace BantamTests
         }
         
         [TestMethod]
-        public void ParseExpressionTest2()
+        public void FunctionCallTest2()
         {
             const string expression = "a(b, c)";
             var s =Parse(expression);
@@ -30,7 +30,7 @@ namespace BantamTests
         }
         
         [TestMethod]
-        public void ParseExpressionTest3()
+        public void FunctionCallTest4()
         {
             const string expression = "a(b)(c)";
             var s =Parse(expression);
@@ -38,7 +38,7 @@ namespace BantamTests
         }
         
         [TestMethod]
-        public void ParseExpressionTest4()
+        public void FunctionCallTest5()
         {
             const string expression = "(a(b) + c(d))";
             var s =Parse(expression);
@@ -46,7 +46,7 @@ namespace BantamTests
         }
 
         [TestMethod]
-        public void ParseExpressionTest41()
+        public void FunctionCallTest51()
         {
             const string expression = "a(b) + c(d)";
             var s =Parse(expression);
@@ -55,7 +55,7 @@ namespace BantamTests
         }
         
         [TestMethod]
-        public void ParseExpressionTest5()
+        public void FunctionCallTest6()
         {
             const string expression = "a(b ? c : d, e + f)";
             var s =Parse(expression);
