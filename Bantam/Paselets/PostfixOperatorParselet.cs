@@ -1,4 +1,5 @@
 ﻿using Bantam.Expressions;
+using SimpleParser;
 
 namespace Bantam.Paselets
 {
@@ -12,7 +13,7 @@ public class PostfixOperatorParselet : InfixParselet {
     mPrecedence = precedence;
   }
   
-  public ISimpleExpression Parse(Parser parser, ISimpleExpression left, IToken token) {
+  public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token) {
     return new PostfixSimpleExpression(left, token.GetTokenType());
   }
 

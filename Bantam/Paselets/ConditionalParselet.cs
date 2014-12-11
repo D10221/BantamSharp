@@ -1,4 +1,5 @@
 ﻿using Bantam.Expressions;
+using SimpleParser;
 
 namespace Bantam.Paselets
 {
@@ -7,7 +8,7 @@ namespace Bantam.Paselets
    /// </summary>
     public class ConditionalParselet : InfixParselet
     {
-        public ISimpleExpression Parse(Parser parser, ISimpleExpression left, IToken token)
+        public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token)
         {
             var thenArm = parser.ParseExpression();
             parser.Consume(TokenType.COLON);

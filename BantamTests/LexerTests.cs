@@ -1,5 +1,6 @@
 ﻿using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SimpleParser;
 
 namespace BantamTests
 {
@@ -24,6 +25,13 @@ namespace BantamTests
             /*var abc = lexer.Next();
             Assert.Equals("abc", abc.GetText());*/
 
+        }
+
+        [TestMethod]
+        public void InputTextTest()
+        {
+            ILexer lexer = new Lexer("a+b");
+            Assert.AreEqual("a+b",lexer.InputText);
         }
     }
 

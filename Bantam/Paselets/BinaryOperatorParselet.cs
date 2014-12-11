@@ -1,4 +1,5 @@
 ﻿using Bantam.Expressions;
+using SimpleParser;
 
 namespace Bantam.Paselets
 {
@@ -15,7 +16,7 @@ public class BinaryOperatorParselet : InfixParselet {
     mIsRight = isRight;
   }
   
-  public ISimpleExpression Parse(Parser parser, ISimpleExpression left, IToken token) {
+  public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token) {
     // To handle right-associative operators like "^", we allow a slightly
     // lower precedence when parsing the right-hand side. This will let a
     // parselet with the same precedence appear on the right, which will then

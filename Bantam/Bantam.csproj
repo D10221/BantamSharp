@@ -40,17 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BantamParser.cs" />
-    <Compile Include="Expressions\IBuilder.cs" />
-    <Compile Include="Expressions\ISimpleExpression.cs" />
     <Compile Include="Expressions\OperatorExpression.cs" />
     <Compile Include="Expressions\PostfixExpression.cs" />
     <Compile Include="Expressions\PrefixExpression.cs" />
-    <Compile Include="ILexer.cs" />
-    <Compile Include="IParser.cs" />
-    <Compile Include="IToken.cs" />
     <Compile Include="Lexer.cs" />
-    <Compile Include="Paselets\InfixParselet.cs" />
-    <Compile Include="ParseException.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Expressions\AssignExpression.cs" />
     <Compile Include="Paselets\AssignParselet.cs" />
@@ -63,12 +56,15 @@
     <Compile Include="Paselets\GroupParselet.cs" />
     <Compile Include="Paselets\NameParselet.cs" />
     <Compile Include="Paselets\PostfixOperatorParselet.cs" />
-    <Compile Include="Paselets\Precedence.cs" />
     <Compile Include="Paselets\PrefixOperatorParselet.cs" />
-    <Compile Include="IPrefixParselet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Token.cs" />
-    <Compile Include="TokenType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleParser\SimpleParser.csproj">
+      <Project>{b3f8d821-5c5c-49c3-8250-1ee1a7f79f62}</Project>
+      <Name>SimpleParser</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

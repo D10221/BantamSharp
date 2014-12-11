@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using SimpleParser;
 
 namespace Bantam
 {
@@ -25,8 +26,8 @@ namespace Bantam
         public Lexer(String text)
         {
             mIndex = 0;
-            _text = text.ToCharArray().Where(c=>!Char.IsWhiteSpace(c));
-           _enumerator = _text.GetEnumerator();
+            _text = text.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).ToArray();
+            _enumerator = text.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).GetEnumerator();
         }
 
         private IToken TryGetPunctuator(char c)
@@ -97,8 +98,15 @@ namespace Bantam
             return token ;                                
         }
 
+        public string InputText
+        {
+            get
+            {
+                return _text.Select(a=> a.ToString(CultureInfo.InvariantCulture)).Aggregate((a, b) => a + b);
+            }
+        }
         private readonly IEnumerable<char> _text;
         private int mIndex;
-        private IEnumerator<char> _enumerator;
+        private readonly IEnumerator<char> _enumerator;
     }
 }

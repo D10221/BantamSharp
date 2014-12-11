@@ -2,6 +2,7 @@ namespace SimpleParser
 {
     public interface ILexer
     {
-        Token Next();
+        IToken Next();
+        string InputText { get; }
     }
 }
