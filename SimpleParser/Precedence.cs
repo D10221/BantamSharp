@@ -1,4 +1,4 @@
-﻿namespace Bantam.Paselets
+﻿namespace SimpleParser
 {
     /**
 * Defines the different precendence levels used by the infix parsers. These

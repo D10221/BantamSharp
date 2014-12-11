@@ -7,18 +7,18 @@ namespace Bantam.Paselets
    /// </summary>
     public class ConditionalParselet : InfixParselet
     {
-        public Expression Parse(Parser parser, Expression left, Token token)
+        public ISimpleExpression Parse(Parser parser, ISimpleExpression left, IToken token)
         {
             var thenArm = parser.ParseExpression();
             parser.Consume(TokenType.COLON);
             var elseArm = parser.ParseExpression();
 
-            return new ConditionalExpression(left, thenArm, elseArm);
+            return new ConditionalSimpleExpression(left, thenArm, elseArm);
         }
 
         public int GetPrecedence()
         {
-            return Precedence.CONDITIONAL;
+            return (int) Precedence.CONDITIONAL;
         }
     }
 }

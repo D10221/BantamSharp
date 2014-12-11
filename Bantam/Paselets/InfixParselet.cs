@@ -13,7 +13,7 @@ namespace Bantam.Paselets
      */
     public interface InfixParselet
     {
-        Expression Parse(Parser parser, Expression left, Token token);
+        ISimpleExpression Parse(Parser parser, ISimpleExpression left, IToken token);
         int GetPrecedence();
     }
 }

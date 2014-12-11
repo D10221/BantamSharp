@@ -4,7 +4,7 @@
 
 using System.Globalization;
 
-namespace Bantam
+namespace SimpleParser
 {
     public class Token : IToken
     {
@@ -33,7 +33,7 @@ namespace Bantam
         
         private readonly string mText;
 
-        public static IToken New(TokenType tokenType, string text)
+        public static Token New(TokenType tokenType, string text)
         {
             return new Token(tokenType, text);
         }
@@ -43,7 +43,7 @@ namespace Bantam
             return New(tokenType, c.ToString(CultureInfo.InvariantCulture));
         }
 
-        public static IToken Empty()
+        public static Token Empty()
         {
             return New(TokenType.NONE, null);
         }

@@ -5,21 +5,21 @@ namespace Bantam.Paselets
 {
     internal class AssignParselet : InfixParselet
     {
-        public Expression Parse(Parser parser, Expression left, Token token)
+        public ISimpleExpression Parse(Parser parser, ISimpleExpression left, IToken token)
         {
-            Expression right = parser.ParseExpression();
+            ISimpleExpression right = parser.ParseExpression();
 
-            if (left as NameExpression != null)
+            if (left as NameSimpleExpression != null)
                 throw new ParseException(
                     "The left-hand side of an assignment must be a name.");
 
-            String name = ((NameExpression) left).getName();
-            return new AssignExpression(name, right);
+            String name = ((NameSimpleExpression) left).getName();
+            return new AssignSimpleExpression(name, right);
         }
 
         public int GetPrecedence()
         {
-            return Precedence.ASSIGNMENT;
+            return (int) Precedence.ASSIGNMENT;
         }
     }
 }

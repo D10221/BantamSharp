@@ -5,9 +5,9 @@ namespace Bantam.Expressions
     /**
 * A ternary conditional expression like "a ? b : c".
 */
-    public class ConditionalExpression : Expression {
-        public ConditionalExpression(
-            Expression condition, Expression thenArm, Expression elseArm) {
+    public class ConditionalSimpleExpression : ISimpleExpression {
+        public ConditionalSimpleExpression(
+            ISimpleExpression condition, ISimpleExpression thenArm, ISimpleExpression elseArm) {
             mCondition = condition;
             mThenArm   = thenArm;
             mElseArm   = elseArm;
@@ -23,8 +23,8 @@ namespace Bantam.Expressions
             builder.Append(")");
         }
 
-        private readonly Expression mCondition;
-        private readonly Expression mThenArm;
-        private readonly Expression mElseArm;
+        private readonly ISimpleExpression mCondition;
+        private readonly ISimpleExpression mThenArm;
+        private readonly ISimpleExpression mElseArm;
     }
 }

@@ -6,8 +6,8 @@ namespace Bantam.Expressions
 /**
  * A prefix unary arithmetic expression like "!a" or "-b".
  */
-public class PrefixExpression : Expression {
-  public PrefixExpression(TokenType @operator, Expression right) {
+public class PrefixSimpleExpression : ISimpleExpression {
+  public PrefixSimpleExpression(TokenType @operator, ISimpleExpression right) {
     mOperator = @operator;
     mRight = right;
   }
@@ -19,7 +19,7 @@ public class PrefixExpression : Expression {
   }
 
   private readonly TokenType  mOperator;
-  private readonly Expression mRight;
+  private readonly ISimpleExpression mRight;
 }
 
 }

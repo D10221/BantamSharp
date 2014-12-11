@@ -2,13 +2,14 @@
 
 namespace Bantam.Paselets
 {
-
-    /**
- * Simple parselet for a named variable like "abc".
- */
-    public class NameParselet : PrefixParselet {
-        public Expression Parse(Parser parser, Token token) {
-            return new NameExpression(token.GetText());
+    /// <summary>
+    ///     Simple parselet for a named variable like "abc"
+    /// </summary>
+    public class NameParselet : IPrefixParselet
+    {
+        public ISimpleExpression Parse(IParser parser, IToken token)
+        {
+            return new NameSimpleExpression(token.GetText());
         }
     }
 }

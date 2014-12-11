@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bantam.Expressions;
@@ -6,16 +5,16 @@ using Bantam.Paselets;
 
 namespace Bantam
 {
-    public class Parser
+    public class Parser : IParser
     {
-        private readonly Lexer _lexer;
+        private readonly ILexer _lexer;
 
-        public Parser(Lexer lexer)
+        public Parser(ILexer lexer)
         {
             _lexer = lexer;
         }
         
-        public void Register(TokenType token, PrefixParselet parselet) {
+        public void Register(TokenType token, IPrefixParselet parselet) {
             _parselets.Add(token, parselet);
         }
   
@@ -23,13 +22,13 @@ namespace Bantam
             _infixParselets.Add(token, parselet);
         }
   
-        public Expression ParseExpression() {
+        public ISimpleExpression ParseExpression() {
            
             var token = Consume();
                       
             var tokenType = token.GetTokenType();
 
-            PrefixParselet prefix;
+            IPrefixParselet prefix;
             if (!_parselets.TryGetValue(tokenType, out prefix)) 
                 throw new ParseException(token);
 
@@ -51,7 +50,7 @@ namespace Bantam
         
   
         public bool IsMatch(TokenType expected) {
-            Token token = lookAhead();
+            IToken token = lookAhead();
             if (token.GetTokenType() != expected) {
                 return false;
             }
@@ -60,8 +59,8 @@ namespace Bantam
             return true;
         }
   
-        public Token Consume(TokenType expected) {
-            Token token = lookAhead();
+        public IToken Consume(TokenType expected) {
+            IToken token = lookAhead();
             if (token.GetTokenType() != expected) {
                 throw new ParseException("Expected token {0} and found {1}", expected, token.GetTokenType());
             }
@@ -69,7 +68,7 @@ namespace Bantam
             return Consume();
         }
   
-        public Token Consume() {
+        public IToken Consume() {
             // Make sure we've read the token.
             lookAhead();
             var token  = _tokens.First();
@@ -77,7 +76,7 @@ namespace Bantam
             return token;
         }
   
-        private Token lookAhead() {
+        private IToken lookAhead() {
 
             while (!_tokens.Any())
             {
@@ -103,9 +102,9 @@ namespace Bantam
             return precedence;
         }
 
-        private readonly List<Token> _tokens = new List<Token>();
-        private readonly IDictionary<TokenType, PrefixParselet> _parselets =
-            new Dictionary<TokenType, PrefixParselet>();
+        private readonly List<IToken> _tokens = new List<IToken>();
+        private readonly IDictionary<TokenType, IPrefixParselet> _parselets =
+            new Dictionary<TokenType, IPrefixParselet>();
         private readonly IDictionary<TokenType, InfixParselet> _infixParselets =
             new Dictionary<TokenType, InfixParselet>();
     }

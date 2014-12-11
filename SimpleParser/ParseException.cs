@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bantam
+namespace SimpleParser
 {
     public class ParseException : Exception
     {
