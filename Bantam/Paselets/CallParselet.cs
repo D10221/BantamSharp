@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Bantam.Expressions;
+using SimpleParser;
 
 namespace Bantam.Paselets
 {
@@ -9,7 +10,7 @@ namespace Bantam.Paselets
  */
 public class CallParselet : InfixParselet {
 
-  public ISimpleExpression Parse(Parser parser, ISimpleExpression left, IToken token) {
+  public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token) {
     // Parse the comma-separated arguments until we hit, ")".
     var args = new List<ISimpleExpression>();
     

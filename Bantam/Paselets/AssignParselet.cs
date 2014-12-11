@@ -1,11 +1,12 @@
 ﻿using System;
 using Bantam.Expressions;
+using SimpleParser;
 
 namespace Bantam.Paselets
 {
     internal class AssignParselet : InfixParselet
     {
-        public ISimpleExpression Parse(Parser parser, ISimpleExpression left, IToken token)
+        public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token)
         {
             ISimpleExpression right = parser.ParseExpression();
 

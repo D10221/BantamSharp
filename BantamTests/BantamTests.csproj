@@ -61,6 +61,10 @@
       <Project>{53f609f1-ed5e-40b2-bbe5-c41341b158b2}</Project>
       <Name>Bantam</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SimpleParser\SimpleParser.csproj">
+      <Project>{B3F8D821-5C5C-49C3-8250-1EE1A7F79F62}</Project>
+      <Name>SimpleParser</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
