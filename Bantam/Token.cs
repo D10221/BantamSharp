@@ -33,7 +33,7 @@ namespace Bantam
         
         private readonly string mText;
 
-        public static Token New(TokenType tokenType, string text)
+        public static IToken New(TokenType tokenType, string text)
         {
             return new Token(tokenType, text);
         }
@@ -43,7 +43,7 @@ namespace Bantam
             return New(tokenType, c.ToString(CultureInfo.InvariantCulture));
         }
 
-        public static Token Empty()
+        public static IToken Empty()
         {
             return New(TokenType.NONE, null);
         }

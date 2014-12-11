@@ -29,9 +29,9 @@ namespace Bantam
            _enumerator = _text.GetEnumerator();
         }
 
-        private Token TryGetPunctuator(char c)
+        private IToken TryGetPunctuator(char c)
         {
-            Token token = TokenTypes.Punctuators
+            var token = TokenTypes.Punctuators
                 .TryGet(c)
                 .Extract(tt => Token.New(tt.TknType(), tt.Char()));
             return token;
@@ -76,7 +76,7 @@ namespace Bantam
             return new Iteration(ok, eof, enumerator.Current);
         };
 
-        public Token Next()
+        public IToken Next()
         {
             var token = Token.Empty();            
 
