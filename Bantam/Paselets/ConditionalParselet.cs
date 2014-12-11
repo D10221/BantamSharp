@@ -3,16 +3,16 @@ using SimpleParser;
 
 namespace Bantam.Paselets
 {
-   /// <summary>
-    /// Parselet for the condition or "ternary" operator, like "a ? b : c".
-   /// </summary>
+    /// <summary>
+    ///     Parselet for the condition or "ternary" operator, like "a ? b : c".
+    /// </summary>
     public class ConditionalParselet : InfixParselet
     {
         public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token)
         {
-            var thenArm = parser.ParseExpression();
+            ISimpleExpression thenArm = parser.ParseExpression();
             parser.Consume(TokenType.COLON);
-            var elseArm = parser.ParseExpression();
+            ISimpleExpression elseArm = parser.ParseExpression();
 
             return new ConditionalSimpleExpression(left, thenArm, elseArm);
         }

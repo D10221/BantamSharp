@@ -4,7 +4,7 @@ using SimpleParser;
 namespace Bantam.Paselets
 {
     /// <summary>
-    ///     Simple parselet for a named variable like "abc"
+    /// Simple parselet for a named variable like "abc"
     /// </summary>
     public class NameParselet : IPrefixParselet
     {

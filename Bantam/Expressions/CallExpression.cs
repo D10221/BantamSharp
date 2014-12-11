@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 using SimpleParser;
 
 namespace Bantam.Expressions
 {
-    /**
- * A function call like "a(b, c, d)".
- */
-
+    /// <summary>
+    /// A function call like "a(b, c, d)".
+    /// </summary>
     public class CallSimpleExpression : ISimpleExpression
     {
         public CallSimpleExpression(ISimpleExpression function, List<ISimpleExpression> args)

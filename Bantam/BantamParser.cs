@@ -4,16 +4,14 @@ using SimpleParser;
 namespace Bantam
 {
     
-/**
- * Extends the generic Parser class with support for parsing the actual Bantam
- * grammar.
- */
+/// <summary>
+/// Extends the generic Parser class with support for parsing the actual Bantam
+/// grammar
+/// </summary>
 public class BantamParser : Parser {
   public BantamParser(ILexer lexer) :base(lexer){
-    
-    
-    // Register all of the parselets for the grammar.
-    
+        
+    // Register all of the parselets for the grammar.    
     // Register the ones that need special parselets.
     Register(TokenType.NAME,       new NameParselet());
     Register(TokenType.ASSIGN,     new AssignParselet());
@@ -37,37 +35,44 @@ public class BantamParser : Parser {
     infixRight(TokenType.CARET,   Precedence.EXPONENT);
   }
   
-  /**
-   * Registers a postfix unary operator parselet for the given token and
-   * precedence.
-   */
+  /// <summary>
+  ///  Registers a postfix unary operator parselet for the given token and
+  /// precedence.
+  /// </summary>
+  /// <param name="token"></param>
+  /// <param name="precedence"></param>
   public void postfix(TokenType token, Precedence precedence)
   {
     Register(token, new PostfixOperatorParselet(precedence));
   }
   
-  /**
-   * Registers a prefix unary operator parselet for the given token and
-   * precedence.
-   */
+  /// <summary>
+  /// Registers a prefix unary operator parselet for the given token and
+  /// precedence.
+  /// </summary>
+  /// <param name="token"></param>
+  /// <param name="precedence"></param>
   public void prefix(TokenType token, Precedence precedence)
   {
     Register(token, new PrefixOperatorParselet(precedence));
   }
   
-  /**
-   * Registers a left-associative binary operator parselet for the given token
-   * and precedence.
-   */
+  /// <summary>
+  /// Registers a left-associative binary operator parselet for the given token
+  /// and precedence.
+  /// </summary>
+  /// <param name="token"></param>
+  /// <param name="precedence"></param>
   public void infixLeft(TokenType token, Precedence precedence)
   {
     Register(token, new BinaryOperatorParselet(precedence, false));
   }
   
-  /**
-   * Registers a right-associative binary operator parselet for the given token
-   * and precedence.
-   */
+  /// <summary>
+  /// Registers a right-associative binary operator parselet for the given token and precedence.
+  /// </summary>
+  /// <param name="token"></param>
+  /// <param name="precedence"></param>
   public void infixRight(TokenType token, Precedence precedence)
   {
     Register(token, new BinaryOperatorParselet(precedence, true));

@@ -26,7 +26,7 @@ namespace SimpleParser
         NUMBER,
         NONE
     }
-
+    //
     public static class TokenTypes
     {
         //TokenTypes that are explicit punctuators.

@@ -1,5 +1,4 @@
-﻿using System;
-using Bantam.Expressions;
+﻿using Bantam.Expressions;
 using SimpleParser;
 
 namespace Bantam.Paselets
@@ -8,13 +7,14 @@ namespace Bantam.Paselets
     {
         public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token)
         {
-            ISimpleExpression right = parser.ParseExpression();
-
+            var right = parser.ParseExpression();
+            
+            //Bug: ?  can't be null and then Must Not Be null ? , I'm missing something ...
             if (left as NameSimpleExpression != null)
                 throw new ParseException(
                     "The left-hand side of an assignment must be a name.");
 
-            String name = ((NameSimpleExpression) left).getName();
+            var name = ((NameSimpleExpression) left).getName();
             return new AssignSimpleExpression(name, right);
         }
 

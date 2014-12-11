@@ -78,7 +78,6 @@ namespace BantamTests
             return actual;
         }
 
-
     }
 
     internal class Expectations<T> : IEnumerable<Expectation<T>>
