@@ -9,26 +9,27 @@ namespace Bantam.Paselets
  */
 public class BinaryOperatorParselet : InfixParselet {
 
-  public BinaryOperatorParselet(int precedence, bool isRight) {
+    public BinaryOperatorParselet(Precedence precedence, bool isRight)
+    {
     mPrecedence = precedence;
     mIsRight = isRight;
   }
   
-  public Expression Parse(Parser parser, Expression left, Token token) {
+  public ISimpleExpression Parse(Parser parser, ISimpleExpression left, IToken token) {
     // To handle right-associative operators like "^", we allow a slightly
     // lower precedence when parsing the right-hand side. This will let a
     // parselet with the same precedence appear on the right, which will then
     // take *this* parselet's result as its left-hand argument.
-    Expression right = parser.ParseExpression();
+    ISimpleExpression right = parser.ParseExpression();
     
-    return new OperatorExpression(left, token.GetTokenType(), right);
+    return new OperatorSimpleExpression(left, token.GetTokenType(), right);
   }
 
   public int GetPrecedence() {
-    return mPrecedence;
+    return (int) mPrecedence;
   }
   
-  private readonly int mPrecedence;
+  private readonly Precedence mPrecedence;
   private readonly bool mIsRight;
 }
 }

@@ -5,8 +5,8 @@ namespace Bantam.Expressions
    /**
  * A postfix unary arithmetic expression like "a!".
  */
-public class PostfixExpression : Expression {
-  public PostfixExpression(Expression left, TokenType @operator) {
+public class PostfixSimpleExpression : ISimpleExpression {
+  public PostfixSimpleExpression(ISimpleExpression left, TokenType @operator) {
     mLeft = left;
     mOperator = @operator;
   }
@@ -17,7 +17,7 @@ public class PostfixExpression : Expression {
     builder.Append(mOperator.Punctuator()).Append(")");
   }
 
-  private readonly Expression mLeft;
+  private readonly ISimpleExpression mLeft;
   private readonly TokenType  mOperator;
 }
 }

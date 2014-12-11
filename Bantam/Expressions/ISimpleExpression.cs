@@ -5,7 +5,7 @@ namespace Bantam.Expressions
     /// <summary>
     /// Interface for all expression AST node classes.
     /// </summary>
-    public interface Expression 
+    public interface ISimpleExpression 
     {
         /// <summary>
         ///   Build, the expression 

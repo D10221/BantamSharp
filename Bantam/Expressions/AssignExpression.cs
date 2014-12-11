@@ -6,8 +6,8 @@ namespace Bantam.Expressions
     /**
  * An assignment expression like "a = b".
  */
-    public class AssignExpression : Expression {
-        public AssignExpression(String name, Expression right) {
+    public class AssignSimpleExpression : ISimpleExpression {
+        public AssignSimpleExpression(String name, ISimpleExpression right) {
             _name = name;
             mRight = right;
         }
@@ -19,6 +19,6 @@ namespace Bantam.Expressions
         }
 
         private readonly String _name;
-        private readonly Expression mRight;
+        private readonly ISimpleExpression mRight;
     }
 }

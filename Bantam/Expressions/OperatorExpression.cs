@@ -6,8 +6,8 @@ namespace Bantam.Expressions
 /**
  * A binary arithmetic expression like "a + b" or "c ^ d".
  */
-public class OperatorExpression : Expression {
-  public OperatorExpression(Expression left, TokenType @operator, Expression right) {
+public class OperatorSimpleExpression : ISimpleExpression {
+  public OperatorSimpleExpression(ISimpleExpression left, TokenType @operator, ISimpleExpression right) {
     mLeft = left;
     mOperator = @operator;
     mRight = right;
@@ -21,14 +21,8 @@ public class OperatorExpression : Expression {
     builder.Append(")");
   }
 
-  private readonly Expression mLeft;
+  private readonly ISimpleExpression mLeft;
   private readonly TokenType  mOperator;
-  private readonly Expression mRight;
+  private readonly ISimpleExpression mRight;
 }
-
-    public interface IBuilder
-    {
-        IBuilder Append(string s);
-        IBuilder Append(char c);
-    }
 }

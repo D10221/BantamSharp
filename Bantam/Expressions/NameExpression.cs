@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Text;
 
 namespace Bantam.Expressions
 {
     /**
 * A simple variable name expression like "abc".
 */
-    public class NameExpression : Expression {
+    public class NameSimpleExpression : ISimpleExpression {
         private readonly string _name;
 
-        public NameExpression(String name) {
+        public NameSimpleExpression(String name) {
             _name = name;
         }
   

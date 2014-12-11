@@ -4,7 +4,7 @@
 
 using System.Globalization;
 
-namespace Bantam
+namespace SimpleParser
 {
     public class Token : IToken
     {

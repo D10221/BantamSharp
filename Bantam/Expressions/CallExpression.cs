@@ -7,9 +7,9 @@ namespace Bantam.Expressions
  * A function call like "a(b, c, d)".
  */
 
-    public class CallExpression : Expression
+    public class CallSimpleExpression : ISimpleExpression
     {
-        public CallExpression(Expression function, List<Expression> args)
+        public CallSimpleExpression(ISimpleExpression function, List<ISimpleExpression> args)
         {
             mFunction = function;
             mArgs = args;
@@ -27,7 +27,7 @@ namespace Bantam.Expressions
             builder.Append(")");
         }
 
-        private readonly Expression mFunction;
-        private readonly List<Expression> mArgs;
+        private readonly ISimpleExpression mFunction;
+        private readonly List<ISimpleExpression> mArgs;
     }
 }

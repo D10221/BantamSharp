@@ -8,7 +8,7 @@ namespace Bantam
  * grammar.
  */
 public class BantamParser : Parser {
-  public BantamParser(Lexer lexer) :base(lexer){
+  public BantamParser(ILexer lexer) :base(lexer){
     
     
     // Register all of the parselets for the grammar.
@@ -40,7 +40,8 @@ public class BantamParser : Parser {
    * Registers a postfix unary operator parselet for the given token and
    * precedence.
    */
-  public void postfix(TokenType token, int precedence) {
+  public void postfix(TokenType token, Precedence precedence)
+  {
     Register(token, new PostfixOperatorParselet(precedence));
   }
   
@@ -48,7 +49,8 @@ public class BantamParser : Parser {
    * Registers a prefix unary operator parselet for the given token and
    * precedence.
    */
-  public void prefix(TokenType token, int precedence) {
+  public void prefix(TokenType token, Precedence precedence)
+  {
     Register(token, new PrefixOperatorParselet(precedence));
   }
   
@@ -56,7 +58,8 @@ public class BantamParser : Parser {
    * Registers a left-associative binary operator parselet for the given token
    * and precedence.
    */
-  public void infixLeft(TokenType token, int precedence) {
+  public void infixLeft(TokenType token, Precedence precedence)
+  {
     Register(token, new BinaryOperatorParselet(precedence, false));
   }
   
@@ -64,7 +67,8 @@ public class BantamParser : Parser {
    * Registers a right-associative binary operator parselet for the given token
    * and precedence.
    */
-  public void infixRight(TokenType token, int precedence) {
+  public void infixRight(TokenType token, Precedence precedence)
+  {
     Register(token, new BinaryOperatorParselet(precedence, true));
   }
 }
