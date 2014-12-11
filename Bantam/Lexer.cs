@@ -16,7 +16,7 @@ namespace Bantam
     // not supported. This is really just the bare minimum to give the parser
     // something to work with.
     /// </summary>
-    public class Lexer /*: List<Token>*/ : ILexer
+    public class Lexer: ILexer
     {
         /// <summary>
         /// Creates a new Lexer to tokenize the given string.

@@ -9,7 +9,7 @@ namespace Bantam.Paselets
     {
         public ISimpleExpression Parse(IParser parser, IToken token)
         {
-            ISimpleExpression simpleExpression = parser.ParseExpression();
+            var simpleExpression = parser.ParseExpression();
             parser.Consume(TokenType.RIGHT_PAREN);
             return simpleExpression;
         }

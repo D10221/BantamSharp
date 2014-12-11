@@ -3,9 +3,9 @@ using SimpleParser;
 
 namespace Bantam.Expressions
 {
-    /**
-* A simple variable name expression like "abc".
-*/
+    /// <summary>
+    /// A simple variable name expression like "abc".
+    /// </summary>
     public class NameSimpleExpression : ISimpleExpression {
         private readonly string _name;
 

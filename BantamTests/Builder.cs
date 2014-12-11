@@ -3,6 +3,9 @@ using SimpleParser;
 
 namespace BantamTests
 {
+    /// <summary>
+    /// Abstraction :)
+    /// </summary>
     public class Builder:IBuilder
     {
         private readonly StringBuilder _builder;

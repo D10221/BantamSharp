@@ -4,6 +4,9 @@ using SimpleParser;
 
 namespace Bantam
 {
+    /// <summary>
+    /// Bantam implementation of SimpleParser
+    /// </summary>
     public class Parser : IParser
     {
         private readonly ILexer _lexer;

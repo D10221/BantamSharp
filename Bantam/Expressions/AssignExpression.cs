@@ -3,9 +3,9 @@ using SimpleParser;
 
 namespace Bantam.Expressions
 {
-   /// <summary>
+    /// <summary>
     /// An assignment expression like "a = b"
-   /// </summary>
+    /// </summary>
     public class AssignSimpleExpression : ISimpleExpression {
         public AssignSimpleExpression(String name, ISimpleExpression right) {
             _name = name;
