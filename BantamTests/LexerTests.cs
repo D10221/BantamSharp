@@ -25,6 +25,13 @@ namespace BantamTests
             Assert.Equals("abc", abc.GetText());*/
 
         }
+
+        [TestMethod]
+        public void InputTextTest()
+        {
+            ILexer lexer = new Lexer("a+b");
+            Assert.AreEqual("a+b",lexer.InputText);
+        }
     }
 
 }

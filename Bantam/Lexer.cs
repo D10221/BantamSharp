@@ -25,7 +25,7 @@ namespace Bantam
         public Lexer(String text)
         {
             mIndex = 0;
-            _text = text.ToCharArray().Where(c=>!Char.IsWhiteSpace(c));
+            _text = text.ToCharArray().Where(c=>!Char.IsWhiteSpace(c)).ToArray();
            _enumerator = _text.GetEnumerator();
         }
 
@@ -97,8 +97,15 @@ namespace Bantam
             return token ;                                
         }
 
+        public string InputText
+        {
+            get
+            {
+                return _text.Select(a=> a.ToString(CultureInfo.InvariantCulture)).Aggregate((a, b) => a + b);
+            }
+        }
         private readonly IEnumerable<char> _text;
         private int mIndex;
-        private IEnumerator<char> _enumerator;
+        private readonly IEnumerator<char> _enumerator;
     }
 }
