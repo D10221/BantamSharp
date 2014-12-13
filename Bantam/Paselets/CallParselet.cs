@@ -16,7 +16,7 @@ namespace Bantam.Paselets
 
             // There may be no arguments at all.
             if (parser.IsMatch(TokenType.RIGHT_PAREN))
-                return new CallSimpleExpression(left, args);
+                return new CallExpression(left, args);
             do
             {
                 args.Add(parser.ParseExpression());
@@ -24,12 +24,12 @@ namespace Bantam.Paselets
 
             parser.Consume(TokenType.RIGHT_PAREN);
 
-            return new CallSimpleExpression(left, args);
+            return new CallExpression(left, args);
         }
 
-        public int GetPrecedence()
+        public int Precedence
         {
-            return (int) Precedence.CALL;
+            get { return (int) SimpleParser.Precedence.CALL; }
         }
     }
 }

@@ -9,18 +9,22 @@ namespace Bantam.Expressions
     {
         public PrefixSimpleExpression(TokenType @operator, ISimpleExpression right)
         {
-            mOperator = @operator;
-            mRight = right;
+            _operator = @operator;
+            _right = right;
+            _punctuator = _operator.Punctuator();
+            if (!_punctuator.IsValidPunctuator()) throw new ParseException("Not A valid oprator");
         }
 
         public void Print(IBuilder builder)
         {
-            builder.Append("(").Append(mOperator.Punctuator());
-            mRight.Print(builder);
+ 
+            builder.Append("(").Append(_punctuator);
+            _right.Print(builder);
             builder.Append(")");
         }
 
-        private readonly TokenType mOperator;
-        private readonly ISimpleExpression mRight;
+        private readonly TokenType _operator;
+        private readonly ISimpleExpression _right;
+        private char _punctuator;
     }
 }

@@ -14,12 +14,12 @@ namespace Bantam.Paselets
             parser.Consume(TokenType.COLON);
             ISimpleExpression elseArm = parser.ParseExpression();
 
-            return new ConditionalSimpleExpression(left, thenArm, elseArm);
+            return new ConditionalExpression(left, thenArm, elseArm);
         }
 
-        public int GetPrecedence()
+        public int Precedence
         {
-            return (int) Precedence.CONDITIONAL;
+            get { return (int) SimpleParser.Precedence.CONDITIONAL; }
         }
     }
 }

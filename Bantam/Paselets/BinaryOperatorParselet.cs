@@ -12,8 +12,8 @@ namespace Bantam.Paselets
     {
         public BinaryOperatorParselet(Precedence precedence, bool isRight)
         {
-            mPrecedence = precedence;
-            mIsRight = isRight;
+            _precedence = precedence;
+            _right = isRight;
         }
 
         public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token)
@@ -24,15 +24,15 @@ namespace Bantam.Paselets
             // take *this* parselet's result as its left-hand argument.
             ISimpleExpression right = parser.ParseExpression();
 
-            return new OperatorSimpleExpression(left, token.GetTokenType(), right);
+            return new OperatorExpression(left, token.GetTokenType(), right);
         }
 
-        public int GetPrecedence()
+        public int Precedence
         {
-            return (int) mPrecedence;
+            get { return (int) _precedence; }
         }
 
-        private readonly Precedence mPrecedence;
-        private readonly bool mIsRight;
+        private readonly Precedence _precedence;
+        private readonly bool _right;
     }
 }

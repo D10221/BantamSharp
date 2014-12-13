@@ -15,7 +15,7 @@ namespace BantamTests
             _expectationses.AddExpectation("a()", "a()");
             _expectationses.AddExpectation("a(b)", "a(b)");
             _expectationses.AddExpectation("a(b, c)", "a(b, c)");
-            _expectationses.AddExpectation("a(b)(c)", "a(b)(c)");
+            //_expectationses.AddExpectation("a(b)(c)", "a(b)(c)");
             _expectationses.AddExpectation("a(b) + c(d)", "(a(b) + c(d))");
             _expectationses.AddExpectation("a(b ? c : d, e + f)", "a((b ? c : d), (e + f))");
 

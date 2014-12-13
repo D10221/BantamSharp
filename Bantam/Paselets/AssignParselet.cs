@@ -3,24 +3,26 @@ using SimpleParser;
 
 namespace Bantam.Paselets
 {
-    internal class AssignParselet : InfixParselet
+    public class AssignParselet : InfixParselet
     {
+        public ISimpleExpression Left { get; set; }
+        public ISimpleExpression Right { get; set; }
+
         public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token)
         {
-            var right = parser.ParseExpression();
-            
-            //Bug: ?  can't be null and then Must Not Be null ? , I'm missing something ...
-            if (left as NameSimpleExpression != null)
+            Right = parser.ParseExpression();
+            Left = left;      
+            if (left as NameExpression == null)
                 throw new ParseException(
                     "The left-hand side of an assignment must be a name.");
 
-            var name = ((NameSimpleExpression) left).getName();
-            return new AssignSimpleExpression(name, right);
+            var name = ((NameExpression) left).GetName();
+            return new AssignExpression(name, Right);
         }
 
-        public int GetPrecedence()
+        public int Precedence
         {
-            return (int) Precedence.ASSIGNMENT;
+            get { return (int) SimpleParser.Precedence.ASSIGNMENT; }
         }
     }
 }

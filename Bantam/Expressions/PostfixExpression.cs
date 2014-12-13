@@ -9,18 +9,23 @@ namespace Bantam.Expressions
     {
         public PostfixSimpleExpression(ISimpleExpression left, TokenType @operator)
         {
-            mLeft = left;
-            mOperator = @operator;
+            _left = left;
+            _operator = @operator;
+             _punctuator = _operator.Punctuator();
+            if (!_punctuator.IsValidPunctuator()) throw new ParseException("Not A valid oprator");
         }
 
         public void Print(IBuilder builder)
         {
             builder.Append("(");
-            mLeft.Print(builder);
-            builder.Append(mOperator.Punctuator()).Append(")");
+            _left.Print(builder);           
+            builder.Append(_punctuator).Append(")");
         }
 
-        private readonly ISimpleExpression mLeft;
-        private readonly TokenType mOperator;
+       
+
+        private readonly ISimpleExpression _left;
+        private readonly TokenType _operator;
+        private readonly char _punctuator;
     }
 }

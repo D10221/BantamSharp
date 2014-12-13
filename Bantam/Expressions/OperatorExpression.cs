@@ -2,27 +2,32 @@
 
 namespace Bantam.Expressions
 {
-   
-/**
- * A binary arithmetic expression like "a + b" or "c ^ d".
- */
-public class OperatorSimpleExpression : ISimpleExpression {
-  public OperatorSimpleExpression(ISimpleExpression left, TokenType @operator, ISimpleExpression right) {
-    mLeft = left;
-    mOperator = @operator;
-    mRight = right;
-  }
-  
-  public void Print(IBuilder builder) {
-    builder.Append("(");
-    mLeft.Print(builder);
-    builder.Append(" ").Append(mOperator.Punctuator()).Append(" ");
-    mRight.Print(builder);
-    builder.Append(")");
-  }
+    /// <summary>
+    ///     A binary arithmetic expression like "a + b" or "c ^ d"
+    /// </summary>
+    public class OperatorExpression : ISimpleExpression
+    {
+        public OperatorExpression(ISimpleExpression left, TokenType @operator, ISimpleExpression right)
+        {
+            _left = left;
+            _operator = @operator;
+            _right = right;
+            _punctuator = _operator.Punctuator();
+            if (!_punctuator.IsValidPunctuator()) throw new ParseException("Not A valid oprator");
+        }
 
-  private readonly ISimpleExpression mLeft;
-  private readonly TokenType  mOperator;
-  private readonly ISimpleExpression mRight;
-}
+        public void Print(IBuilder builder)
+        {
+            builder.Append("(");
+            _left.Print(builder);
+            builder.Append(" ").Append(_punctuator).Append(" ");
+            _right.Print(builder);
+            builder.Append(")");
+        }
+
+        private readonly ISimpleExpression _left;
+        private readonly TokenType _operator;
+        private readonly ISimpleExpression _right;
+        private readonly char _punctuator;
+    }
 }

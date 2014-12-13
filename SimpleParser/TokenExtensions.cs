@@ -62,10 +62,12 @@ namespace SimpleParser
                 return tt.FirstOrDefault(t => t.Char() == c.First()).TknType();
             return TokenType.NONE;
         }
-        /**
-   * If the TokenType represents a punctuator (i.e. a token that can split an
-   * identifier like '+', this will get its text.
-   */
+
+        /// <summary>
+        /// If the TokenType represents a punctuator (i.e. a token that can split an identifier like '+', this will get its text.
+        /// </summary>
+        /// <param name="tokenType"></param>
+        /// <returns></returns>
         public static char Punctuator(this TokenType tokenType)
         {
             switch (tokenType)
@@ -86,12 +88,35 @@ namespace SimpleParser
                 default: return default(char);
             }
         }
-       
+
+        public static bool IsValidPunctuator(this char c)
+        {
+            var reverse = Punctuators.ToDictionary(p => p.Value, p => p.Key);
+            TokenType pp;
+            var ok = reverse.TryGetValue(c, out pp);
+            return ok;
+
+        }
         
+        public static readonly IDictionary<TokenType,char>  Punctuators= new Dictionary<TokenType, char>
+        {
+            {TokenType.LEFT_PAREN,'('},
+            {TokenType.RIGHT_PAREN,')'},
+            {TokenType.COMMA,','},
+            {TokenType.ASSIGN,'='},
+            {TokenType.PLUS,'+'},
+            {TokenType.MINUS,'-'},
+            {TokenType.ASTERISK,'*'},
+            {TokenType.SLASH,'/'},
+            {TokenType.CARET,'^'},
+            {TokenType.TILDE,'~'},
+            {TokenType.BANG,'!'},
+            {TokenType.QUESTION,'?'},
+            {TokenType.COLON,':'},
+        };
 
         public static IEnumerable<char> Values()
-        {
-           
+        {           
             return TokenTypes.Values.Select(t=> t.Punctuator());
         }
     }

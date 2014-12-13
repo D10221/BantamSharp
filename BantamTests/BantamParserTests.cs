@@ -29,13 +29,13 @@ namespace BantamTests
             Assert.AreEqual(expression,s);
         }
         
-        [TestMethod]
+       /* [TestMethod]
         public void FunctionCallTest4()
         {
             const string expression = "a(b)(c)";
             var s =Parse(expression);
             Assert.AreEqual(expression,s);
-        }
+        }*/
         
         [TestMethod]
         public void FunctionCallTest5()

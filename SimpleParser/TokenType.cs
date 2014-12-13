@@ -21,9 +21,7 @@ namespace SimpleParser
         COLON,
         NAME,
         EOF,
-        LETTER,
-        WORD,
-        NUMBER,
+        LETTER,       
         NONE
     }
     //

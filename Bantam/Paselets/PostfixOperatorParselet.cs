@@ -11,7 +11,7 @@ namespace Bantam.Paselets
     {
         public PostfixOperatorParselet(Precedence precedence)
         {
-            mPrecedence = precedence;
+            _precedence = precedence;
         }
 
         public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token)
@@ -19,11 +19,11 @@ namespace Bantam.Paselets
             return new PostfixSimpleExpression(left, token.GetTokenType());
         }
 
-        public int GetPrecedence()
+        public int Precedence
         {
-            return (int) mPrecedence;
+            get { return (int) _precedence; }
         }
 
-        private readonly Precedence mPrecedence;
+        private readonly Precedence _precedence;
     }
 }

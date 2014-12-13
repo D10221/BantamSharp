@@ -51,11 +51,21 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Builder.cs" />
+    <Compile Include="OtherTest.cs" />
+    <Compile Include="Support\FakeBuilder.cs" />
+    <Compile Include="Support\FakeExpression.cs" />
     <Compile Include="LexerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BantamParserTests.cs" />
     <Compile Include="PortedTests.cs" />
     <Compile Include="UnaryPrecedenceTests.cs" />
+    <Compile Include="UnaryAndBinaryPrecedenceTests.cs" />
+    <Compile Include="AssignParseletTests.cs" />
+    <Compile Include="AssignExpressionTests.cs" />
+    <Compile Include="CallExpressionTests.cs" />
+    <Compile Include="FakesTests.cs" />
+    <Compile Include="NameExpressionTests.cs" />
+    <Compile Include="OperatorExpressionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bantam\Bantam.csproj">

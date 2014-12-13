@@ -99,7 +99,7 @@ namespace Bantam
 
             InfixParselet parser ;
             if (_infixParselets.TryGetValue(tokenType, out parser))
-                precedence =  parser.GetPrecedence();
+                precedence =  parser.Precedence;
     
             return precedence;
         }

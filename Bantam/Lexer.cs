@@ -26,7 +26,7 @@ namespace Bantam
         {
             mIndex = 0;
             _text = text.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).ToArray();
-            _enumerator = text.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).GetEnumerator();
+            _enumerator = text.ToCharArray().Cast<Char>().GetEnumerator();
         }
 
         private IToken TryGetPunctuator(char c)
@@ -37,10 +37,10 @@ namespace Bantam
             return token;
         }
         
-        private Token TryGetLetter(char c)
+        private IToken TryGetLetter(char c)
         {            
             var input = c.ToString(CultureInfo.InvariantCulture);
-            return LooksLikeLetter(input) ? new Token( TokenType.NAME,input) : null;
+            return LooksLikeLetter(input) ? new Token( TokenType.NAME,input) : Token.Empty();
         }
 
         private static bool LooksLikeLetter(string input)
@@ -73,7 +73,7 @@ namespace Bantam
         {
             var ok = enumerator.MoveNext();
             var eof = !ok;
-            return new Iteration(ok, eof, enumerator.Current);
+            return new Iteration(ok, eof,ok ? enumerator.Current : default(Char));
         };
 
         public IToken Next()
