@@ -10,7 +10,7 @@ namespace Bantam.Paselets
     {
         public ISimpleExpression Parse(IParser parser, IToken token)
         {
-            return new NameSimpleExpression(token.GetText());
+            return new NameExpression(token.GetText());
         }
     }
 }

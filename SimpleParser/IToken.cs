@@ -2,7 +2,7 @@
 {
     public interface IToken
     {
-        TokenType GetTokenType();
+        TokenType TokenType { get; }
         string GetText();
         string ToString();
         bool HasValue { get; }

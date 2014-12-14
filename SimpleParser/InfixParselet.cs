@@ -11,6 +11,6 @@
     public interface InfixParselet
     {
         ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token);
-        int GetPrecedence();
+        int Precedence { get; }
     }
 }

@@ -1,5 +1,10 @@
-﻿using Bantam;
+﻿using Bantam.Paselets;
+using BantamTests.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SimpleParser;
+using Prefix = System.Tuple<SimpleParser.TokenType, SimpleParser.IPrefixParselet>;
+using Infix = System.Tuple<SimpleParser.TokenType, SimpleParser.InfixParselet>;
+
 
 namespace BantamTests
 {
@@ -7,32 +12,44 @@ namespace BantamTests
     public class UnaryPrecedenceTests
     {
         [TestMethod]
-        public void UnaryPrecedenceTest1()
-        {
-            const string expression = "~!-+a";
-            var s = Parse(expression);
-            //NOTE: the extra ()
-            Assert.AreEqual("(~(!(-(+a))))", s);
-        }
-        
-        [TestMethod]
         public void UnaryPrecedenceTest2()
         {
             const string expression = "a!!!";
-            var s = Parse(expression);
+
+            var parser = TestParser.Factory.CreateNew(new[]
+            {
+                new Prefix(TokenType.NAME, new NameParselet()),               
+                new Prefix(TokenType.LEFT_PAREN, new GroupParselet()),
+                
+            }, new[]
+            {
+                new Infix(TokenType.BANG, new PostfixOperatorParselet(Precedence.POSTFIX))
+              
+            });
+
+            var actual = parser.Parse(expression);
             //NOTE: the extra ()
-            Assert.AreEqual("(((a!)!)!)", s);
+            Assert.AreEqual("(((a!)!)!)", actual);
         }
 
-        public static string Parse(string source)
+        [TestMethod]
+        public void UnaryPrecedenceTest1()
         {
-            var lexer = new Lexer(source);
-            var parser = new BantamParser(lexer);
-            var result = parser.ParseExpression();
-            var builder = new Builder();
-            result.Print(builder);
-            var actual = builder.ToString();
-            return actual;
+            const string expression = "~!-+a";
+
+            var parser = TestParser.Factory.CreateNew(new[]
+            {
+                new Prefix(TokenType.BANG, new PrefixOperatorParselet(Precedence.PREFIX)),
+                new Prefix(TokenType.LEFT_PAREN,new GroupParselet()),
+                new Prefix(TokenType.TILDE, new PrefixOperatorParselet(Precedence.PREFIX)),
+                new Prefix(TokenType.MINUS, new PrefixOperatorParselet(Precedence.PREFIX)),
+                new Prefix(TokenType.PLUS, new PrefixOperatorParselet(Precedence.PREFIX)),
+                new Prefix(TokenType.NAME, new NameParselet())
+            });
+
+            var actual = parser.Parse(expression);
+            //NOTE: the extra ()
+            Assert.AreEqual("(~(!(-(+a))))", actual);
         }
     }
 }

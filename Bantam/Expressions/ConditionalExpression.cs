@@ -5,29 +5,29 @@ namespace Bantam.Expressions
     /// <summary>
     ///     A ternary conditional expression like "a ? b : c".
     /// </summary>
-    public class ConditionalSimpleExpression : ISimpleExpression
+    public class ConditionalExpression : ISimpleExpression
     {
-        public ConditionalSimpleExpression(
-            ISimpleExpression condition, ISimpleExpression thenArm, ISimpleExpression elseArm)
+        public ConditionalExpression(
+            ISimpleExpression condition, ISimpleExpression then, ISimpleExpression @else)
         {
-            mCondition = condition;
-            mThenArm = thenArm;
-            mElseArm = elseArm;
+            _condition = condition;
+            _then = then;
+            _else = @else;
         }
 
         public void Print(IBuilder builder)
         {
             builder.Append("(");
-            mCondition.Print(builder);
+            _condition.Print(builder);
             builder.Append(" ? ");
-            mThenArm.Print(builder);
+            _then.Print(builder);
             builder.Append(" : ");
-            mElseArm.Print(builder);
+            _else.Print(builder);
             builder.Append(")");
         }
 
-        private readonly ISimpleExpression mCondition;
-        private readonly ISimpleExpression mThenArm;
-        private readonly ISimpleExpression mElseArm;
+        private readonly ISimpleExpression _condition;
+        private readonly ISimpleExpression _then;
+        private readonly ISimpleExpression _else;
     }
 }

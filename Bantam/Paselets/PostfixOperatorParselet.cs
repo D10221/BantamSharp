@@ -8,22 +8,22 @@ namespace Bantam.Paselets
     /// unary "?" expressions.
     /// </summary>
     public class PostfixOperatorParselet : InfixParselet
-    {
+    {   
         public PostfixOperatorParselet(Precedence precedence)
         {
-            mPrecedence = precedence;
+            _precedence = precedence;
         }
 
         public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token)
         {
-            return new PostfixSimpleExpression(left, token.GetTokenType());
+            return new PostfixExpression(left, token.TokenType);
         }
 
-        public int GetPrecedence()
+        public int Precedence
         {
-            return (int) mPrecedence;
+            get { return (int) _precedence; }
         }
 
-        private readonly Precedence mPrecedence;
+        private readonly Precedence _precedence;
     }
 }

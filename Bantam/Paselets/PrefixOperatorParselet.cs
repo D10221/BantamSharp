@@ -7,7 +7,7 @@ namespace Bantam.Paselets
     ///     Generic prefix parselet for an unary arithmetic operator. Parses prefix
     ///     unary "-", "+", "~", and "!" expressions.
     /// </summary>
-    public class PrefixOperatorParselet : IPrefixParselet
+    public class PrefixOperatorParselet : IPrefixParselet, IParselet
     {
         public PrefixOperatorParselet(Precedence precedence)
         {
@@ -22,7 +22,7 @@ namespace Bantam.Paselets
             // take *this* parselet's result as its left-hand argument.
             var right = parser.ParseExpression();
 
-            return new PrefixSimpleExpression(token.GetTokenType(), right);
+            return new PrefixExpression(token.TokenType, right);
         }
 
         public int getPrecedence()

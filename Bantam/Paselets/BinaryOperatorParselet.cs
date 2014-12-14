@@ -3,17 +3,18 @@ using SimpleParser;
 
 namespace Bantam.Paselets
 {
-    // difference when parsing, "+", "-", "*", "/", and "^" is precedence and
-    /// associativity, so we can use a single parselet class for all of those.
+  
     /// <summary>
-    ///     Generic infix parselet for a binary arithmetic operator. The only
+    /// Generic infix parselet for a binary arithmetic operator. The only
+    /// difference when parsing, "+", "-", "*", "/", and "^" is precedence and
+    /// associativity, so we can use a single parselet class for all of those.
     /// </summary>
     public class BinaryOperatorParselet : InfixParselet
     {
         public BinaryOperatorParselet(Precedence precedence, bool isRight)
         {
-            mPrecedence = precedence;
-            mIsRight = isRight;
+            _precedence = precedence;
+            _right = isRight;
         }
 
         public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token)
@@ -22,17 +23,17 @@ namespace Bantam.Paselets
             // lower precedence when parsing the right-hand side. This will let a
             // parselet with the same precedence appear on the right, which will then
             // take *this* parselet's result as its left-hand argument.
-            ISimpleExpression right = parser.ParseExpression();
+            var right = parser.ParseExpression();
 
-            return new OperatorSimpleExpression(left, token.GetTokenType(), right);
+            return new OperatorExpression(left, token.TokenType, right);
         }
 
-        public int GetPrecedence()
+        public int Precedence
         {
-            return (int) mPrecedence;
+            get { return (int) _precedence; }
         }
 
-        private readonly Precedence mPrecedence;
-        private readonly bool mIsRight;
+        private readonly Precedence _precedence;
+        private readonly bool _right;
     }
 }

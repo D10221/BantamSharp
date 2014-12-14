@@ -1,4 +1,6 @@
-﻿using Bantam;
+﻿using System;
+using System.Linq;
+using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
 
@@ -25,6 +27,20 @@ namespace BantamTests
             /*var abc = lexer.Next();
             Assert.Equals("abc", abc.GetText());*/
 
+        }
+
+        [TestMethod]
+        public void Test2()
+        {
+            const string expression = "((-a) * b)";
+            var a = new Lexer(expression);
+            var splitted = expression.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).ToArray();
+            foreach (var c in splitted)
+            {
+                Assert.AreEqual(a.Next().GetText(),c.ToString());
+            }
+            
+            
         }
 
         [TestMethod]
