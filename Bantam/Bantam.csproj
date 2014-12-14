@@ -54,6 +54,7 @@
     <Compile Include="Paselets\CallParselet.cs" />
     <Compile Include="Paselets\ConditionalParselet.cs" />
     <Compile Include="Paselets\GroupParselet.cs" />
+    <Compile Include="Paselets\IParselet.cs" />
     <Compile Include="Paselets\NameParselet.cs" />
     <Compile Include="Paselets\PostfixOperatorParselet.cs" />
     <Compile Include="Paselets\PrefixOperatorParselet.cs" />

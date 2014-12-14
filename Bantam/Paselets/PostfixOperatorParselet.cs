@@ -8,7 +8,7 @@ namespace Bantam.Paselets
     /// unary "?" expressions.
     /// </summary>
     public class PostfixOperatorParselet : InfixParselet
-    {
+    {   
         public PostfixOperatorParselet(Precedence precedence)
         {
             _precedence = precedence;
@@ -16,7 +16,7 @@ namespace Bantam.Paselets
 
         public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token)
         {
-            return new PostfixSimpleExpression(left, token.GetTokenType());
+            return new PostfixExpression(left, token.GetTokenType());
         }
 
         public int Precedence

@@ -32,7 +32,7 @@ namespace Bantam
         private IToken TryGetPunctuator(char c)
         {
             var token = TokenTypes.Punctuators
-                .TryGet(c)
+                .GetTokenType(c)
                 .Extract(tt => Token.New(tt.TknType(), tt.Char()));
             return token;
         }

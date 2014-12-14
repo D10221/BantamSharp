@@ -5,14 +5,14 @@ namespace Bantam.Expressions
     /// <summary>
     ///     A postfix unary arithmetic expression like "a!".
     /// </summary>
-    public class PostfixSimpleExpression : ISimpleExpression
+    public class PostfixExpression : ISimpleExpression
     {
-        public PostfixSimpleExpression(ISimpleExpression left, TokenType @operator)
+        public PostfixExpression(ISimpleExpression left, TokenType @operator)
         {
             _left = left;
             _operator = @operator;
              _punctuator = _operator.Punctuator();
-            if (!_punctuator.IsValidPunctuator()) throw new ParseException("Not A valid oprator");
+            if (!_punctuator.IsValidPunctuator()) throw new ParseException("Not A valid operator");
         }
 
         public void Print(IBuilder builder)

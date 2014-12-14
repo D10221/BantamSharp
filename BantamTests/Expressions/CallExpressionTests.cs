@@ -1,7 +1,7 @@
 ﻿using Bantam.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BantamTests
+namespace BantamTests.Expressions
 {
     [TestClass]
     public class CallExpressionTests

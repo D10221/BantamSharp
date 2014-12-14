@@ -3,7 +3,7 @@ using BantamTests.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
 
-namespace BantamTests
+namespace BantamTests.Expressions
 {
     [TestClass]
     public class AssignExpressionTests

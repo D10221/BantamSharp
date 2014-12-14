@@ -2,7 +2,7 @@
 using BantamTests.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BantamTests
+namespace BantamTests.Expressions
 {
     [TestClass]
     public class NameExpressionTests

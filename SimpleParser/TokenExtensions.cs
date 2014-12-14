@@ -45,23 +45,11 @@ namespace SimpleParser
         {
             return tuple != null ? tuple.Item2 : default(char);
         }
-
-        public static TokenType TryGetValue(this IEnumerable<Tuple<TokenType, char>> tt,char c)
-        {
-            return tt.FirstOrDefault(t => t.Char() == c).TknType();
-        }
-
-        public static Tuple<TokenType, char> TryGet(this IEnumerable<Tuple<TokenType, char>> tt, char c)
+       
+        public static Tuple<TokenType, char> GetTokenType(this IEnumerable<Tuple<TokenType, char>> tt, char c)
         {
             return tt.FirstOrDefault(t => t.Char() == c);
-        }
-        
-        public static TokenType TryGetValue(this IEnumerable<Tuple<TokenType, char>> tt,string c)
-        {
-            if(!string.IsNullOrEmpty(c) && c.Length < 2 )
-                return tt.FirstOrDefault(t => t.Char() == c.First()).TknType();
-            return TokenType.NONE;
-        }
+        }               
 
         /// <summary>
         /// If the TokenType represents a punctuator (i.e. a token that can split an identifier like '+', this will get its text.
@@ -95,7 +83,6 @@ namespace SimpleParser
             TokenType pp;
             var ok = reverse.TryGetValue(c, out pp);
             return ok;
-
         }
         
         public static readonly IDictionary<TokenType,char>  Punctuators= new Dictionary<TokenType, char>

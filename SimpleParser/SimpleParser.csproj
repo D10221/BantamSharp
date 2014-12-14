@@ -42,6 +42,7 @@
     <Compile Include="IBuilder.cs" />
     <Compile Include="ILexer.cs" />
     <Compile Include="InfixParselet.cs" />
+    <Compile Include="IParselet.cs" />
     <Compile Include="IParser.cs" />
     <Compile Include="IPrefixParselet.cs" />
     <Compile Include="ISimpleExpression.cs" />

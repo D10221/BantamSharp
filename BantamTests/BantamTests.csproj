@@ -51,7 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Builder.cs" />
-    <Compile Include="OtherTest.cs" />
+    <Compile Include="Expressions\ConditionalExpressionTests.cs" />
     <Compile Include="Support\FakeBuilder.cs" />
     <Compile Include="Support\FakeExpression.cs" />
     <Compile Include="LexerTests.cs" />
@@ -61,11 +61,13 @@
     <Compile Include="UnaryPrecedenceTests.cs" />
     <Compile Include="UnaryAndBinaryPrecedenceTests.cs" />
     <Compile Include="AssignParseletTests.cs" />
-    <Compile Include="AssignExpressionTests.cs" />
-    <Compile Include="CallExpressionTests.cs" />
+    <Compile Include="Expressions\AssignExpressionTests.cs" />
+    <Compile Include="Expressions\CallExpressionTests.cs" />
     <Compile Include="FakesTests.cs" />
-    <Compile Include="NameExpressionTests.cs" />
-    <Compile Include="OperatorExpressionTests.cs" />
+    <Compile Include="Expressions\NameExpressionTests.cs" />
+    <Compile Include="Expressions\OperatorExpressionTests.cs" />
+    <Compile Include="Expressions\PrefixExpressionTests.cs" />
+    <Compile Include="Expressions\PostfixExpressionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bantam\Bantam.csproj">
