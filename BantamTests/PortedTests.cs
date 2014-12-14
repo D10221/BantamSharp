@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Bantam;
+using BantamTests.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BantamTests
@@ -69,7 +70,7 @@ namespace BantamTests
         private static string Parse(string source)
         {
             var lexer = new Lexer(source);
-            Parser parser = new BantamParser(lexer);
+            Parser parser = new BantamParser(lexer, new ParserMap());
 
             var result = parser.ParseExpression();
             var builder = new Builder();

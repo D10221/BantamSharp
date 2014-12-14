@@ -20,8 +20,7 @@ namespace SimpleParser
         QUESTION,
         COLON,
         NAME,
-        EOF,
-        LETTER,       
+        EOF,             
         NONE
     }
     //

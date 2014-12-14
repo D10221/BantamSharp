@@ -18,7 +18,6 @@ namespace BantamTests.Expressions
             expresison.Print(builder);
             var actual = builder.ToString();
             Assert.AreEqual("(a = b)", actual);
-
         }
         
         [TestMethod]
@@ -43,10 +42,7 @@ namespace BantamTests.Expressions
             expresison.Print(builder);
             var actual = builder.ToString();
             Assert.AreEqual("(a = x)", actual);
-        }
-
-        
-
+        }       
        
     }
 }

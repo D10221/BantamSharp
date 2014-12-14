@@ -44,6 +44,7 @@
     <Compile Include="Expressions\PostfixExpression.cs" />
     <Compile Include="Expressions\PrefixExpression.cs" />
     <Compile Include="Lexer.cs" />
+    <Compile Include="ParserMap.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Expressions\AssignExpression.cs" />
     <Compile Include="Paselets\AssignParselet.cs" />

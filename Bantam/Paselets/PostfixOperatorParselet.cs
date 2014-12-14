@@ -16,7 +16,7 @@ namespace Bantam.Paselets
 
         public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token)
         {
-            return new PostfixExpression(left, token.GetTokenType());
+            return new PostfixExpression(left, token.TokenType);
         }
 
         public int Precedence

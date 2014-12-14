@@ -43,11 +43,13 @@
     <Compile Include="ILexer.cs" />
     <Compile Include="InfixParselet.cs" />
     <Compile Include="IParselet.cs" />
+    <Compile Include="IParseletsMap.cs" />
     <Compile Include="IParser.cs" />
     <Compile Include="IPrefixParselet.cs" />
     <Compile Include="ISimpleExpression.cs" />
     <Compile Include="IToken.cs" />
     <Compile Include="ParseException.cs" />
+    <Compile Include="ParserMapExtensions.cs" />
     <Compile Include="Precedence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Token.cs" />

@@ -52,15 +52,20 @@
   <ItemGroup>
     <Compile Include="Builder.cs" />
     <Compile Include="Expressions\ConditionalExpressionTests.cs" />
+    <Compile Include="Parselets\BinaryOperatorParseletTests.cs" />
+    <Compile Include="Support\FakeMap.cs" />
+    <Compile Include="Support\FakeParser.cs" />
     <Compile Include="Support\FakeBuilder.cs" />
     <Compile Include="Support\FakeExpression.cs" />
     <Compile Include="LexerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BantamParserTests.cs" />
     <Compile Include="PortedTests.cs" />
+    <Compile Include="Support\TestParser.cs" />
+    <Compile Include="Support\TestParserConfig.cs" />
     <Compile Include="UnaryPrecedenceTests.cs" />
     <Compile Include="UnaryAndBinaryPrecedenceTests.cs" />
-    <Compile Include="AssignParseletTests.cs" />
+    <Compile Include="Parselets\AssignParseletTests.cs" />
     <Compile Include="Expressions\AssignExpressionTests.cs" />
     <Compile Include="Expressions\CallExpressionTests.cs" />
     <Compile Include="FakesTests.cs" />

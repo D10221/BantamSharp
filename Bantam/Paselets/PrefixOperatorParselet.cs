@@ -22,7 +22,7 @@ namespace Bantam.Paselets
             // take *this* parselet's result as its left-hand argument.
             var right = parser.ParseExpression();
 
-            return new PrefixExpression(token.GetTokenType(), right);
+            return new PrefixExpression(token.TokenType, right);
         }
 
         public int getPrecedence()

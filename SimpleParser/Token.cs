@@ -14,9 +14,9 @@ namespace SimpleParser
             mText = text;
         }
 
-        public TokenType GetTokenType()
+        public TokenType TokenType
         {
-            return mType;
+            get { return mType; }
         }
 
         public string GetText()
@@ -50,12 +50,12 @@ namespace SimpleParser
 
         public bool HasValue
         {
-            get { return this.GetTokenType() != TokenType.NONE; }
+            get { return this.TokenType != TokenType.NONE; }
         }
         
         public bool IsEmpty
         {
-            get { return this.GetTokenType() == TokenType.NONE; }
+            get { return this.TokenType == TokenType.NONE; }
         }
     }
 }
