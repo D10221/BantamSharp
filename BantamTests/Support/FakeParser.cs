@@ -15,7 +15,7 @@ namespace BantamTests.Support
         }
 
 
-        public ISimpleExpression ParseExpression()
+        public ISimpleExpression ParseExpression(Precedence precedence)
         {
 
             return _expression;

@@ -1,4 +1,5 @@
 ﻿using Bantam.Expressions;
+using BantamTests.Parselets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BantamTests.Expressions
@@ -13,7 +14,7 @@ namespace BantamTests.Expressions
             var exp = new CallExpression(nameExpression, null);
             var _builder = new Builder();
             exp.Print(_builder);
-            string actual = _builder.ToString();
+            string actual = _builder.Build();
             Assert.AreEqual("a()", actual);
         }
 
@@ -24,7 +25,7 @@ namespace BantamTests.Expressions
             var exp = new CallExpression(nameExpression, null);
             var _builder = new Builder();
             exp.Print(_builder);
-            string actual = _builder.ToString();
+            string actual = _builder.Build();
             Assert.AreEqual("()", actual);
         }
     }

@@ -11,10 +11,10 @@ namespace Bantam.Paselets
     /// </summary>
     public class BinaryOperatorParselet : InfixParselet
     {
-        public BinaryOperatorParselet(Precedence precedence, bool isRight)
+        public BinaryOperatorParselet(Precedence precedence, InfixType infixType)
         {
             _precedence = precedence;
-            _right = isRight;
+            _isRight = infixType== InfixType.Right;
         }
 
         public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token)
@@ -23,17 +23,17 @@ namespace Bantam.Paselets
             // lower precedence when parsing the right-hand side. This will let a
             // parselet with the same precedence appear on the right, which will then
             // take *this* parselet's result as its left-hand argument.
-            var right = parser.ParseExpression();
+            var right = parser.ParseExpression(_precedence - (_isRight ? 1 : 0));
 
             return new OperatorExpression(left, token.TokenType, right);
         }
 
-        public int Precedence
+        public Precedence Precedence
         {
-            get { return (int) _precedence; }
+            get { return  _precedence; }
         }
 
         private readonly Precedence _precedence;
-        private readonly bool _right;
+        private readonly bool _isRight;
     }
 }

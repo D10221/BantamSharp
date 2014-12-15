@@ -11,7 +11,7 @@ namespace Bantam.Paselets
     {
         public PrefixOperatorParselet(Precedence precedence)
         {
-            mPrecedence = precedence;
+            _precedence = precedence;
         }
 
         public ISimpleExpression Parse(IParser parser, IToken token)
@@ -20,16 +20,16 @@ namespace Bantam.Paselets
             // lower precedence when parsing the right-hand side. This will let a
             // parselet with the same precedence appear on the right, which will then
             // take *this* parselet's result as its left-hand argument.
-            var right = parser.ParseExpression();
+            var right = parser.ParseExpression(_precedence);
 
             return new PrefixExpression(token.TokenType, right);
         }
 
-        public int getPrecedence()
+        public Precedence Precedence
         {
-            return (int) mPrecedence;
+            get { return  _precedence; }
         }
 
-        private readonly Precedence mPrecedence;
+        private readonly Precedence _precedence;
     }
 }

@@ -19,7 +19,7 @@ namespace Bantam.Paselets
                 return new CallExpression(left, args);
             do
             {
-                args.Add(parser.ParseExpression());
+                args.Add(parser.ParseExpression(Precedence.ZERO));
             } while (parser.IsMatch(TokenType.COMMA));
 
             parser.Consume(TokenType.RIGHT_PAREN);
@@ -27,9 +27,9 @@ namespace Bantam.Paselets
             return new CallExpression(left, args);
         }
 
-        public int Precedence
+        public Precedence Precedence
         {
-            get { return (int) SimpleParser.Precedence.CALL; }
+            get { return Precedence.CALL; }
         }
     }
 }

@@ -4,5 +4,6 @@
     {
         IBuilder Append(string s);
         IBuilder Append(char c);
+        string Build();
     }
 }

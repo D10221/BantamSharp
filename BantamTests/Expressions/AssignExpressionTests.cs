@@ -1,4 +1,5 @@
 ﻿using Bantam.Expressions;
+using BantamTests.Parselets;
 using BantamTests.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
@@ -16,7 +17,7 @@ namespace BantamTests.Expressions
             var expresison = new AssignExpression(name, right);
             var builder = new Builder();
             expresison.Print(builder);
-            var actual = builder.ToString();
+            var actual = builder.Build();
             Assert.AreEqual("(a = b)", actual);
         }
         
@@ -28,7 +29,7 @@ namespace BantamTests.Expressions
             var expresison = new AssignExpression(name, right);
             var builder = new Builder();
             expresison.Print(builder);
-            var actual = builder.ToString();
+            var actual = builder.Build();
             Assert.AreEqual("(a = b())", actual);
         }
 
@@ -40,7 +41,7 @@ namespace BantamTests.Expressions
             var expresison = new AssignExpression(name, right);
             var builder = new FakeBuilder();
             expresison.Print(builder);
-            var actual = builder.ToString();
+            var actual = builder.Build();
             Assert.AreEqual("(a = x)", actual);
         }       
        

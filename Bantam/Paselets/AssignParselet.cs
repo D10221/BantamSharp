@@ -10,19 +10,18 @@ namespace Bantam.Paselets
 
         public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token)
         {
-            Right = parser.ParseExpression();
+            //Why -1
+            Right = parser.ParseExpression(Precedence-1);
             Left = left;      
-            if (left as NameExpression == null)
-                throw new ParseException(
-                    "The left-hand side of an assignment must be a name.");
+            //if (left as NameExpression == null)throw new ParseException("The left-hand side of an assignment must be a name.");
 
             var name = ((NameExpression) left).GetName();
             return new AssignExpression(name, Right);
         }
 
-        public int Precedence
+        public Precedence Precedence
         {
-            get { return (int) SimpleParser.Precedence.ASSIGNMENT; }
+            get { return Precedence.ASSIGNMENT; }
         }
     }
 }

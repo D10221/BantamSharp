@@ -14,26 +14,25 @@ namespace Bantam
         {
             // Register all of the parselets for the grammar.    
             // Register the ones that need special parselets.
-            Register(TokenType.NAME, new NameParselet());
-            Register(TokenType.ASSIGN, new AssignParselet());
-            Register(TokenType.QUESTION, new ConditionalParselet());
-            Register(TokenType.LEFT_PAREN, new GroupParselet());
-            Register(TokenType.LEFT_PAREN, new CallParselet());
+            _prefixParselets.Add(TokenType.NAME, new NameParselet());
+            _prefixParselets.Add(TokenType.LEFT_PAREN, new GroupParselet());
 
             // Register the simple operator parselets.
-            prefix(TokenType.PLUS, Precedence.PREFIX);
-            prefix(TokenType.MINUS, Precedence.PREFIX);
-            prefix(TokenType.TILDE, Precedence.PREFIX);
-            prefix(TokenType.BANG, Precedence.PREFIX);
+            _prefixParselets.Add(TokenType.PLUS, new PrefixOperatorParselet(Precedence.PREFIX));
+            _prefixParselets.Add(TokenType.MINUS, new PrefixOperatorParselet(Precedence.PREFIX));
+            _prefixParselets.Add(TokenType.TILDE, new PrefixOperatorParselet(Precedence.PREFIX));
+            _prefixParselets.Add(TokenType.BANG, new PrefixOperatorParselet(Precedence.PREFIX));
 
             // For kicks, we'll make "!" both prefix and postfix, kind of like ++.
-            postfix(TokenType.BANG, Precedence.POSTFIX);
-
-            infixLeft(TokenType.PLUS, Precedence.SUM);
-            infixLeft(TokenType.MINUS, Precedence.SUM);
-            infixLeft(TokenType.ASTERISK, Precedence.PRODUCT);
-            infixLeft(TokenType.SLASH, Precedence.PRODUCT);
-            infixRight(TokenType.CARET, Precedence.EXPONENT);
+            _infixParselets.Add(TokenType.BANG, new PostfixOperatorParselet(Precedence.POSTFIX));
+            _infixParselets.Add(TokenType.ASSIGN, new AssignParselet());
+            _infixParselets.Add(TokenType.QUESTION, new ConditionalParselet());
+            _infixParselets.Add(TokenType.LEFT_PAREN, new CallParselet());
+            _infixParselets.Add(TokenType.PLUS, new BinaryOperatorParselet(Precedence.SUM, InfixType.Left));
+            _infixParselets.Add(TokenType.MINUS, new BinaryOperatorParselet(Precedence.SUM, InfixType.Left));
+            _infixParselets.Add(TokenType.ASTERISK, new BinaryOperatorParselet(Precedence.PRODUCT, InfixType.Left));
+            _infixParselets.Add(TokenType.SLASH, new BinaryOperatorParselet(Precedence.PRODUCT, InfixType.Left));
+            _infixParselets.Add(TokenType.CARET, new BinaryOperatorParselet(Precedence.EXPONENT, InfixType.Right));
         }
 
         public void Register(TokenType tokenType, IPrefixParselet parselet)
@@ -44,49 +43,6 @@ namespace Bantam
         public void Register(TokenType tokenType, InfixParselet parselet)
         {
             _infixParselets.Add(tokenType, parselet);
-        }
-
-        /// <summary>
-        ///  Registers a postfix unary operator parselet for the given token and
-        /// precedence.
-        /// </summary>
-        /// <param name="token"></param>
-        /// <param name="precedence"></param>
-        public void postfix(TokenType token, Precedence precedence)
-        {
-            Register(token, new PostfixOperatorParselet(precedence));
-        }
-
-        /// <summary>
-        /// Registers a prefix unary operator parselet for the given token and
-        /// precedence.
-        /// </summary>
-        /// <param name="token"></param>
-        /// <param name="precedence"></param>
-        public void prefix(TokenType token, Precedence precedence)
-        {
-            Register(token, new PrefixOperatorParselet(precedence));
-        }
-
-        /// <summary>
-        /// Registers a left-associative binary operator parselet for the given token
-        /// and precedence.
-        /// </summary>
-        /// <param name="token"></param>
-        /// <param name="precedence"></param>
-        public void infixLeft(TokenType token, Precedence precedence)
-        {
-            Register(token, new BinaryOperatorParselet(precedence, false));
-        }
-
-        /// <summary>
-        /// Registers a right-associative binary operator parselet for the given token and precedence.
-        /// </summary>
-        /// <param name="token"></param>
-        /// <param name="precedence"></param>
-        public void infixRight(TokenType token, Precedence precedence)
-        {
-            Register(token, new BinaryOperatorParselet(precedence, true));
         }
 
         public Tuple<InfixParselet, bool> GetInfixParselet(TokenType tokenType)
