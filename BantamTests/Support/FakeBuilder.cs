@@ -18,7 +18,7 @@ namespace BantamTests.Support
             return this;
         }
 
-        public override string ToString()
+        public  string Build()
         {
             return _result;
         }

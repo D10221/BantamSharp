@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BantamParser.cs" />
+    <Compile Include="Common\Extensions.cs" />
     <Compile Include="Expressions\OperatorExpression.cs" />
     <Compile Include="Expressions\PostfixExpression.cs" />
     <Compile Include="Expressions\PrefixExpression.cs" />

@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using SimpleParser;
 
-namespace BantamTests
+namespace BantamTests.Parselets
 {
     /// <summary>
     /// Abstraction :)
@@ -27,7 +27,7 @@ namespace BantamTests
             return this;
         }
 
-        public override string ToString()
+        public  string Build()
         {
             return _builder.ToString();
         }

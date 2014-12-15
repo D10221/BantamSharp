@@ -16,5 +16,6 @@
         PREFIX      = 6,
         POSTFIX     = 7,
         CALL        = 8,
+        ZERO =0
     }
 }

@@ -19,9 +19,9 @@ namespace Bantam.Paselets
             return new PostfixExpression(left, token.TokenType);
         }
 
-        public int Precedence
+        public Precedence Precedence
         {
-            get { return (int) _precedence; }
+            get { return  _precedence; }
         }
 
         private readonly Precedence _precedence;

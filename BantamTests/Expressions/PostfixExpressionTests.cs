@@ -16,7 +16,7 @@ namespace BantamTests.Expressions
             var expression = new PostfixExpression(left,op);
             var builder =  new FakeBuilder();
             expression.Print(builder);
-            var actual = builder.ToString();
+            var actual = builder.Build();
             var expected = "(A?)";
             Assert.AreEqual(expected,actual);
         }

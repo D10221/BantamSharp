@@ -10,16 +10,17 @@ namespace Bantam.Paselets
     {
         public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token)
         {
-            ISimpleExpression thenArm = parser.ParseExpression();
+            var thenArm = parser.ParseExpression(Precedence.ZERO);
             parser.Consume(TokenType.COLON);
-            ISimpleExpression elseArm = parser.ParseExpression();
+            //WHy  precedence -1 
+            var elseArm = parser.ParseExpression(Precedence.CONDITIONAL - 1);
 
             return new ConditionalExpression(left, thenArm, elseArm);
         }
 
-        public int Precedence
+        public Precedence Precedence
         {
-            get { return (int) SimpleParser.Precedence.CONDITIONAL; }
+            get { return  Precedence.CONDITIONAL; }
         }
     }
 }

@@ -16,7 +16,7 @@ namespace BantamTests.Expressions
             var exression = new PrefixExpression(@operator,right);
             var builder= new FakeBuilder();
             exression.Print(builder);
-            var actual = builder.ToString();
+            var actual = builder.Build();
             Assert.AreEqual("(-A)",actual);
         }
         
@@ -28,7 +28,7 @@ namespace BantamTests.Expressions
             var exression = new PrefixExpression(@operator,right);
             var builder= new FakeBuilder();
             exression.Print(builder);
-            var actual = builder.ToString();
+            var actual = builder.Build();
             Assert.AreEqual("(!A)",actual);
         }
         
@@ -40,7 +40,7 @@ namespace BantamTests.Expressions
             var exression = new PrefixExpression(@operator,right);
             var builder= new FakeBuilder();
             exression.Print(builder);
-            var actual = builder.ToString();
+            var actual = builder.Build();
             Assert.AreEqual("(+A)",actual);
         }
 
@@ -52,7 +52,7 @@ namespace BantamTests.Expressions
             var exression = new PrefixExpression(@operator,right);
             var builder= new FakeBuilder();
             exression.Print(builder);
-            var actual = builder.ToString();
+            var actual = builder.Build();
             Assert.AreEqual("(~A)",actual);
         }
         

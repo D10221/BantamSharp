@@ -1,4 +1,5 @@
 ﻿using Bantam;
+using BantamTests.Parselets;
 using BantamTests.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -72,7 +73,7 @@ namespace BantamTests
             var result = parser.ParseExpression();
             var builder = new Builder();
             result.Print(builder);
-            var actual = builder.ToString();
+            var actual = builder.Build();
             return actual;
         }
     }
