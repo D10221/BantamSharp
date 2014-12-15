@@ -2,8 +2,7 @@
 using System.Linq;
 using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SimpleParser;
-
+using ILexer = SimpleParser.ILexer<SimpleParser.TokenType,char>;
 namespace BantamTests
 {
     [TestClass]
@@ -12,7 +11,7 @@ namespace BantamTests
         [TestMethod]
         public void NextTest()
         {
-            var lexer = new Lexer("a + b - abc");
+            var lexer = new Lexer("a + b - abc", new TokenConfig());
 
             var a = lexer.Next();
             Assert.AreEqual("a", a.GetText());
@@ -33,7 +32,7 @@ namespace BantamTests
         public void Test2()
         {
             const string expression = "((-a) * b)";
-            var a = new Lexer(expression);
+            var a = new Lexer(expression, new TokenConfig());
             var splitted = expression.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).ToArray();
             foreach (var c in splitted)
             {
@@ -46,7 +45,7 @@ namespace BantamTests
         [TestMethod]
         public void InputTextTest()
         {
-            ILexer lexer = new Lexer("a+b");
+            ILexer lexer = new Lexer("a+b", new TokenConfig());
             Assert.AreEqual("a+b",lexer.InputText);
         }
     }

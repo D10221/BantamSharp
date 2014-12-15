@@ -54,7 +54,6 @@
     <Compile Include="Expressions\ConditionalExpressionTests.cs" />
     <Compile Include="Parselets\BinaryOperatorParseletTests.cs" />
     <Compile Include="Support\FakeLexer.cs" />
-    <Compile Include="Support\FakeMap.cs" />
     <Compile Include="Support\FakeParser.cs" />
     <Compile Include="Support\FakeBuilder.cs" />
     <Compile Include="Support\FakeExpression.cs" />
@@ -62,7 +61,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BantamParserTests.cs" />
     <Compile Include="Support\TestParser.cs" />
-    <Compile Include="Support\TestParserConfig.cs" />
     <Compile Include="UnaryPrecedenceTests.cs" />
     <Compile Include="UnaryAndBinaryPrecedenceTests.cs" />
     <Compile Include="Parselets\AssignParseletTests.cs" />

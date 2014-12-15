@@ -2,9 +2,9 @@
 
 namespace SimpleParser
 {
-    public class ParseException : Exception
+    public class ParseException<TTokenType> : Exception
     {
-        public ParseException(IToken token) : this("Troubles parsing \"{0}\".", token)
+        public ParseException(IToken<TTokenType> token) : this("Troubles parsing \"{0}\".", token)
         {
             
         }
@@ -13,7 +13,7 @@ namespace SimpleParser
             
         }
         
-        public ParseException(string msg,IToken token):base(string.Format(msg,token.GetText()))
+        public ParseException(string msg,IToken<TTokenType> token):base(string.Format(msg,token.GetText()))
         {
             
         }

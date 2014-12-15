@@ -1,5 +1,5 @@
 ﻿using SimpleParser;
-
+using ParseException = SimpleParser.ParseException<SimpleParser.TokenType>;
 namespace Bantam.Expressions
 {
     /// <summary>
@@ -7,12 +7,12 @@ namespace Bantam.Expressions
     /// </summary>
     public class PostfixExpression : ISimpleExpression
     {
-        public PostfixExpression(ISimpleExpression left, TokenType @operator)
+        public PostfixExpression(ITokenConfig<char> TokenConfig,ISimpleExpression left, TokenType @operator)
         {
             _left = left;
             _operator = @operator;
-             _punctuator = _operator.Punctuator();
-            if (!_punctuator.IsValidPunctuator()) throw new ParseException("Not A valid operator");
+            _punctuator = TokenConfig.Punctuator(_operator);
+            if (!TokenConfig.IsValidPunctuator(_punctuator)) throw new ParseException("Not A valid operator");
         }
 
         public void Print(IBuilder builder)

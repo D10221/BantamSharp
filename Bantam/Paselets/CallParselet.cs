@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
 using Bantam.Expressions;
 using SimpleParser;
+using IParser = SimpleParser.IParser<SimpleParser.TokenType>;
+using IPrefixParselet = SimpleParser.IPrefixParselet<SimpleParser.TokenType>;
+using IToken = SimpleParser.IToken<SimpleParser.TokenType>;
+using InfixParselet = SimpleParser.InfixParselet<SimpleParser.TokenType>;
 
 namespace Bantam.Paselets
 {
@@ -19,7 +23,7 @@ namespace Bantam.Paselets
                 return new CallExpression(left, args);
             do
             {
-                args.Add(parser.ParseExpression(Precedence.ZERO));
+                args.Add(parser.ParseExpression(/*Precedence.ZERO*/));
             } while (parser.IsMatch(TokenType.COMMA));
 
             parser.Consume(TokenType.RIGHT_PAREN);

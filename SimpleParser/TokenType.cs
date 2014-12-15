@@ -5,7 +5,8 @@ using System.Linq;
 namespace SimpleParser
 {
     public enum TokenType
-    {        
+    {      
+        NONE,
         LEFT_PAREN,
         RIGHT_PAREN,
         COMMA,
@@ -21,13 +22,12 @@ namespace SimpleParser
         COLON,
         NAME,
         EOF,             
-        NONE
     }
     //
-    public static class TokenTypes
+    public class TokenTypes
     {
         //TokenTypes that are explicit punctuators.
-        public static readonly IEnumerable<Tuple<TokenType, char>> Punctuators;
+        public  readonly IEnumerable<Tuple<TokenType, char>> Punctuators;
 
         public static readonly TokenType[] Values =
         {
@@ -48,9 +48,16 @@ namespace SimpleParser
             TokenType.EOF
         };
 
-        static TokenTypes()
+        TokenTypes()
         {
-            Punctuators = Values.Select(t => new Tuple<TokenType, Char> (t, t.Punctuator()));
+            Punctuators = Values.Select(t => new Tuple<TokenType, Char> (t, TokenConfig.Punctuator(t)));
         }
+
+        public TokenTypes(ITokenConfig<char> tokenConfig)
+        {
+            TokenConfig = tokenConfig;
+        }
+
+        private ITokenConfig<char> TokenConfig { get; set; }
     }
 }

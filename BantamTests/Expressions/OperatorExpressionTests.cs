@@ -1,9 +1,10 @@
 ﻿using System;
+using Bantam;
 using Bantam.Expressions;
 using BantamTests.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
-
+using ParseException = SimpleParser.ParseException<SimpleParser.TokenType>;
 namespace BantamTests.Expressions
 {
     [TestClass]
@@ -15,7 +16,8 @@ namespace BantamTests.Expressions
             var left = new FakeExpression("x");
             var right =  new FakeExpression("y");
             const TokenType @operator = TokenType.PLUS;
-            var expression = new OperatorExpression(left,@operator,right);
+            var tokenConfig = new TokenConfig();
+            var expression = new OperatorExpression(tokenConfig,left,@operator,right);
             IBuilder builder = new FakeBuilder();
             expression.Print(builder);
             var actual = builder.Build();
@@ -28,10 +30,11 @@ namespace BantamTests.Expressions
             Exception ex = null;
             try
             {
+                var tokenConfig = new TokenConfig();
                 var left = new FakeExpression("x");
                 var right =  new FakeExpression("y");
                 const TokenType @operator = TokenType.NONE;
-                var expression = new OperatorExpression(left,@operator,right);
+                var expression = new OperatorExpression(tokenConfig,left,@operator,right);
                 //Just to stop the compiler warning becasue is not used 
                 Assert.IsNotNull(expression);
 

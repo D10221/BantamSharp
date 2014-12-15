@@ -1,9 +1,10 @@
-﻿using Bantam.Paselets;
+﻿using Bantam;
+using Bantam.Paselets;
 using BantamTests.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
-using Prefix = System.Tuple<SimpleParser.TokenType, SimpleParser.IPrefixParselet>;
-using Infix = System.Tuple<SimpleParser.TokenType, SimpleParser.InfixParselet>;
+using Prefix = System.Tuple<SimpleParser.TokenType, SimpleParser.IPrefixParselet<SimpleParser.TokenType>>;
+using Infix = System.Tuple<SimpleParser.TokenType, SimpleParser.InfixParselet<SimpleParser.TokenType>>;
 
 namespace BantamTests
 {
@@ -36,7 +37,7 @@ namespace BantamTests
         public void TestMethod2()
         {            
             const string expression = "a + b - c";
-
+            var tokenConfig = new TokenConfig();
             Prefix[] prefixes =
             {
                 new Prefix(TokenType.NAME, new NameParselet()),
@@ -44,8 +45,8 @@ namespace BantamTests
 
             Infix[] infixes =
             {
-                new Infix(TokenType.PLUS, new BinaryOperatorParselet(Precedence.SUM,InfixType.Left)),
-                new Infix(TokenType.MINUS, new BinaryOperatorParselet(Precedence.SUM,InfixType.Left)),
+                new Infix(TokenType.PLUS, new BinaryOperatorParselet(Precedence.SUM, InfixType.Left,tokenConfig)),
+                new Infix(TokenType.MINUS, new BinaryOperatorParselet(Precedence.SUM, InfixType.Left,tokenConfig)),
             };
 
             string actual = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
@@ -59,7 +60,7 @@ namespace BantamTests
             // BinaryAssociativity.
             // _expectationses.AddExpectation("a ^ b ^ c", "(a ^ (b ^ c))");
             const string expression = "a * b / c";
-
+            var tokenConfig = new TokenConfig();
             Prefix[] prefixes =
             {
                 new Prefix(TokenType.NAME, new NameParselet()),
@@ -67,8 +68,8 @@ namespace BantamTests
 
             Infix[] infixes =
             {
-                new Infix(TokenType.ASTERISK, new BinaryOperatorParselet(Precedence.PRODUCT,InfixType.Left)),
-                new Infix(TokenType.SLASH, new BinaryOperatorParselet(Precedence.PRODUCT,InfixType.Left)),
+                new Infix(TokenType.ASTERISK, new BinaryOperatorParselet(Precedence.PRODUCT, InfixType.Left,tokenConfig)),
+                new Infix(TokenType.SLASH, new BinaryOperatorParselet(Precedence.PRODUCT, InfixType.Left,tokenConfig)),
             };
 
             string actual = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
@@ -80,7 +81,7 @@ namespace BantamTests
         public void TestMethod4()
         {            
             const string expression = "a ^ b ^ c";
-
+            var tokenConfig = new TokenConfig();
             Prefix[] prefixes =
             {
                 new Prefix(TokenType.NAME, new NameParselet()),
@@ -88,7 +89,7 @@ namespace BantamTests
 
             Infix[] infixes =
             {
-                new Infix(TokenType.CARET, new BinaryOperatorParselet(Precedence.PRODUCT,InfixType.Right)),                
+                new Infix(TokenType.CARET, new BinaryOperatorParselet(Precedence.PRODUCT, InfixType.Right,tokenConfig)),                
             };
 
             var actual = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
