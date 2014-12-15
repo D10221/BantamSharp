@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
+
 namespace SimpleParser
 {
     /// <summary>
@@ -8,13 +11,14 @@ namespace SimpleParser
     // not supported. This is really just the bare minimum to give the parser
     // something to work with.
     /// </summary>
-    public interface ILexer
+    // TTokenType is enum , 
+    public interface ILexer<TTokenType,TCHAR>
     {
         /// <summary>
         /// Creates a new Lexer to tokenize the given string.
         /// @param text String to tokenize.
         /// </summary>
-        IToken Next();
-        string InputText { get; }
+        IToken<TTokenType> Next();
+        IEnumerable<TCHAR> InputText { get; }
     }
 }

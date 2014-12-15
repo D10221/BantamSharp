@@ -1,10 +1,10 @@
 namespace SimpleParser
 {
-    public interface IParser
+    public interface IParser<TTokenType>
     {       
         ISimpleExpression ParseExpression(Precedence precedence=Precedence.ZERO);
-        bool IsMatch(TokenType expected);
-        IToken Consume(TokenType expected);
-        IToken Consume();
+        bool IsMatch(TTokenType expected);
+        IToken<TTokenType> Consume(TTokenType expected);
+        IToken<TTokenType> Consume();
     }
 }

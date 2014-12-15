@@ -1,9 +1,10 @@
-﻿using Bantam.Paselets;
+﻿using Bantam;
+using Bantam.Paselets;
 using BantamTests.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
-using Prefix = System.Tuple<SimpleParser.TokenType, SimpleParser.IPrefixParselet>;
-using Infix = System.Tuple<SimpleParser.TokenType, SimpleParser.InfixParselet>;
+using Prefix = System.Tuple<SimpleParser.TokenType, SimpleParser.IPrefixParselet<SimpleParser.TokenType>>;
+using Infix = System.Tuple<SimpleParser.TokenType, SimpleParser.InfixParselet<SimpleParser.TokenType>>;
 
 
 namespace BantamTests
@@ -15,7 +16,7 @@ namespace BantamTests
         public void UnaryPrecedenceTest2()
         {
             const string expression = "a!!!";
-
+            var tokenConfig = new TokenConfig();
             var parser = TestParser.Factory.CreateNew(new[]
             {
                 new Prefix(TokenType.NAME, new NameParselet()),               
@@ -23,7 +24,7 @@ namespace BantamTests
                 
             }, new[]
             {
-                new Infix(TokenType.BANG, new PostfixOperatorParselet(Precedence.POSTFIX))
+                new Infix(TokenType.BANG, new PostfixOperatorParselet(Precedence.POSTFIX,tokenConfig))
               
             });
 
@@ -36,14 +37,14 @@ namespace BantamTests
         public void UnaryPrecedenceTest1()
         {
             const string expression = "~!-+a";
-
+            var tokenConfig = new TokenConfig();
             var parser = TestParser.Factory.CreateNew(new[]
             {
-                new Prefix(TokenType.BANG, new PrefixOperatorParselet(Precedence.PREFIX)),
+                new Prefix(TokenType.BANG, new PrefixOperatorParselet(Precedence.PREFIX,tokenConfig)),
                 new Prefix(TokenType.LEFT_PAREN,new GroupParselet()),
-                new Prefix(TokenType.TILDE, new PrefixOperatorParselet(Precedence.PREFIX)),
-                new Prefix(TokenType.MINUS, new PrefixOperatorParselet(Precedence.PREFIX)),
-                new Prefix(TokenType.PLUS, new PrefixOperatorParselet(Precedence.PREFIX)),
+                new Prefix(TokenType.TILDE, new PrefixOperatorParselet(Precedence.PREFIX,tokenConfig)),
+                new Prefix(TokenType.MINUS, new PrefixOperatorParselet(Precedence.PREFIX,tokenConfig)),
+                new Prefix(TokenType.PLUS, new PrefixOperatorParselet(Precedence.PREFIX,tokenConfig)),
                 new Prefix(TokenType.NAME, new NameParselet())
             });
 

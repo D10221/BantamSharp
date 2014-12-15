@@ -8,9 +8,9 @@
     ///     that comes after the token. This is also used for postfix expressions, in
     ///     which case it simply doesn't consume any more tokens in its parse() call.
     /// </summary>
-    public interface InfixParselet
+    public interface InfixParselet<TTokenType>
     {
-        ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token);
-        SimpleParser.Precedence Precedence { get; }
+        ISimpleExpression Parse(IParser<TTokenType> parser, ISimpleExpression left, IToken<TTokenType> token);
+        Precedence Precedence { get; }
     }
 }

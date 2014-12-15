@@ -1,9 +1,10 @@
-﻿using Bantam.Paselets;
+﻿using Bantam;
+using Bantam.Paselets;
 using BantamTests.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
-using Prefix = System.Tuple<SimpleParser.TokenType, SimpleParser.IPrefixParselet>;
-using Infix = System.Tuple<SimpleParser.TokenType, SimpleParser.InfixParselet>;
+using Prefix = System.Tuple<SimpleParser.TokenType, SimpleParser.IPrefixParselet<SimpleParser.TokenType>>;
+using Infix = System.Tuple<SimpleParser.TokenType, SimpleParser.InfixParselet<SimpleParser.TokenType>>;
 
 namespace BantamTests
 {
@@ -15,10 +16,12 @@ namespace BantamTests
         public void TestMethod1()
         {            
             const string expression = "a()";
-            var parsed = TestParser.Factory.CreateNew(new[]
+            var testParser = TestParser.Factory.CreateNew(new[]
             {
                 new Prefix(TokenType.NAME, new NameParselet()),                
-            }, new[] { new Infix(TokenType.LEFT_PAREN, new CallParselet()) }).Parse(expression);
+            }, new[] { new Infix(TokenType.LEFT_PAREN, new CallParselet()) });
+
+            var parsed = testParser.Parse(expression);
             Assert.AreEqual("a()",parsed);
         }
         
@@ -62,6 +65,7 @@ namespace BantamTests
         public void TestMethod4()
         {           
             const string expression = "a(b)(c)";
+            var tokenConfig = new TokenConfig();
             Prefix[] prefixes =
             {
                 new Prefix(TokenType.NAME, new NameParselet()),
@@ -70,7 +74,7 @@ namespace BantamTests
             Infix[] infixes =
             {
                 new Infix(TokenType.LEFT_PAREN,new CallParselet()),
-                new Infix(TokenType.PLUS,new BinaryOperatorParselet(Precedence.SUM,InfixType.Left))
+                new Infix(TokenType.PLUS,new BinaryOperatorParselet(Precedence.SUM, InfixType.Left,tokenConfig))
             };
 
             var parsed = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
@@ -81,6 +85,7 @@ namespace BantamTests
         public void TestMethod5()
         {
            const string expression = "a(b) + c(d)";
+           var tokenConfig = new TokenConfig();
             Prefix[] prefixes =
             {
                 new Prefix(TokenType.NAME, new NameParselet())
@@ -89,7 +94,7 @@ namespace BantamTests
             Infix[] infixes =
             {
                 new Infix(TokenType.LEFT_PAREN,new CallParselet()),
-                new Infix(TokenType.PLUS, new BinaryOperatorParselet(Precedence.SUM,InfixType.Left))
+                new Infix(TokenType.PLUS, new BinaryOperatorParselet(Precedence.SUM, InfixType.Left,tokenConfig))
             };
 
             var parsed = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
@@ -100,6 +105,7 @@ namespace BantamTests
         public void TestMethod6()
         {
             const string expression = "a(b ? c : d, e + f)";
+            var tokenConfig = new TokenConfig();
             Prefix[] prefixes =
             {
                 new Prefix(TokenType.NAME, new NameParselet())
@@ -109,7 +115,7 @@ namespace BantamTests
             {
                 new Infix(TokenType.LEFT_PAREN,new CallParselet()),
                 new Infix(TokenType.QUESTION, new ConditionalParselet()),
-                new Infix(TokenType.PLUS, new BinaryOperatorParselet(Precedence.SUM, InfixType.Left))
+                new Infix(TokenType.PLUS, new BinaryOperatorParselet(Precedence.SUM, InfixType.Left,tokenConfig))
             };
 
             var parsed = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);

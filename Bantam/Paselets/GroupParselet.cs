@@ -1,5 +1,6 @@
 ﻿using SimpleParser;
-
+using IParser = SimpleParser.IParser<SimpleParser.TokenType>;
+using IPrefixParselet = SimpleParser.IPrefixParselet<SimpleParser.TokenType>;
 namespace Bantam.Paselets
 {
     /// <summary>
@@ -7,7 +8,7 @@ namespace Bantam.Paselets
     /// </summary>
     public class GroupParselet : IPrefixParselet
     {
-        public ISimpleExpression Parse(IParser parser, IToken token)
+        public ISimpleExpression Parse(IParser parser, IToken<TokenType> token)
         {
             var simpleExpression = parser.ParseExpression();
             parser.Consume(TokenType.RIGHT_PAREN);

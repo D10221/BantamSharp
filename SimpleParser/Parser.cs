@@ -1,36 +1,33 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Bantam.Common;
-using SimpleParser;
-using PrefixResult = System.Tuple<SimpleParser.IPrefixParselet, bool>;
-using InfixResult = System.Tuple<SimpleParser.InfixParselet, bool>;
-namespace Bantam
+
+namespace SimpleParser
 {
     /// <summary>
     /// Bantam implementation of SimpleParser
     /// </summary>
-    public class Parser : IParser
+    public class Parser<TTokenType, TCHAR> : IParser<TTokenType>
     {
         #region Dependencies
 
-        private readonly ILexer _lexer;
-        private readonly List<IToken> _tokens = new List<IToken>();
+        private readonly ILexer<TTokenType,TCHAR> _lexer;
+        private readonly List<IToken<TTokenType>> _tokens = new List<IToken<TTokenType>>();
 
         #endregion
 
-
-        public Parser(ILexer lexer,IParserMap parserMap)
+        public Parser(ILexer<TTokenType,TCHAR> lexer,IParserMap<TTokenType> parserMap)
         {
             _parserMap = parserMap;
             _lexer = lexer;
         }
 
-        private PrefixResult GetPrefixParselet(TokenType tokenType)
+        private Tuple<IPrefixParselet<TTokenType>, bool> GetPrefixParselet(TTokenType tokenType)
         {
             return _parserMap.GetPrefixParselet(tokenType);
         }
 
-        private InfixResult GetInfixParselet(IToken atoken)
+        private Tuple<InfixParselet<TTokenType>, bool> GetInfixParselet(IToken<TTokenType> atoken)
         {
             return _parserMap.GetInfixParselet(atoken.TokenType);
         }
@@ -44,7 +41,10 @@ namespace Bantam
 
             var prefix =
                 GetPrefixParselet(token.TokenType)
-                    .OnError(() => { throw new ParseException("No Prefix found for @name".Reglex("@name", token.GetText()), token); })
+                    .OnError(() => {
+                        throw new ParseException<TTokenType>("No Prefix found for @name"
+                        .Replace("@name", token.GetText()), token); 
+                    })
                     .OkResult();
 
             var left = prefix.Parse(this, token); //Expression
@@ -63,10 +63,10 @@ namespace Bantam
         }
 
 
-        public bool IsMatch(TokenType expected)
+        public bool IsMatch(TTokenType expected)
         {
             var token = lookAhead();
-            if (token.TokenType != expected)
+            if (!Equals(token.TokenType, expected))
             {
                 return false;
             }
@@ -75,17 +75,17 @@ namespace Bantam
             return true;
         }
 
-        public IToken Consume(TokenType expected)
+        public IToken<TTokenType> Consume(TTokenType expected)
         {
             var token = lookAhead();
-            if (token.TokenType != expected)
+            if (!Equals(token.TokenType, expected))
             {
-                throw new ParseException("Expected token {0} and found {1}", expected, token.TokenType);
+                throw new ParseException<TTokenType>("Expected token {0} and found {1}", expected, token.TokenType);
             }
             return Consume();
         }
 
-        public IToken Consume()
+        public IToken<TTokenType> Consume()
         {
             // Make sure we've read the token.
             lookAhead();
@@ -94,7 +94,7 @@ namespace Bantam
             return token;
         }
 
-        private IToken lookAhead()
+        private IToken<TTokenType> lookAhead()
         {
             while (!_tokens.Any())
             {
@@ -110,10 +110,10 @@ namespace Bantam
            
             var token = lookAhead();
             var tokenType = token.TokenType;            
-            return tokenType == TokenType.NONE ? Precedence.ZERO : GetPrecedence(tokenType);
+            return Equals(tokenType, default(TTokenType)) ? Precedence.ZERO : GetPrecedence(tokenType);
         }
 
-        private Precedence GetPrecedence(TokenType tokenType)
+        private Precedence GetPrecedence(TTokenType tokenType)
         {
             var precedence = Precedence.ZERO ;
             var result = _parserMap.GetInfixParselet(tokenType);
@@ -125,6 +125,6 @@ namespace Bantam
                 .OnSuccess(x => precedence = x.Precedence);*/
         }
 
-        private readonly IParserMap _parserMap;
+        private readonly IParserMap <TTokenType>_parserMap;
     }
 }

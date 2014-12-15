@@ -2,11 +2,11 @@
 
 namespace SimpleParser
 {
-    public interface IParserMap
+    public interface IParserMap<TTokenType>
     {
-        void Register(TokenType tokenType, IPrefixParselet parselet);
-        void Register(TokenType tokenType, InfixParselet parselet);
-        Tuple<InfixParselet, bool> GetInfixParselet(TokenType tokenType);
-        Tuple<IPrefixParselet, bool> GetPrefixParselet(TokenType tokenType);
+        void Register(TTokenType tokenType, IPrefixParselet<TTokenType> parselet);
+        void Register(TTokenType tokenType, InfixParselet<TTokenType> parselet);
+        Tuple<InfixParselet<TTokenType>, bool> GetInfixParselet(TTokenType tokenType);
+        Tuple<IPrefixParselet<TTokenType>, bool> GetPrefixParselet(TTokenType tokenType);
     }
 }

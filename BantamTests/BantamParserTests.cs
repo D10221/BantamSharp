@@ -1,8 +1,11 @@
 ﻿using Bantam;
 using BantamTests.Parselets;
-using BantamTests.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+using IParser = SimpleParser.IParser<SimpleParser.TokenType>;
+using IPrefixParselet = SimpleParser.IPrefixParselet<SimpleParser.TokenType>;
+using IToken = SimpleParser.IToken<SimpleParser.TokenType>;
+using InfixParselet = SimpleParser.InfixParselet<SimpleParser.TokenType>;
+using Parser = SimpleParser.Parser<SimpleParser.TokenType,char>;
 namespace BantamTests
 {
     [TestClass] // ? 
@@ -67,8 +70,9 @@ namespace BantamTests
 
         public static string Parse(string source)
         {
-            var lexer = new Lexer(source);
-            var parser = new BantamParser(lexer,new ParserMap());
+            var tokenConfig = new TokenConfig();
+            var lexer = new Lexer(source, tokenConfig);
+            var parser = new Parser(lexer,new BantamMap(tokenConfig));
 
             var result = parser.ParseExpression();
             var builder = new Builder();

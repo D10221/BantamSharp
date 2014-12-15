@@ -39,14 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BantamParser.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Expressions\OperatorExpression.cs" />
     <Compile Include="Expressions\PostfixExpression.cs" />
     <Compile Include="Expressions\PrefixExpression.cs" />
     <Compile Include="Lexer.cs" />
-    <Compile Include="ParserMap.cs" />
-    <Compile Include="Parser.cs" />
+    <Compile Include="BantamMap.cs" />
     <Compile Include="Expressions\AssignExpression.cs" />
     <Compile Include="Paselets\AssignParselet.cs" />
     <Compile Include="Expressions\ConditionalExpression.cs" />
@@ -61,6 +59,7 @@
     <Compile Include="Paselets\PostfixOperatorParselet.cs" />
     <Compile Include="Paselets\PrefixOperatorParselet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TokenConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SimpleParser\SimpleParser.csproj">

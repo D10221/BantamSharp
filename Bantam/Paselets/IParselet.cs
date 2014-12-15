@@ -3,8 +3,8 @@
 namespace Bantam.Paselets
 {
     //TODO
-    public interface IParselet
+    public interface IParselet<TTokenType, TokenBase>
     {
-        ISimpleExpression Parse(IParser parser, IToken token);
+        ISimpleExpression Parse(IParser<TokenBase> parser, IToken<TTokenType> token);
     }
 }

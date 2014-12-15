@@ -1,6 +1,8 @@
 ﻿using Bantam.Expressions;
 using SimpleParser;
-
+using IParser = SimpleParser.IParser<SimpleParser.TokenType>;
+using IPrefixParselet = SimpleParser.IPrefixParselet<SimpleParser.TokenType>;
+using IToken= SimpleParser.IToken<SimpleParser.TokenType>;
 namespace Bantam.Paselets
 {
     /// <summary>

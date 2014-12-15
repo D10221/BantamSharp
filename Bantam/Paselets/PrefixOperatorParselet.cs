@@ -1,5 +1,9 @@
 ﻿using Bantam.Expressions;
 using SimpleParser;
+using IParser = SimpleParser.IParser<SimpleParser.TokenType>;
+using IPrefixParselet = SimpleParser.IPrefixParselet<SimpleParser.TokenType>;
+using IToken = SimpleParser.IToken<SimpleParser.TokenType>;
+using InfixParselet = SimpleParser.InfixParselet<SimpleParser.TokenType>;
 
 namespace Bantam.Paselets
 {
@@ -9,8 +13,9 @@ namespace Bantam.Paselets
     /// </summary>
     public class PrefixOperatorParselet : IPrefixParselet, IParselet
     {
-        public PrefixOperatorParselet(Precedence precedence)
+        public PrefixOperatorParselet(Precedence precedence,ITokenConfig<char> tokenConfig)
         {
+            _tokenConfig = tokenConfig;
             _precedence = precedence;
         }
 
@@ -22,7 +27,7 @@ namespace Bantam.Paselets
             // take *this* parselet's result as its left-hand argument.
             var right = parser.ParseExpression(_precedence);
 
-            return new PrefixExpression(token.TokenType, right);
+            return new PrefixExpression(_tokenConfig, token.TokenType, right);
         }
 
         public Precedence Precedence
@@ -31,5 +36,6 @@ namespace Bantam.Paselets
         }
 
         private readonly Precedence _precedence;
+        private readonly ITokenConfig<char> _tokenConfig;
     }
 }

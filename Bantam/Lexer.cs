@@ -4,6 +4,11 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using SimpleParser;
+using IParser = SimpleParser.IParser<SimpleParser.TokenType>;
+using IPrefixParselet = SimpleParser.IPrefixParselet<SimpleParser.TokenType>;
+using IToken = SimpleParser.IToken<SimpleParser.TokenType>;
+using InfixParselet = SimpleParser.InfixParselet<SimpleParser.TokenType>;
+using ILexer = SimpleParser.ILexer<SimpleParser.TokenType,char>;
 
 namespace Bantam
 {
@@ -22,25 +27,32 @@ namespace Bantam
         /// Creates a new Lexer to tokenize the given string.
         /// @param text String to tokenize.
         /// </summary>
-        public Lexer(String text)
+        public Lexer(String text, TokenConfig tokenConfig)
         {
-            mIndex = 0;
+            TokenConfig = tokenConfig;
             _text = text.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).ToArray();
             _enumerator = text.ToCharArray().Cast<Char>().GetEnumerator();
         }
 
+        public TokenConfig TokenConfig { get; set; }
+
         private IToken TryGetPunctuator(char c)
         {
-            var token = TokenTypes.Punctuators
+            var token = TokenConfig.TokenTypes
                 .GetTokenType(c)
-                .Extract(tt => Token.New(tt.TknType(), tt.Char()));
+                .Extract(tt => new Token<TokenType>(tt.TknType(), AsString(tt)));
             return token;
         }
-        
+
+        private static string AsString(Tuple<TokenType, char> tt)
+        {
+            return tt.Value().ToString(CultureInfo.InvariantCulture);
+        }
+
         private IToken TryGetLetter(char c)
         {            
             var input = c.ToString(CultureInfo.InvariantCulture);
-            return LooksLikeLetter(input) ? new Token( TokenType.NAME,input) : Token.Empty();
+            return LooksLikeLetter(input) ? new Token<TokenType>( TokenType.NAME,input) : Token<TokenType>.Empty();
         }
 
         private static bool LooksLikeLetter(string input)
@@ -69,7 +81,7 @@ namespace Bantam
             }
         }
 
-        readonly Func<IEnumerator<Char>, Iteration> moveNext = (enumerator) =>
+        readonly Func<IEnumerator<Char>, Iteration> moveNext = enumerator =>
         {
             var ok = enumerator.MoveNext();
             var eof = !ok;
@@ -78,7 +90,7 @@ namespace Bantam
 
         public IToken Next()
         {
-            var token = Token.Empty();            
+            var token = Token<TokenType>.Empty();            
 
             var eof = false;                        
 
@@ -92,12 +104,12 @@ namespace Bantam
                 if (token.HasValue ) break;                
             }
             
-            if (eof) return new Token(TokenType.EOF, "");
+            if (eof) return new Token<TokenType>(TokenType.EOF, "");
 
             return token ;                                
         }
 
-        public string InputText
+        public IEnumerable<char> InputText
         {
             get
             {
@@ -105,7 +117,6 @@ namespace Bantam
             }
         }
         private readonly IEnumerable<char> _text;
-        private int mIndex;
         private readonly IEnumerator<char> _enumerator;
     }
 }

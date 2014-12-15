@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using SimpleParser;
+using Token = SimpleParser.Token<SimpleParser.TokenType>;
 
 namespace BantamTests.Support
 {
-    public class FakeLexer : ILexer
+    public class FakeLexer : ILexer<TokenType,char>
     {
         private readonly string _input;
-        
-        private char[] _chars;
-        
-        private int _index;
 
         private IDictionary<TokenType,char> _punctuators = new Dictionary<TokenType, char>
         {
@@ -38,9 +35,8 @@ namespace BantamTests.Support
         public FakeLexer(string input)
         {
             _input = input;
-            _index = 0;
-            _chars = _input.ToCharArray();
-            _tokens = _chars.Select(c => new Token(GetTokenType(c), AsText(c)));
+            char[] chars = _input.ToCharArray();
+            _tokens = chars.Select(c => new Token(GetTokenType(c), AsText(c)));
             _enumerator = _tokens.GetEnumerator();
         }
 
@@ -62,14 +58,14 @@ namespace BantamTests.Support
         }
 
        
-        public IToken Next()
+        public IToken<TokenType> Next()
         {
             if(_enumerator.MoveNext())
             return _enumerator.Current;
             return Token.Empty();
         }
 
-        public string InputText
+        public IEnumerable<char> InputText
         {
             get { return _input; }
         }
