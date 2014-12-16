@@ -1,9 +1,11 @@
-﻿namespace SimpleParser
+﻿using System.Collections.Generic;
+
+namespace SimpleParser
 {
-    public interface IBuilder
+    public interface IBuilder<TCHAR>
     {
-        IBuilder Append(string s);
-        IBuilder Append(char c);
+        IBuilder<TCHAR> Append(IEnumerable<TCHAR> cs);
+        IBuilder<TCHAR> Append(TCHAR c);
         string Build();
     }
 }

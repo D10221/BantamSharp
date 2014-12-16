@@ -1,31 +1,36 @@
-﻿using SimpleParser;
-using ParseException = SimpleParser.ParseException<SimpleParser.TokenType>;
+﻿using SimpleParser.Expressions;
+using ITokenConfig = SimpleParser.ITokenConfig<Bantam.TokenType, char>;
+using Prefix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.IPrefixParselet<Bantam.TokenType, char>>;
+using Infix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.InfixParselet<Bantam.TokenType, char>>;
+using ParserConfig = SimpleParser.ParserConfig<Bantam.TokenType, char>;
+using ParserMap = SimpleParser.ParserMap<Bantam.TokenType, char>;
+using IParserMap = SimpleParser.IParserMap<Bantam.TokenType, char>;
+using Parser = SimpleParser.Parser<Bantam.TokenType, char>;
+using IBuilder = SimpleParser.IBuilder<char>;
+using ISimpleExpression = SimpleParser.Expressions.ISimpleExpression<char>;
+using IParser = SimpleParser.IParser<Bantam.TokenType, char>;
+using IToken = SimpleParser.IToken<Bantam.TokenType>;
+using IPrefixParselet = SimpleParser.Parselets.IPrefixParselet<Bantam.TokenType, char>;
+using InfixParselet = SimpleParser.Parselets.InfixParselet<Bantam.TokenType, char>;
+using  PostfixExpressionBase = SimpleParser.Expressions.PostfixExpressionBase<Bantam.TokenType,char>;
+
 namespace Bantam.Expressions
 {
     /// <summary>
     ///     A postfix unary arithmetic expression like "a!".
     /// </summary>
-    public class PostfixExpression : ISimpleExpression
+    public class PostfixExpression : PostfixExpressionBase<TokenType, char>
     {
-        public PostfixExpression(ITokenConfig<char> TokenConfig,ISimpleExpression left, TokenType @operator)
+        public PostfixExpression(ITokenConfig TokenConfig,ISimpleExpression left, TokenType @operator) : base(TokenConfig, left, @operator)
         {
-            _left = left;
-            _operator = @operator;
-            _punctuator = TokenConfig.Punctuator(_operator);
-            if (!TokenConfig.IsValidPunctuator(_punctuator)) throw new ParseException("Not A valid operator");
         }
 
-        public void Print(IBuilder builder)
+        public override void Print(IBuilder builder)
         {
             builder.Append("(");
-            _left.Print(builder);           
-            builder.Append(_punctuator).Append(")");
+            Left.Print(builder);
+            builder.Append(Punctuator).Append(")");
         }
 
-       
-
-        private readonly ISimpleExpression _left;
-        private readonly TokenType _operator;
-        private readonly char _punctuator;
     }
 }

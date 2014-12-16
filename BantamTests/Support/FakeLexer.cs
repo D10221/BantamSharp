@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Bantam;
 using SimpleParser;
-using Token = SimpleParser.Token<SimpleParser.TokenType>;
+using Token = SimpleParser.Token<Bantam.TokenType>;
 
 namespace BantamTests.Support
 {

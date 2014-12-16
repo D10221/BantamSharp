@@ -1,33 +1,37 @@
 ﻿using SimpleParser;
+using SimpleParser.Expressions;
+using Prefix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.IPrefixParselet<Bantam.TokenType, char>>;
+using Infix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.InfixParselet<Bantam.TokenType, char>>;
+using ParserConfig = SimpleParser.ParserConfig<Bantam.TokenType, char>;
+using ParserMap = SimpleParser.ParserMap<Bantam.TokenType, char>;
+using IParserMap = SimpleParser.IParserMap<Bantam.TokenType, char>;
+using Parser = SimpleParser.Parser<Bantam.TokenType, char>;
+using IBuilder = SimpleParser.IBuilder<char>;
+using ISimpleExpression = SimpleParser.Expressions.ISimpleExpression<char>;
+using IParser= SimpleParser.IParser<Bantam.TokenType,char>;
+using IToken = SimpleParser.IToken<Bantam.TokenType>;
+using ConditionalExpressionBase = SimpleParser.Expressions.ConditionalExpressionBase<char>;
 
 namespace Bantam.Expressions
 {
     /// <summary>
     ///     A ternary conditional expression like "a ? b : c".
     /// </summary>
-    public class ConditionalExpression : ISimpleExpression
+    public class ConditionalExpression : ConditionalExpressionBase<char>
     {
         public ConditionalExpression(
-            ISimpleExpression condition, ISimpleExpression then, ISimpleExpression @else)
+            ISimpleExpression condition, ISimpleExpression then, ISimpleExpression @else) : base(condition, then, @else)
         {
-            _condition = condition;
-            _then = then;
-            _else = @else;
         }
-
-        public void Print(IBuilder builder)
+        public override void Print(IBuilder builder)
         {
             builder.Append("(");
-            _condition.Print(builder);
+            Condition.Print(builder);
             builder.Append(" ? ");
-            _then.Print(builder);
+            Then.Print(builder);
             builder.Append(" : ");
-            _else.Print(builder);
+            Else.Print(builder);
             builder.Append(")");
         }
-
-        private readonly ISimpleExpression _condition;
-        private readonly ISimpleExpression _then;
-        private readonly ISimpleExpression _else;
     }
 }

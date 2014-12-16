@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SimpleParser.Expressions;
+using SimpleParser.Parselets;
 
 namespace SimpleParser
 {
     /// <summary>
     /// Bantam implementation of SimpleParser
     /// </summary>
-    public class Parser<TTokenType, TCHAR> : IParser<TTokenType>
+    public class Parser<TTokenType, TCHAR> : IParser<TTokenType,TCHAR>
     {
         #region Dependencies
 
@@ -16,25 +18,25 @@ namespace SimpleParser
 
         #endregion
 
-        public Parser(ILexer<TTokenType,TCHAR> lexer,IParserMap<TTokenType> parserMap)
+        public Parser(ILexer<TTokenType, TCHAR> lexer, IParserMap<TTokenType, TCHAR> parserMap)
         {
             _parserMap = parserMap;
             _lexer = lexer;
         }
 
-        private Tuple<IPrefixParselet<TTokenType>, bool> GetPrefixParselet(TTokenType tokenType)
+        private Tuple<IPrefixParselet<TTokenType,TCHAR>, bool> GetPrefixParselet(TTokenType tokenType)
         {
             return _parserMap.GetPrefixParselet(tokenType);
         }
 
-        private Tuple<InfixParselet<TTokenType>, bool> GetInfixParselet(IToken<TTokenType> atoken)
+        private Tuple<InfixParselet<TTokenType,TCHAR>, bool> GetInfixParselet(IToken<TTokenType> atoken)
         {
             return _parserMap.GetInfixParselet(atoken.TokenType);
         }
 
         #region IParser
 
-        public ISimpleExpression ParseExpression(Precedence precedence = Precedence.ZERO)
+        public ISimpleExpression<TCHAR> ParseExpression(Precedence precedence = Precedence.ZERO)
         {
 
             var token = Consume();
@@ -125,6 +127,6 @@ namespace SimpleParser
                 .OnSuccess(x => precedence = x.Precedence);*/
         }
 
-        private readonly IParserMap <TTokenType>_parserMap;
+        private readonly IParserMap<TTokenType, TCHAR> _parserMap;
     }
 }

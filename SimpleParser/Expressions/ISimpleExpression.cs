@@ -1,15 +1,15 @@
-﻿namespace SimpleParser
+﻿namespace SimpleParser.Expressions
 {
     /// <summary>
     /// Interface for all expression AST node classes.
     /// </summary>
-    public interface ISimpleExpression 
+    public interface ISimpleExpression<TTokenBase>
     {
         /// <summary>
         ///   Build, the expression 
         /// </summary>
         /// <param name="builder"></param>
-        void Print(IBuilder builder);
+        void Print(IBuilder<TTokenBase> builder);
     }
 }
 

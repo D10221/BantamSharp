@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Bantam;
-using SimpleParser;
-using Prefix = System.Tuple<SimpleParser.TokenType, SimpleParser.IPrefixParselet<SimpleParser.TokenType>> ;
-using Infix = System.Tuple<SimpleParser.TokenType, SimpleParser.InfixParselet<SimpleParser.TokenType>>;
-using ParserConfig = SimpleParser.ParserConfig<SimpleParser.TokenType>;
-using ParserMap = SimpleParser.ParserMap<SimpleParser.TokenType>;
-using IParserMap = SimpleParser.IParserMap<SimpleParser.TokenType>;
-using Parser = SimpleParser.Parser<SimpleParser.TokenType,char>;
+using Prefix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.IPrefixParselet<Bantam.TokenType,char>> ;
+using Infix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.InfixParselet<Bantam.TokenType,char>>;
+using ParserConfig = SimpleParser.ParserConfig<Bantam.TokenType,char>;
+using ParserMap = SimpleParser.ParserMap<Bantam.TokenType,char>;
+using IParserMap = SimpleParser.IParserMap<Bantam.TokenType,char>;
+using Parser = SimpleParser.Parser<Bantam.TokenType,char>;
+using IBuilder = SimpleParser.IBuilder<char>;
 
 
 namespace BantamTests.Support
@@ -16,7 +15,7 @@ namespace BantamTests.Support
     {
         private readonly ParserConfig _config;
 
-        public TestParser(ParserConfig config, FakeBuilder builder)
+        public TestParser(ParserConfig config, IBuilder builder)
         {
             _config = config;
             _builder = builder;           
@@ -35,7 +34,7 @@ namespace BantamTests.Support
         }
 
         public static readonly TestParserFactory Factory =  new TestParserFactory();
-        private readonly FakeBuilder _builder;
+        private readonly IBuilder _builder;
 
         public  class TestParserFactory
        {

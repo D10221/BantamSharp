@@ -2,7 +2,7 @@
 using System.Linq;
 using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ILexer = SimpleParser.ILexer<SimpleParser.TokenType,char>;
+using ILexer = SimpleParser.ILexer<Bantam.TokenType,char>;
 namespace BantamTests
 {
     [TestClass]
