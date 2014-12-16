@@ -1,34 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SimpleParser;
+using SimpleParser.Expressions;
+using ParseException = SimpleParser.ParseException<Bantam.TokenType>;
+using ITokenConfig = SimpleParser.ITokenConfig<Bantam.TokenType, char>;
+using Prefix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.IPrefixParselet<Bantam.TokenType, char>>;
+using Infix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.InfixParselet<Bantam.TokenType, char>>;
+using ParserConfig = SimpleParser.ParserConfig<Bantam.TokenType, char>;
+using ParserMap = SimpleParser.ParserMap<Bantam.TokenType, char>;
+using IParserMap = SimpleParser.IParserMap<Bantam.TokenType, char>;
+using Parser = SimpleParser.Parser<Bantam.TokenType, char>;
+using IBuilder = SimpleParser.IBuilder<char>;
+using ISimpleExpression = SimpleParser.Expressions.ISimpleExpression<char>;
+using IParser = SimpleParser.IParser<Bantam.TokenType, char>;
+using IToken = SimpleParser.IToken<Bantam.TokenType>;
+using IPrefixParselet = SimpleParser.Parselets.IPrefixParselet<Bantam.TokenType, char>;
+using InfixParselet = SimpleParser.Parselets.InfixParselet<Bantam.TokenType, char>;
+using CallExpressionBase = SimpleParser.Expressions.CallExpressionBase<char>;
 
 namespace Bantam.Expressions
 {
     /// <summary>
     /// A function call like "a(b, c, d) OR a(x)(z)".
     /// </summary>
-    public class CallExpression : ISimpleExpression
+    public class CallExpression : CallExpressionBase<char>
     {
-        public CallExpression(ISimpleExpression function, List<ISimpleExpression> args)
+        public CallExpression(ISimpleExpression function, List<ISimpleExpression> args) : base(function, args)
         {
-            _function = function;
-            
-            _args = args?? new List<ISimpleExpression>();
         }
 
-        public void Print(IBuilder builder)
+        public override void Print(IBuilder builder)
         {
-            _function.Print(builder);
+            Function.Print(builder);
             builder.Append("(");
-            for (var i = 0; i < _args.Count; i++)
+            for (var i = 0; i < Args.Count; i++)
             {
-                _args[i].Print(builder);
-                if (i < _args.Count - 1) builder.Append(", ");
+                Args[i].Print(builder);
+                if (i < Args.Count - 1) builder.Append(", ");
             }
             builder.Append(")");
         }
-
-        private readonly ISimpleExpression _function;
-        private readonly List<ISimpleExpression> _args;
     }
 }

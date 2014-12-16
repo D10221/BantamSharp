@@ -1,4 +1,5 @@
-﻿using SimpleParser;
+﻿using System.Collections.Generic;
+using IBuilder = SimpleParser.IBuilder<char>;
 
 namespace BantamTests.Support
 {
@@ -6,7 +7,7 @@ namespace BantamTests.Support
     {
         private string _result;
 
-        public IBuilder Append(string s)
+        public IBuilder Append(IEnumerable<char> s)
         {
             _result += s;
             return this;

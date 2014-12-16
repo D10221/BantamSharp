@@ -1,9 +1,10 @@
-﻿using Bantam.Expressions;
+﻿using Bantam;
+using Bantam.Expressions;
 using Bantam.Paselets;
 using BantamTests.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
-using Token = SimpleParser.Token<SimpleParser.TokenType>;
+using Token = SimpleParser.Token<Bantam.TokenType>;
 
 namespace BantamTests.Parselets
 {

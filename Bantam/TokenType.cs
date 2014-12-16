@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
-namespace SimpleParser
+using ITokenConfig = SimpleParser.ITokenConfig<Bantam.TokenType, char>;
+namespace Bantam
 {
     public enum TokenType
     {      
@@ -53,11 +53,11 @@ namespace SimpleParser
             Punctuators = Values.Select(t => new Tuple<TokenType, Char> (t, TokenConfig.Punctuator(t)));
         }
 
-        public TokenTypes(ITokenConfig<char> tokenConfig)
+        public TokenTypes(ITokenConfig tokenConfig)
         {
             TokenConfig = tokenConfig;
         }
 
-        private ITokenConfig<char> TokenConfig { get; set; }
+        private ITokenConfig TokenConfig { get; set; }
     }
 }

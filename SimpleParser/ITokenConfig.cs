@@ -3,16 +3,18 @@ using System.Collections.Generic;
 
 namespace SimpleParser
 {
-    public interface ITokenConfig<T>
+    public interface ITokenConfig<TTokenType, TCHAR>
     {
         /// <summary>
         /// If the TokenType represents a punctuator (i.e. a token that can split an identifier like '+', this will get its text.
         /// </summary>
         /// <param name="tokenType"></param>
         /// <returns></returns>
-        char Punctuator( TokenType tokenType);
+        TCHAR Punctuator(TTokenType tokenType);
 
-        bool IsValidPunctuator( T c);
-        IEnumerable<Tuple<TokenType, T>> TokenTypes { get; }
+        bool IsValidPunctuator( TCHAR c);
+
+        IEnumerable<Tuple<TTokenType, TCHAR>> TokenTypes { get; }
+        
     }
 }

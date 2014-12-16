@@ -1,33 +1,39 @@
 ﻿using SimpleParser;
-using ParseException = SimpleParser.ParseException<SimpleParser.TokenType>;
+using SimpleParser.Expressions;
+using ITokenConfig = SimpleParser.ITokenConfig<Bantam.TokenType, char>;
+using Prefix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.IPrefixParselet<Bantam.TokenType, char>>;
+using Infix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.InfixParselet<Bantam.TokenType, char>>;
+using ParserConfig = SimpleParser.ParserConfig<Bantam.TokenType, char>;
+using ParserMap = SimpleParser.ParserMap<Bantam.TokenType, char>;
+using IParserMap = SimpleParser.IParserMap<Bantam.TokenType, char>;
+using Parser = SimpleParser.Parser<Bantam.TokenType, char>;
+using IBuilder = SimpleParser.IBuilder<char>;
+using ISimpleExpression = SimpleParser.Expressions.ISimpleExpression<char>;
+using IParser = SimpleParser.IParser<Bantam.TokenType, char>;
+using IToken = SimpleParser.IToken<Bantam.TokenType>;
+using IPrefixParselet = SimpleParser.Parselets.IPrefixParselet<Bantam.TokenType, char>;
+using InfixParselet = SimpleParser.Parselets.InfixParselet<Bantam.TokenType, char>;
+using OperatorExpressionBase = SimpleParser.Expressions.OperatorExpressionBase<Bantam.TokenType,char>;
+
 namespace Bantam.Expressions
 {
     /// <summary>
     ///     A binary arithmetic expression like "a + b" or "c ^ d"
     /// </summary>
-    public class OperatorExpression : ISimpleExpression
+    public class OperatorExpression : OperatorExpressionBase<TokenType, char>
     {
-        public OperatorExpression(ITokenConfig<char> TokenConfig,ISimpleExpression left, TokenType @operator, ISimpleExpression right)
+        public OperatorExpression(ITokenConfig 
+            tokenConfig,ISimpleExpression left, TokenType @operator, ISimpleExpression right) : base(tokenConfig, left, @operator, right)
         {
-            _left = left;
-            _operator = @operator;
-            _right = right;
-            _punctuator = TokenConfig.Punctuator(_operator);
-            if (!TokenConfig.IsValidPunctuator(_punctuator)) throw new ParseException("Not A valid oprator");
         }
-
-        public void Print(IBuilder builder)
+        public override void Print(IBuilder builder)
         {
             builder.Append("(");
-            _left.Print(builder);
-            builder.Append(" ").Append(_punctuator).Append(" ");
-            _right.Print(builder);
+            Left.Print(builder);
+            builder.Append(" ").Append(Punctuator).Append(" ");
+            Right.Print(builder);
             builder.Append(")");
-        }
 
-        private readonly ISimpleExpression _left;
-        private readonly TokenType _operator;
-        private readonly ISimpleExpression _right;
-        private readonly char _punctuator;
+        }
     }
 }

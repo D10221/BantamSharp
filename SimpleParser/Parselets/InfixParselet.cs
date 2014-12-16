@@ -1,4 +1,6 @@
-﻿namespace SimpleParser
+﻿using SimpleParser.Expressions;
+
+namespace SimpleParser.Parselets
 {
     /// <summary>
     ///     One of the two parselet interfaces used by the Pratt parser. An
@@ -8,9 +10,9 @@
     ///     that comes after the token. This is also used for postfix expressions, in
     ///     which case it simply doesn't consume any more tokens in its parse() call.
     /// </summary>
-    public interface InfixParselet<TTokenType>
+    public interface InfixParselet<TTokenType,TTokenBase>
     {
-        ISimpleExpression Parse(IParser<TTokenType> parser, ISimpleExpression left, IToken<TTokenType> token);
+        ISimpleExpression<TTokenBase> Parse(IParser<TTokenType,TTokenBase> parser, ISimpleExpression<TTokenBase> left, IToken<TTokenType> token);
         Precedence Precedence { get; }
     }
 }

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SimpleParser;
+using ITokenConfig = SimpleParser.ITokenConfig<Bantam.TokenType, char>;
 
 namespace Bantam
 {
-    public class TokenConfig : ITokenConfig<char>
+    public class TokenConfig : ITokenConfig
     {
         public TokenConfig()
         {

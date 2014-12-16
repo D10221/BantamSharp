@@ -1,5 +1,7 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using SimpleParser;
+using IBuilder = SimpleParser.IBuilder<char>;
 
 namespace BantamTests.Parselets
 {
@@ -15,7 +17,7 @@ namespace BantamTests.Parselets
             _builder = new StringBuilder();
         }
 
-        public IBuilder Append(string s)
+        public IBuilder Append(IEnumerable<char> s)
         {
             _builder.Append(s);
             return this;

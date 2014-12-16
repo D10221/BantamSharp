@@ -2,11 +2,20 @@
 using System.Collections.Generic;
 using Bantam.Paselets;
 using SimpleParser;
-using IParser = SimpleParser.IParser<SimpleParser.TokenType>;
-using IPrefixParselet = SimpleParser.IPrefixParselet<SimpleParser.TokenType>;
-using IToken = SimpleParser.IToken<SimpleParser.TokenType>;
-using InfixParselet = SimpleParser.InfixParselet<SimpleParser.TokenType>;
-using IParserMap = SimpleParser.IParserMap<SimpleParser.TokenType>;
+using ParseException = SimpleParser.ParseException<Bantam.TokenType>;
+using ITokenConfig = SimpleParser.ITokenConfig<Bantam.TokenType, char>;
+using Prefix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.IPrefixParselet<Bantam.TokenType, char>>;
+using Infix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.InfixParselet<Bantam.TokenType, char>>;
+using ParserConfig = SimpleParser.ParserConfig<Bantam.TokenType, char>;
+using ParserMap = SimpleParser.ParserMap<Bantam.TokenType, char>;
+using IParserMap = SimpleParser.IParserMap<Bantam.TokenType, char>;
+using Parser = SimpleParser.Parser<Bantam.TokenType, char>;
+using IBuilder = SimpleParser.IBuilder<char>;
+using ISimpleExpression = SimpleParser.Expressions.ISimpleExpression<char>;
+using IParser = SimpleParser.IParser<Bantam.TokenType, char>;
+using IToken = SimpleParser.IToken<Bantam.TokenType>;
+using IPrefixParselet = SimpleParser.Parselets.IPrefixParselet<Bantam.TokenType, char>;
+using InfixParselet = SimpleParser.Parselets.InfixParselet<Bantam.TokenType, char>;
 
 namespace Bantam
 {    
@@ -15,7 +24,7 @@ namespace Bantam
         private readonly IDictionary<TokenType,IPrefixParselet> _prefixParselets =  new Dictionary<TokenType, IPrefixParselet>();
         private readonly IDictionary<TokenType, InfixParselet> _infixParselets = new Dictionary<TokenType, InfixParselet>();
 
-        public BantamMap(ITokenConfig<char> tokenConfig)
+        public BantamMap(ITokenConfig tokenConfig)
         {
 
             // Register all of the parselets for the grammar.    

@@ -1,4 +1,4 @@
-﻿namespace SimpleParser
+﻿namespace SimpleParser.Parselets
 {
     public interface IParselet
     {

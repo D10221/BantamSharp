@@ -1,9 +1,21 @@
 ﻿using Bantam.Expressions;
 using SimpleParser;
-using IParser = SimpleParser.IParser<SimpleParser.TokenType>;
-using IPrefixParselet = SimpleParser.IPrefixParselet<SimpleParser.TokenType>;
-using IToken = SimpleParser.IToken<SimpleParser.TokenType>;
-using InfixParselet = SimpleParser.InfixParselet<SimpleParser.TokenType>;
+using SimpleParser.Parselets;
+using ParseException = SimpleParser.ParseException<Bantam.TokenType>;
+using ITokenConfig = SimpleParser.ITokenConfig<Bantam.TokenType, char>;
+using Prefix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.IPrefixParselet<Bantam.TokenType, char>>;
+using Infix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.InfixParselet<Bantam.TokenType, char>>;
+using ParserConfig = SimpleParser.ParserConfig<Bantam.TokenType, char>;
+using ParserMap = SimpleParser.ParserMap<Bantam.TokenType, char>;
+using IParserMap = SimpleParser.IParserMap<Bantam.TokenType, char>;
+using Parser = SimpleParser.Parser<Bantam.TokenType, char>;
+using IBuilder = SimpleParser.IBuilder<char>;
+using ISimpleExpression = SimpleParser.Expressions.ISimpleExpression<char>;
+using IParser = SimpleParser.IParser<Bantam.TokenType, char>;
+using IToken = SimpleParser.IToken<Bantam.TokenType>;
+using IPrefixParselet = SimpleParser.Parselets.IPrefixParselet<Bantam.TokenType, char>;
+using InfixParselet = SimpleParser.Parselets.InfixParselet<Bantam.TokenType, char>;
+
 
 namespace Bantam.Paselets
 {
@@ -11,9 +23,9 @@ namespace Bantam.Paselets
     /// Generic infix parselet for an unary arithmetic operator. Parses postfix
     /// unary "?" expressions.
     /// </summary>
-    public class PostfixOperatorParselet : InfixParselet
+    public class PostfixOperatorParselet : InfixParselet<TokenType, char>
     {   
-        public PostfixOperatorParselet(Precedence precedence,ITokenConfig<char> tokenConfig)
+        public PostfixOperatorParselet(Precedence precedence,ITokenConfig tokenConfig)
         {
             _tokenConfig = tokenConfig;
             _precedence = precedence;
@@ -30,6 +42,6 @@ namespace Bantam.Paselets
         }
 
         private readonly Precedence _precedence;
-        private readonly ITokenConfig<char> _tokenConfig;
+        private readonly ITokenConfig _tokenConfig;
     }
 }
