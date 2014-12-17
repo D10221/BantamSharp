@@ -52,6 +52,7 @@
     <Compile Include="PrefixOperatorParselet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TokenConfig.cs" />
+    <Compile Include="TokenType.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SimpleParser\SimpleParser.csproj">

@@ -3,57 +3,62 @@ using System.Collections.Generic;
 using System.Linq;
 using SimpleParser;
 using ISimpleExpression = SimpleParser.Expressions.ISimpleExpression<string>;
+using TokenFunction = System.Func<int, int, int>;
+using TokenTypeConfig = System.Tuple<string, System.Func<int, int, int>>;
+using ConfigItem = System.Tuple<SimpleMaths.TokenType,string, System.Func<int, int, int>>;
+using IPrefixParselet = SimpleParser.Parselets.IPrefixParselet<SimpleMaths.TokenType, string>;
+using InfixParselet = SimpleParser.Parselets.InfixParselet<SimpleMaths.TokenType, string>;
+using Prefix = System.Tuple<SimpleMaths.TokenType, SimpleParser.Parselets.IPrefixParselet<SimpleMaths.TokenType,string>>;
+using Infix = System.Tuple<SimpleMaths.TokenType, SimpleParser.Parselets.InfixParselet<SimpleMaths.TokenType,string>>;
+using IParserMap = SimpleParser.IParserMap<SimpleMaths.TokenType, string>;
 
 namespace SimpleMaths
 {
-    public enum TokenType
-    {
-        NONE,       
-        ASSIGN,
-        PLUS,
-        MINUS,
-        ASTERISK,
-        SLASH,       
-        NAME,
-        EOF,
-    }
     public class TokenConfig : ITokenConfig<TokenType,string>
     {
+        public IParserMap ParserMap { get; private set; }
+
         public TokenConfig()
         {
-            TokenTypes = new[]
-            {
-               
-                TokenType.ASSIGN,
-                TokenType.PLUS,
-                TokenType.MINUS,
-                TokenType.ASTERISK,
-                TokenType.SLASH,              
-                TokenType.NAME,
-                TokenType.EOF
-            }.Select(
-                t => new Tuple<TokenType, string>(t, Punctuator(t)));
+            ConfigItem[] config = {
+                new ConfigItem(TokenType.PLUS,"+", (l,r)=> l+r ),
+                new ConfigItem(TokenType.MINUS,"-", (l,r)=> l-r ),
+                new ConfigItem(TokenType.ASTERISK,"*", (l,r)=> l*r ),
+                new ConfigItem(TokenType.SLASH,"/", (l,r)=> r>0?  l/r : 0 ),
+                new ConfigItem(TokenType.ASSIGN,"=", (l,r)=> r )
+            };
 
-            Punctuators =  new Dictionary<TokenType, string>
+            Prefix[] prefixes =
             {
-            
-                {TokenType.ASSIGN, "="},
-                {TokenType.PLUS, "+"},
-                {TokenType.MINUS, "-"},
-                {TokenType.ASTERISK, "*"},
-                {TokenType.SLASH, "/"},
-           
-            };            
+                new Prefix(TokenType.PLUS, new PrefixOperatorParselet(Precedence.PREFIX,this)),
+                new Prefix(TokenType.MINUS, new PrefixOperatorParselet(Precedence.PREFIX,this))
+            };
+
+            Infix[] infixes =
+            {
+                new Infix(TokenType.ASSIGN, new AssignParselet()),
+                new Infix(TokenType.PLUS, new BinaryOperatorParselet(Precedence.SUM, InfixType.Left,this)),
+                new Infix(TokenType.MINUS, new BinaryOperatorParselet(Precedence.SUM, InfixType.Left,this)),
+                new Infix(TokenType.ASTERISK, new BinaryOperatorParselet(Precedence.PRODUCT, InfixType.Left,this)),
+                new Infix(TokenType.SLASH, new BinaryOperatorParselet(Precedence.PRODUCT, InfixType.Left,this))
+            };
+
+            ParserMap = new ParserMap(prefixes,infixes);
+
+            var values = Enum
+                .GetValues(typeof (TokenType))
+                .Cast<TokenType>()
+                .ToArray();
+
+            TokenTypes = values.Select(t => new Tuple<TokenType, string>(t, Punctuator(t)));
+
+            Punctuators = config.ToDictionary(x => x.Item1, x => x.Item2);
+
+            Funcs = config.ToDictionary(x => x.Item1, x => x.Item3);
         }
-
-        private IDictionary<TokenType, Func<int, int, int>> Funcs=new Dictionary<TokenType, Func<int, int, int>>
-        {
-            {TokenType.PLUS, (left,right)=> left+right },
-            {TokenType.MINUS, (left,right)=> left-right },
-            {TokenType.ASTERISK, (left,right)=> left*right },
-            {TokenType.SLASH,(left,right)=> left / right },
-            {TokenType.ASSIGN, (l,r)=> r}
-        };
+      
+       
+        private IDictionary<TokenType, TokenFunction> Funcs { get; set; }
 
         public Func<int, int, int> GetFunc(string punctuator)
         {
@@ -61,37 +66,7 @@ namespace SimpleMaths
             var foundFUnc = Funcs.FirstOrDefault(f => f.Key == found.Key);
             return foundFUnc.Value;           
         }
-
-        public int? Op(ISimpleExpression leftExpression,ISimpleExpression rightRightExpression,TokenType tokenType)
-        {
-            int? res = null;
-            int leftRes;
-            
-            var left = leftExpression.ToString();
-            
-            var right = rightRightExpression.ToString();
-
-            if (int.TryParse(left, out leftRes))
-            {
-                int rightRes;
-                if (int.TryParse(right, out rightRes))
-                {
-                    switch (tokenType)
-                    {
-                        case TokenType.PLUS:
-                            res = leftRes + rightRes;
-                            break;
-                        case TokenType.MINUS:
-                            res = leftRes - rightRes;
-                            break;
-                        
-                    }
-                }
-            }
-            return res;
-
-        }
-
+       
         /// <summary>
         ///     If the TokenType represents a punctuator (i.e. a token that can split an identifier like '+', this will get its
         ///     text.
@@ -100,22 +75,7 @@ namespace SimpleMaths
         /// <returns></returns>
         public string Punctuator(TokenType tokenType)
         {
-            switch (tokenType)
-            {
-              
-                case TokenType.ASSIGN:
-                    return "=";
-                case TokenType.PLUS:
-                    return "+";
-                case TokenType.MINUS:
-                    return "-";
-                case TokenType.ASTERISK:
-                    return "*";
-                case TokenType.SLASH:
-                    return "/";               
-                default:
-                    return default(string);
-            }
+            return Punctuators.FirstOrDefault(p => p.Key == tokenType).Value;
         }
 
         public bool IsValidPunctuator(string c)

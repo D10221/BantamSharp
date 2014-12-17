@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using SimpleParser;
+using System.Linq;
 using ParseException = SimpleParser.ParseException<SimpleMaths.TokenType>;
 using ITokenConfig = SimpleParser.ITokenConfig<SimpleMaths.TokenType, string>;
 using Prefix = System.Tuple<SimpleMaths.TokenType, SimpleParser.Parselets.IPrefixParselet<SimpleMaths.TokenType, string>>;
@@ -18,33 +18,17 @@ using InfixParselet = SimpleParser.Parselets.InfixParselet<SimpleMaths.TokenType
 
 namespace SimpleMaths
 {    
-    public class MathMap : IParserMap
+    public class ParserMap : IParserMap
     {
         private readonly IDictionary<TokenType,IPrefixParselet> _prefixParselets =  new Dictionary<TokenType, IPrefixParselet>();
+        
         private readonly IDictionary<TokenType, InfixParselet> _infixParselets = new Dictionary<TokenType, InfixParselet>();
 
-        public MathMap(ITokenConfig tokenConfig)
+        public ParserMap(IEnumerable<Prefix> prefixes,IEnumerable<Infix> infixes)
         {
+            _prefixParselets = prefixes.ToDictionary(x => x.Item1, x => x.Item2);
 
-            // Register all of the parselets for the grammar.    
-            // Register the ones that need special parselets.
-            _prefixParselets.Add(TokenType.NAME, new NameParselet());
-  
-
-            // Register the simple operator parselets.
-            _prefixParselets.Add(TokenType.PLUS, new PrefixOperatorParselet(Precedence.PREFIX,tokenConfig));
-            _prefixParselets.Add(TokenType.MINUS, new PrefixOperatorParselet(Precedence.PREFIX,tokenConfig));
-
-
-  
-            _infixParselets.Add(TokenType.ASSIGN, new AssignParselet());
-          
-          
-            _infixParselets.Add(TokenType.PLUS, new BinaryOperatorParselet(Precedence.SUM, InfixType.Left,tokenConfig));
-            _infixParselets.Add(TokenType.MINUS, new BinaryOperatorParselet(Precedence.SUM, InfixType.Left,tokenConfig));
-            _infixParselets.Add(TokenType.ASTERISK, new BinaryOperatorParselet(Precedence.PRODUCT, InfixType.Left,tokenConfig));
-            _infixParselets.Add(TokenType.SLASH, new BinaryOperatorParselet(Precedence.PRODUCT, InfixType.Left,tokenConfig));
-            
+            _infixParselets = infixes.ToDictionary(x => x.Item1, x => x.Item2);            
         }
 
         public void Register(TokenType tokenType, IPrefixParselet parselet)

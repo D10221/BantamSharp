@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SimpleMaths;
+using SimpleParser;
 using Prefix = System.Tuple<SimpleMaths.TokenType, SimpleParser.Parselets.IPrefixParselet<SimpleMaths.TokenType,string>> ;
 using Infix = System.Tuple<SimpleMaths.TokenType, SimpleParser.Parselets.InfixParselet<SimpleMaths.TokenType,string>>;
 using ParserConfig = SimpleParser.ParserConfig<SimpleMaths.TokenType,string>;
@@ -13,9 +14,9 @@ namespace SimpleMathTests
 {
     public class TestParser
     {
-        private readonly ParserConfig _config;
+        private readonly IParserConfig<TokenType, string> _config;
 
-        public TestParser(ParserConfig config, IBuilder builder)
+        public TestParser(IParserConfig<TokenType, string> config, IBuilder builder)
         {
             _config = config;
             _builder = builder;           
