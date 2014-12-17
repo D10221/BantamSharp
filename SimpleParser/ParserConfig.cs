@@ -5,7 +5,7 @@ using SimpleParser.Parselets;
 
 namespace SimpleParser
 {
-    public class ParserConfig<TTokenType,TCHAR>
+    public class ParserConfig<TTokenType,TCHAR> : IParserConfig<TTokenType, TCHAR>
     {
         private readonly List<Tuple<TTokenType, InfixParselet<TTokenType, TCHAR>>> INFIXES
             = new List<Tuple<TTokenType, InfixParselet<TTokenType, TCHAR>>>();

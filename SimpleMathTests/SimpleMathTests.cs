@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleMaths;
 using SimpleParser;
 
 namespace SimpleMathTests
 {
     [TestClass]
-    public class UnitTest1
+    public class SimpleMathTests
     {
       
         [TestMethod]
@@ -16,17 +15,8 @@ namespace SimpleMathTests
             Assert.AreEqual("02", Compile("1 + 1"));
             Assert.AreEqual("01", Compile("1 /  1"));
             Assert.AreEqual("05", Compile("10 / 2"));
-           
-            Exception ex = null;
-            try
-            {
-                Assert.AreEqual("00", Compile("10 / 0"));
-            }
-            catch (Exception e)
-            {
-                ex = e;
-            }
-            Assert.IsNotNull(ex);
+
+            Assert.AreEqual("00", Compile("10 / 0"));
 
             Assert.AreEqual("08", Compile("2 * 4"));
             Assert.AreEqual("00", Compile("0 * 5"));
@@ -38,9 +28,8 @@ namespace SimpleMathTests
         private static string Compile(string textExpression)
         {
             var tokens = new TokenConfig();
-            var map = new MathMap(tokens);
             ILexer<TokenType, string> lexer = new Lexer(textExpression, tokens);
-            var parser = new Parser<TokenType, string>(lexer, map);
+            var parser = new Parser<TokenType, string>(lexer, tokens.ParserMap);
             var builder = new Builder();
             var expression = parser.ParseExpression();
             expression.Print(builder);

@@ -45,6 +45,7 @@
     <Compile Include="GenericExtensions.cs" />
     <Compile Include="IBuilder.cs" />
     <Compile Include="ILexer.cs" />
+    <Compile Include="IParserConfig.cs" />
     <Compile Include="Parselets\InfixParselet.cs" />
     <Compile Include="InfixType.cs" />
     <Compile Include="Parselets\IParselet.cs" />
