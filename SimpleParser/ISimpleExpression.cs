@@ -1,4 +1,4 @@
-﻿namespace SimpleParser.Expressions
+﻿namespace SimpleParser
 {
     /// <summary>
     /// Interface for all expression AST node classes.

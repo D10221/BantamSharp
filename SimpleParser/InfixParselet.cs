@@ -1,6 +1,6 @@
 ﻿using SimpleParser.Expressions;
 
-namespace SimpleParser.Parselets
+namespace SimpleParser
 {
     /// <summary>
     ///     One of the two parselet interfaces used by the Pratt parser. An
@@ -13,6 +13,6 @@ namespace SimpleParser.Parselets
     public interface InfixParselet<TTokenType,TTokenBase>
     {
         ISimpleExpression<TTokenBase> Parse(IParser<TTokenType,TTokenBase> parser, ISimpleExpression<TTokenBase> left, IToken<TTokenType> token);
-        Precedence Precedence { get; }
+        int Precedence { get; }
     }
 }

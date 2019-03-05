@@ -4,7 +4,7 @@ namespace SimpleParser
 {
     public interface IParser<TTokenType,TCHAR>
     {
-        ISimpleExpression<TCHAR> ParseExpression(Precedence precedence = Precedence.ZERO);
+        ISimpleExpression<TCHAR> ParseExpression(int precedence = 0);
         bool IsMatch(TTokenType expected);
         IToken<TTokenType> Consume(TTokenType expected);
         IToken<TTokenType> Consume();

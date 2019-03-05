@@ -1,44 +1,39 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
-using SimpleParser.Parselets;
 
 namespace SimpleParser
 {
-    public class ParserMap<TTokenType,TCHAR> : IParserMap<TTokenType,TCHAR>
+    public class ParserMap<TTokenType, TCHAR> : IParserMap<TTokenType, TCHAR>
     {
-        private readonly IDictionary<TTokenType, IPrefixParselet<TTokenType,TCHAR>> _prefixParselets;
-        private readonly IDictionary<TTokenType, InfixParselet<TTokenType,TCHAR>> _infixParselets;
+        private readonly IDictionary<TTokenType, IParselet<TTokenType, TCHAR>> _prefixParselets;
+        private readonly IDictionary<TTokenType, InfixParselet<TTokenType, TCHAR>> _infixParselets;
 
-        public ParserMap(IDictionary<TTokenType, IPrefixParselet<TTokenType,TCHAR>> prefixParselets,
-            IDictionary<TTokenType, InfixParselet<TTokenType,TCHAR>> infixParselets)
+        public ParserMap(IDictionary<TTokenType, IParselet<TTokenType, TCHAR>> prefixParselets,
+            IDictionary<TTokenType, InfixParselet<TTokenType, TCHAR>> infixParselets)
         {
             _prefixParselets = prefixParselets;
             _infixParselets = infixParselets;
         }
 
-        public void Register(TTokenType tokenType, IPrefixParselet<TTokenType,TCHAR> parselet)
+        public void Register(TTokenType tokenType, IParselet<TTokenType, TCHAR> parselet)
         {
-            _prefixParselets.Add(tokenType,parselet);
+            _prefixParselets.Add(tokenType, parselet);
         }
 
-        public void Register(TTokenType tokenType, InfixParselet<TTokenType,TCHAR> parselet)
+        public void Register(TTokenType tokenType, InfixParselet<TTokenType, TCHAR> parselet)
         {
-           _infixParselets.Add(tokenType,parselet);
+            _infixParselets.Add(tokenType, parselet);
         }
 
-        public Tuple<InfixParselet<TTokenType,TCHAR>, bool> GetInfixParselet(TTokenType tokenType)
+        public InfixParselet<TTokenType, TCHAR> GetInfixParselet(TTokenType tokenType)
         {
-            var parselet = _infixParselets.FirstOrDefault(x=> Equals(x.Key, tokenType)).Value;
-
-            return new Tuple<InfixParselet<TTokenType,TCHAR>, bool>(parselet,parselet!=null);
+            return _infixParselets.FirstOrDefault(x => Equals(x.Key, tokenType)).Value;
         }
 
-        public Tuple<IPrefixParselet<TTokenType,TCHAR>, bool> GetPrefixParselet(TTokenType tokenType)
+        public IParselet<TTokenType, TCHAR> GetPrefixParselet(TTokenType tokenType)
         {
-            var parselet = _prefixParselets.FirstOrDefault(x => Equals(x.Key, tokenType)).Value;
-
-            return new Tuple<IPrefixParselet<TTokenType,TCHAR>, bool>(parselet, parselet != null);
+            return _prefixParselets.FirstOrDefault(x => Equals(x.Key, tokenType)).Value;
         }
     }
 

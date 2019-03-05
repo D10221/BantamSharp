@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using SimpleMaths;
 using SimpleParser;
-using Prefix = System.Tuple<SimpleMaths.TokenType, SimpleParser.Parselets.IPrefixParselet<SimpleMaths.TokenType,string>> ;
-using Infix = System.Tuple<SimpleMaths.TokenType, SimpleParser.Parselets.InfixParselet<SimpleMaths.TokenType,string>>;
-using ParserConfig = SimpleParser.ParserConfig<SimpleMaths.TokenType,string>;
-using ParserMap = SimpleParser.ParserMap<SimpleMaths.TokenType,string>;
-using IParserMap = SimpleParser.IParserMap<SimpleMaths.TokenType,string>;
-using Parser = SimpleParser.Parser<SimpleMaths.TokenType,string>;
+using Prefix = System.Tuple<SimpleMaths.TokenType, SimpleParser.IParselet<SimpleMaths.TokenType, string>>;
+using Infix = System.Tuple<SimpleMaths.TokenType, SimpleParser.InfixParselet<SimpleMaths.TokenType, string>>;
+using ParserConfig = SimpleParser.ParserConfig<SimpleMaths.TokenType, string>;
+using ParserMap = SimpleParser.ParserMap<SimpleMaths.TokenType, string>;
+using Parser = SimpleParser.Parser<SimpleMaths.TokenType, string>;
 using IBuilder = SimpleParser.IBuilder<string>;
 
 

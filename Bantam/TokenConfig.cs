@@ -47,9 +47,7 @@ namespace Bantam
         public  bool IsValidPunctuator( char c)
         {
             var reverse = Punctuators.ToDictionary(p => p.Value, p => p.Key);
-            TokenType pp;
-            var ok = reverse.TryGetValue(c, out pp);
-            return ok;
+            return reverse.ContainsKey(c);            
         }
 
         public  readonly IDictionary<TokenType, char> Punctuators = new Dictionary<TokenType, char>

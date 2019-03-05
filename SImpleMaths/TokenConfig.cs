@@ -1,20 +1,19 @@
+using SimpleParser;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SimpleParser;
-using ISimpleExpression = SimpleParser.Expressions.ISimpleExpression<string>;
-using TokenFunction = System.Func<int, int, int>;
-using TokenTypeConfig = System.Tuple<string, System.Func<int, int, int>>;
-using ConfigItem = System.Tuple<SimpleMaths.TokenType,string, System.Func<int, int, int>>;
-using IPrefixParselet = SimpleParser.Parselets.IPrefixParselet<SimpleMaths.TokenType, string>;
-using InfixParselet = SimpleParser.Parselets.InfixParselet<SimpleMaths.TokenType, string>;
-using Prefix = System.Tuple<SimpleMaths.TokenType, SimpleParser.Parselets.IPrefixParselet<SimpleMaths.TokenType,string>>;
-using Infix = System.Tuple<SimpleMaths.TokenType, SimpleParser.Parselets.InfixParselet<SimpleMaths.TokenType,string>>;
+using ConfigItem = System.Tuple<SimpleMaths.TokenType, string, System.Func<int, int, int>>;
+using Infix = System.Tuple<SimpleMaths.TokenType, SimpleParser.InfixParselet<SimpleMaths.TokenType, string>>;
 using IParserMap = SimpleParser.IParserMap<SimpleMaths.TokenType, string>;
+using Prefix = System.Tuple<SimpleMaths.TokenType, SimpleParser.IParselet<SimpleMaths.TokenType, string>>;
+using TokenFunction = System.Func<int, int, int>;
 
 namespace SimpleMaths
 {
-    public class TokenConfig : ITokenConfig<TokenType,string>
+    /// <summary>
+    /// 
+    /// </summary>
+    public class TokenConfig : ITokenConfig<TokenType, string>
     {
         public IParserMap ParserMap { get; private set; }
 
@@ -30,23 +29,23 @@ namespace SimpleMaths
 
             Prefix[] prefixes =
             {
-                new Prefix(TokenType.PLUS, new PrefixOperatorParselet(Precedence.PREFIX,this)),
-                new Prefix(TokenType.MINUS, new PrefixOperatorParselet(Precedence.PREFIX,this))
+                new Prefix(TokenType.PLUS, new PrefixOperatorParselet((int) Precedence.PREFIX,this)),
+                new Prefix(TokenType.MINUS, new PrefixOperatorParselet((int) Precedence.PREFIX,this))
             };
 
             Infix[] infixes =
             {
                 new Infix(TokenType.ASSIGN, new AssignParselet()),
-                new Infix(TokenType.PLUS, new BinaryOperatorParselet(Precedence.SUM, InfixType.Left,this)),
-                new Infix(TokenType.MINUS, new BinaryOperatorParselet(Precedence.SUM, InfixType.Left,this)),
-                new Infix(TokenType.ASTERISK, new BinaryOperatorParselet(Precedence.PRODUCT, InfixType.Left,this)),
-                new Infix(TokenType.SLASH, new BinaryOperatorParselet(Precedence.PRODUCT, InfixType.Left,this))
+                new Infix(TokenType.PLUS, new BinaryOperatorParselet((int)Precedence.SUM, InfixType.Left,this)),
+                new Infix(TokenType.MINUS, new BinaryOperatorParselet((int)Precedence.SUM, InfixType.Left,this)),
+                new Infix(TokenType.ASTERISK, new BinaryOperatorParselet((int)Precedence.PRODUCT, InfixType.Left,this)),
+                new Infix(TokenType.SLASH, new BinaryOperatorParselet((int)Precedence.PRODUCT, InfixType.Left,this))
             };
 
-            ParserMap = new ParserMap(prefixes,infixes);
+            ParserMap = new ParserMap(prefixes, infixes);
 
             var values = Enum
-                .GetValues(typeof (TokenType))
+                .GetValues(typeof(TokenType))
                 .Cast<TokenType>()
                 .ToArray();
 
@@ -56,19 +55,19 @@ namespace SimpleMaths
 
             Funcs = config.ToDictionary(x => x.Item1, x => x.Item3);
         }
-      
-       
+
+
         private IDictionary<TokenType, TokenFunction> Funcs { get; set; }
 
         public Func<int, int, int> GetFunc(string punctuator)
         {
             var found = Punctuators.FirstOrDefault(p => p.Value == punctuator);
             var foundFUnc = Funcs.FirstOrDefault(f => f.Key == found.Key);
-            return foundFUnc.Value;           
+            return foundFUnc.Value;
         }
-       
+
         /// <summary>
-        ///     If the TokenType represents a punctuator (i.e. a token that can split an identifier like '+', this will get its
+        ///     If the TokenType represents a punctuator (i.e. a token that can split an identifier like '+', will get its
         ///     text.
         /// </summary>
         /// <param name="tokenType"></param>
@@ -81,12 +80,11 @@ namespace SimpleMaths
         public bool IsValidPunctuator(string c)
         {
             var reverse = Punctuators.ToDictionary(p => p.Value, p => p.Key);
-            TokenType pp;
-            var ok = reverse.TryGetValue(c, out pp);
+            var ok = reverse.TryGetValue(c, out TokenType pp);
             return ok;
         }
 
-        public  IDictionary<TokenType, string> Punctuators { get; private set; }
+        public IDictionary<TokenType, string> Punctuators { get; private set; }
 
         public IEnumerable<Tuple<TokenType, string>> TokenTypes { get; private set; }
     }

@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using Bantam;
 using SimpleParser;
-using Prefix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.IPrefixParselet<Bantam.TokenType,char>> ;
-using Infix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.InfixParselet<Bantam.TokenType,char>>;
-using ParserConfig = SimpleParser.ParserConfig<Bantam.TokenType,char>;
-using ParserMap = SimpleParser.ParserMap<Bantam.TokenType,char>;
-using IParserMap = SimpleParser.IParserMap<Bantam.TokenType,char>;
-using Parser = SimpleParser.Parser<Bantam.TokenType,char>;
+using Prefix = System.Tuple<Bantam.TokenType, SimpleParser.IParselet<Bantam.TokenType, char>>;
+using Infix = System.Tuple<Bantam.TokenType, SimpleParser.InfixParselet<Bantam.TokenType, char>>;
+using ParserConfig = SimpleParser.ParserConfig<Bantam.TokenType, char>;
+using ParserMap = SimpleParser.ParserMap<Bantam.TokenType, char>;
+using Parser = SimpleParser.Parser<Bantam.TokenType, char>;
 using IBuilder = SimpleParser.IBuilder<char>;
 
 

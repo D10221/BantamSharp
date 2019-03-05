@@ -1,21 +1,9 @@
 ﻿using Bantam.Expressions;
 using SimpleParser;
-using SimpleParser.Parselets;
-using ParseException = SimpleParser.ParseException<Bantam.TokenType>;
-using ITokenConfig = SimpleParser.ITokenConfig<Bantam.TokenType, char>;
-using Prefix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.IPrefixParselet<Bantam.TokenType, char>>;
-using Infix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.InfixParselet<Bantam.TokenType, char>>;
-using ParserConfig = SimpleParser.ParserConfig<Bantam.TokenType, char>;
-using ParserMap = SimpleParser.ParserMap<Bantam.TokenType, char>;
-using IParserMap = SimpleParser.IParserMap<Bantam.TokenType, char>;
-using Parser = SimpleParser.Parser<Bantam.TokenType, char>;
-using IBuilder = SimpleParser.IBuilder<char>;
-using ISimpleExpression = SimpleParser.Expressions.ISimpleExpression<char>;
 using IParser = SimpleParser.IParser<Bantam.TokenType, char>;
+using ISimpleExpression = SimpleParser.ISimpleExpression<char>;
 using IToken = SimpleParser.IToken<Bantam.TokenType>;
-using IPrefixParselet = SimpleParser.Parselets.IPrefixParselet<Bantam.TokenType, char>;
-using InfixParselet = SimpleParser.Parselets.InfixParselet<Bantam.TokenType, char>;
-
+using ITokenConfig = SimpleParser.ITokenConfig<Bantam.TokenType, char>;
 
 namespace Bantam.Paselets
 {
@@ -24,24 +12,21 @@ namespace Bantam.Paselets
     /// unary "?" expressions.
     /// </summary>
     public class PostfixOperatorParselet : InfixParselet<TokenType, char>
-    {   
-        public PostfixOperatorParselet(Precedence precedence,ITokenConfig tokenConfig)
+    {
+        private readonly ITokenConfig _tokenConfig;
+
+        public int Precedence { get; }
+
+        public PostfixOperatorParselet(int precedence, ITokenConfig tokenConfig)
         {
             _tokenConfig = tokenConfig;
-            _precedence = precedence;
+            Precedence = precedence;
         }
 
         public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token)
         {
-            return new PostfixExpression(_tokenConfig,left, token.TokenType);
+            return new PostfixExpression(_tokenConfig, left, token.TokenType);
         }
 
-        public Precedence Precedence
-        {
-            get { return  _precedence; }
-        }
-
-        private readonly Precedence _precedence;
-        private readonly ITokenConfig _tokenConfig;
     }
 }

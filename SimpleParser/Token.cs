@@ -10,28 +10,23 @@ namespace SimpleParser
     {
         public Token(TTokenType type, string text)
         {
-            mType = type;
-            mText = text;
+            TokenType = type;
+            _text = text;
         }
 
-        public TTokenType TokenType
-        {
-            get { return mType; }
-        }
+        public TTokenType TokenType { get; }
 
         public string GetText()
         {
-            return mText;
+            return _text;
         }
 
         public override string ToString()
         {
-            return mText;
+            return _text;
         }
 
-        private readonly TTokenType mType;
-        
-        private readonly string mText;
+        private readonly string _text;
 
         public static IToken<TTokenType> New(TTokenType tokenType, string text)
         {

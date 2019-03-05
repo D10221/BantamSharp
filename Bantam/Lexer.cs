@@ -4,25 +4,12 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using SimpleParser;
-using ParseException = SimpleParser.ParseException<Bantam.TokenType>;
-using ITokenConfig = SimpleParser.ITokenConfig<Bantam.TokenType, char>;
-using Prefix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.IPrefixParselet<Bantam.TokenType, char>>;
-using Infix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.InfixParselet<Bantam.TokenType, char>>;
-using ParserConfig = SimpleParser.ParserConfig<Bantam.TokenType, char>;
-using ParserMap = SimpleParser.ParserMap<Bantam.TokenType, char>;
-using IParserMap = SimpleParser.IParserMap<Bantam.TokenType, char>;
-using Parser = SimpleParser.Parser<Bantam.TokenType, char>;
-using IBuilder = SimpleParser.IBuilder<char>;
-using ISimpleExpression = SimpleParser.Expressions.ISimpleExpression<char>;
-using IParser = SimpleParser.IParser<Bantam.TokenType, char>;
 using IToken = SimpleParser.IToken<Bantam.TokenType>;
-using IPrefixParselet = SimpleParser.Parselets.IPrefixParselet<Bantam.TokenType, char>;
-using InfixParselet = SimpleParser.Parselets.InfixParselet<Bantam.TokenType, char>;
-using ILexer = SimpleParser.ILexer<Bantam.TokenType,char>;
+using ILexer = SimpleParser.ILexer<Bantam.TokenType, char>;
 
 namespace Bantam
 {
-  
+
     /// <summary>
     /// A very primitive lexer. Takes a string and splits it into a series of
     // Tokens. Operators and punctuation are mapped to unique keywords. Names,
@@ -37,7 +24,7 @@ namespace Bantam
         /// Creates a new Lexer to tokenize the given string.
         /// @param text String to tokenize.
         /// </summary>
-        public Lexer(String text, TokenConfig tokenConfig)
+        public Lexer(string text, TokenConfig tokenConfig)
         {
             TokenConfig = tokenConfig;
             _text = text.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).ToArray();

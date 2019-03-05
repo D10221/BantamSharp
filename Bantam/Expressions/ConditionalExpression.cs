@@ -1,16 +1,6 @@
-﻿using SimpleParser;
-using SimpleParser.Expressions;
-using Prefix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.IPrefixParselet<Bantam.TokenType, char>>;
-using Infix = System.Tuple<Bantam.TokenType, SimpleParser.Parselets.InfixParselet<Bantam.TokenType, char>>;
-using ParserConfig = SimpleParser.ParserConfig<Bantam.TokenType, char>;
-using ParserMap = SimpleParser.ParserMap<Bantam.TokenType, char>;
-using IParserMap = SimpleParser.IParserMap<Bantam.TokenType, char>;
-using Parser = SimpleParser.Parser<Bantam.TokenType, char>;
+﻿using SimpleParser.Expressions;
 using IBuilder = SimpleParser.IBuilder<char>;
-using ISimpleExpression = SimpleParser.Expressions.ISimpleExpression<char>;
-using IParser= SimpleParser.IParser<Bantam.TokenType,char>;
-using IToken = SimpleParser.IToken<Bantam.TokenType>;
-using ConditionalExpressionBase = SimpleParser.Expressions.ConditionalExpressionBase<char>;
+using ISimpleExpression = SimpleParser.ISimpleExpression<char>;
 
 namespace Bantam.Expressions
 {

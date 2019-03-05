@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SimpleParser.Parselets;
+
 
 namespace SimpleParser
 {
@@ -10,25 +10,25 @@ namespace SimpleParser
         private readonly List<Tuple<TTokenType, InfixParselet<TTokenType, TCHAR>>> INFIXES
             = new List<Tuple<TTokenType, InfixParselet<TTokenType, TCHAR>>>();
 
-        private readonly List<Tuple<TTokenType, IPrefixParselet<TTokenType, TCHAR>>> PREFIXES
-            = new List<Tuple<TTokenType, IPrefixParselet<TTokenType, TCHAR>>>();
+        private readonly List<Tuple<TTokenType, IParselet<TTokenType, TCHAR>>> PREFIXES
+            = new List<Tuple<TTokenType, IParselet<TTokenType, TCHAR>>>();
 
         public IDictionary<TTokenType, InfixParselet<TTokenType, TCHAR>> InfixParselets
         {
             get { return INFIXES.ToDictionary(p => p.Item1, p => p.Item2); }
         }
 
-        public IDictionary<TTokenType, IPrefixParselet<TTokenType,TCHAR>> PrefixParselets
+        public IDictionary<TTokenType, IParselet<TTokenType,TCHAR>> PrefixParselets
         {
             get { return PREFIXES.ToDictionary(p => p.Item1, p => p.Item2); }
         }
 
-        public void Register(Tuple<TTokenType, IPrefixParselet<TTokenType, TCHAR>> prefix)
+        public void Register(Tuple<TTokenType, IParselet<TTokenType, TCHAR>> prefix)
         {
             PREFIXES.Add(prefix);
         }
 
-        public void Register(params Tuple<TTokenType, IPrefixParselet<TTokenType, TCHAR>>[] prefixes)
+        public void Register(params Tuple<TTokenType, IParselet<TTokenType, TCHAR>>[] prefixes)
         {
             foreach (var prefix in prefixes)
             {
@@ -54,7 +54,7 @@ namespace SimpleParser
         {
             public ParserConfig<TTokenType, TCHAR> CreateNew(
                 IEnumerable<Tuple<TTokenType,
-                IPrefixParselet<TTokenType, TCHAR>>> prefixes,
+                IParselet<TTokenType, TCHAR>>> prefixes,
                 IEnumerable<Tuple<TTokenType, InfixParselet<TTokenType, TCHAR>>> infixes)
             {
                 var config = new ParserConfig<TTokenType, TCHAR>();

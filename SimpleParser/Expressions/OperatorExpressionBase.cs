@@ -7,7 +7,7 @@ namespace SimpleParser.Expressions
             Left = left;
             Right = right;
             Punctuator = tokenConfig.Punctuator(@operator);
-            if (!tokenConfig.IsValidPunctuator(Punctuator)) throw new ParseException<TTokenType>("Not A valid oprator");
+            if (!tokenConfig.IsValidPunctuator(Punctuator)) throw new ParseException<TTokenType>("Not A valid operator");
             TokenConfig = tokenConfig;
         }
 

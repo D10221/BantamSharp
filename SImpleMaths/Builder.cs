@@ -11,8 +11,7 @@ namespace SimpleMaths
         {
             _text = "0";
         }
-        
-       
+               
         public IBuilder Append(string s)
         {           
             _text += s;

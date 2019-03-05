@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using SimpleParser;
 using IParser = SimpleParser.IParser<SimpleMaths.TokenType,string>;
-using IPrefixParselet = SimpleParser.Parselets.IPrefixParselet<SimpleMaths.TokenType,string>;
+using IParselet = SimpleParser.IParselet<SimpleMaths.TokenType,string>;
 using IToken = SimpleParser.IToken<SimpleMaths.TokenType>;
-using InfixParselet = SimpleParser.Parselets.InfixParselet<SimpleMaths.TokenType,string>;
+using InfixParselet = SimpleParser.InfixParselet<SimpleMaths.TokenType,string>;
 using ILexer = SimpleParser.ILexer<SimpleMaths.TokenType,string>;
 
 namespace SimpleMaths
