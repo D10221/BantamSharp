@@ -9,11 +9,11 @@ namespace Bantam
     /// </summary>
     public class OperatorExpression : ISimpleExpression<char>
     {
-        ISimpleExpression<char> Left { get; }
+        private ISimpleExpression<char> Left { get; }
 
-        ISimpleExpression<char> Right { get; }
+        private ISimpleExpression<char> Right { get; }
 
-        char Punctuator { get; set; }
+        private char Punctuator { get; set; }
 
         public OperatorExpression(
             IDictionary<TokenType, char> tokenTypes,

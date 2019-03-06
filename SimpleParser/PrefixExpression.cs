@@ -8,11 +8,11 @@ namespace SimpleParser
     {
         protected PrefixExpressionBase(
             IDictionary<TTokenType, TTokenBase> tokenTypes,
-            TTokenType tokenType, 
+            TTokenType tokenType,
             ISimpleExpression<TTokenBase> right)
         {
             Right = right;
-            if(!tokenTypes.TryGetValue(tokenType, out var type))
+            if (!tokenTypes.TryGetValue(tokenType, out var type))
             {
                 throw new Exception($"Invalid tokenTypes:'{tokenType}'");
             }

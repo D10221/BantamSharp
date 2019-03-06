@@ -16,7 +16,7 @@ namespace BantamTests
 
             const string expected = "(a+(b+c))";
 
-            Assert.AreEqual(expected, new Regex("\\s").Replace(actual.Trim(), ""));            
+            Assert.AreEqual(expected, new Regex("\\s").Replace(actual.Trim(), ""));
         }
 
         // Unary and binary predecence.

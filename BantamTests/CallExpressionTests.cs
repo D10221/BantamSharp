@@ -27,6 +27,6 @@ namespace BantamTests
             exp.Print(_builder);
             string actual = _builder.Build();
             Assert.AreEqual("()", actual);
-        }        
+        }
     }
 }

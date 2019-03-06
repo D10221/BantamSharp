@@ -16,7 +16,7 @@ namespace Bantam
     {
         public int Precedence { get; }
 
-        IDictionary<TokenType, char> TokenTypes { get; }
+        private IDictionary<TokenType, char> TokenTypes { get; }
 
         private readonly bool _isRight;
 

@@ -59,7 +59,7 @@ namespace BantamTests
         }
 
         public static string Parse(string source)
-        {            
+        {
             var lexer = new Lexer(source, Parser.TokenConfig);
             var parser = new Parser<TokenType, char>(lexer, Parser.PrefixParselets, Parser.InfixParselets);
             var result = parser.ParseExpression();

@@ -9,7 +9,7 @@ namespace BantamTests
     [TestClass]
     public class BinaryAssociativityTests
     {
-        IDictionary<TokenType, char> tokenTypes = new Dictionary<TokenType, char>
+        private IDictionary<TokenType, char> _tokenTypes = new Dictionary<TokenType, char>
             {
                 { TokenType.LEFT_PAREN, '('},
                 { TokenType.RIGHT_PAREN, ')'},

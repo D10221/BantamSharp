@@ -9,7 +9,7 @@ namespace BantamTests
 
         public FakeParser(NameExpression expression)
         {
-            _expression = expression;            
+            _expression = expression;
         }
 
 

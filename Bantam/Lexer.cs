@@ -95,7 +95,6 @@ namespace Bantam
                         {
                             return token;
                         }
-
                     }
                     {  // Values, letters numbers 
                         var token = TryGetLetter(current.Char);

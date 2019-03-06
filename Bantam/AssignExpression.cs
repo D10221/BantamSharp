@@ -15,7 +15,7 @@ namespace Bantam
         {
             Name = name;
             Right = right;
-        }      
+        }
         public void Print(IBuilder<char> builder)
         {
             builder.Append("(").Append(Name).Append(" = ");

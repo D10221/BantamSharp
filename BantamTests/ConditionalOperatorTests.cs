@@ -6,7 +6,7 @@ namespace BantamTests
     [TestClass]
     public class ConditionalOperatorTests
     {
-         [TestMethod]
+        [TestMethod]
         public void TestMethod0()
         {
             const string expression = "a ? b : c";

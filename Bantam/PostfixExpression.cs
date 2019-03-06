@@ -8,9 +8,9 @@ namespace Bantam
     /// </summary>
     public class PostfixExpression : ISimpleExpression<char>
     {
-        ISimpleExpression<char> Left { get; }
+        private ISimpleExpression<char> Left { get; }
 
-        char Punctuator { get; }
+        private char Punctuator { get; }
 
         public PostfixExpression(IDictionary<TokenType, char> tokenTypes, ISimpleExpression<char> left, TokenType tokenType)
         {

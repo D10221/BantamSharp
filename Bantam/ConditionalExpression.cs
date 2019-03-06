@@ -16,11 +16,11 @@ namespace Bantam
             Else = @else;
         }
 
-        ISimpleExpression<char> Condition { get; }
+        private ISimpleExpression<char> Condition { get; }
 
-        ISimpleExpression<char> Then { get; }
+        private ISimpleExpression<char> Then { get; }
 
-        ISimpleExpression<char> Else { get; }
+        private ISimpleExpression<char> Else { get; }
 
         public void Print(IBuilder<char> builder)
         {

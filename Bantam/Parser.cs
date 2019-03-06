@@ -45,15 +45,12 @@ namespace Bantam
                 { TokenType.CARET, new BinaryOperatorParselet((int)Precedence.EXPONENT, InfixType.Right, TokenConfig)}
                 };
 
-
         public static string Parse(string text)
         {
             var lexer = new Lexer(text, TokenConfig);
             var parser = new Parser<TokenType, char>(lexer, PrefixParselets, InfixParselets);
-
             var result = parser.ParseExpression();
             var builder = new Builder();
-
             result.Print(builder);
             var actual = builder.Build();
             return actual;

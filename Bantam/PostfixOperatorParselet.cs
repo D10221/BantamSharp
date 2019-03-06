@@ -14,19 +14,19 @@ namespace Bantam
     /// </summary>
     public class PostfixOperatorParselet : InfixParselet<TokenType, char>
     {
-        private readonly IDictionary<TokenType, char> tokenTypes;
+        private readonly IDictionary<TokenType, char> _tokenTypes;
 
         public int Precedence { get; }
 
         public PostfixOperatorParselet(int precedence, IDictionary<TokenType, char> tokenTypes)
         {
-            this.tokenTypes = tokenTypes;
+            _tokenTypes = tokenTypes;
             Precedence = precedence;
         }
 
         public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token)
         {
-            return new PostfixExpression(tokenTypes, left, token.TokenType);
+            return new PostfixExpression(_tokenTypes, left, token.TokenType);
         }
     }
 }

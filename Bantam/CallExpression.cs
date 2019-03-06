@@ -6,7 +6,7 @@ namespace Bantam
     /// <summary>
     /// A function call like "a(b, c, d) OR a(x)(z)".
     /// </summary>
-    public class CallExpression: ISimpleExpression<char>
+    public class CallExpression : ISimpleExpression<char>
     {
         public CallExpression(ISimpleExpression<char> function, List<ISimpleExpression<char>> args)
         {
@@ -30,6 +30,5 @@ namespace Bantam
         protected ISimpleExpression<char> Function { get; private set; }
 
         protected List<ISimpleExpression<char>> Args { get; private set; }
-
     }
 }
