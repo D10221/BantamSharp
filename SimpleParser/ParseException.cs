@@ -2,7 +2,6 @@
 
 namespace SimpleParser
 {
-    [SerializableAttribute] 
     public class ParseException<TTokenType> : Exception
     {
         public ParseException(IToken<TTokenType> token) : this("Troubles parsing \"{0}\".", token)
@@ -23,7 +22,7 @@ namespace SimpleParser
             
         }
     }
-    [SerializableAttribute] 
+    
     public class LexerException : Exception
     {
         public LexerException(string message, Exception innerException=null) : base(message, innerException)

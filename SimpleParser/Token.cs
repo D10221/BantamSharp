@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+﻿
 
 
 namespace SimpleParser
@@ -35,7 +35,7 @@ namespace SimpleParser
 
         public static IToken<TTokenType> New(TTokenType tokenType, char c)
         {
-            return New(tokenType, c.ToString(CultureInfo.InvariantCulture));
+            return New(tokenType, c.ToString());
         }
 
         public static IToken<TTokenType> Empty()

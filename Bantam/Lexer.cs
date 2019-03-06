@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
+
 using System.Linq;
 using System.Text.RegularExpressions;
 using SimpleParser;
@@ -43,12 +43,12 @@ namespace Bantam
 
         private static string AsString(Tuple<TokenType, char> tt)
         {
-            return tt.Value().ToString(CultureInfo.InvariantCulture);
+            return tt.Value().ToString();
         }
 
         private IToken TryGetLetter(char c)
         {            
-            var input = c.ToString(CultureInfo.InvariantCulture);
+            var input = c.ToString();
             return LooksLikeLetter(input) ? new Token<TokenType>( TokenType.NAME,input) : Token<TokenType>.Empty();
         }
 
@@ -74,7 +74,7 @@ namespace Bantam
 
             public override string ToString()
             {
-                return Char.ToString(CultureInfo.InvariantCulture);
+                return Char.ToString();
             }
         }
 
@@ -110,7 +110,7 @@ namespace Bantam
         {
             get
             {
-                return _text.Select(a=> a.ToString(CultureInfo.InvariantCulture)).Aggregate((a, b) => a + b);
+                return _text.Select(a=> a.ToString()).Aggregate((a, b) => a + b);
             }
         }
         private readonly IEnumerable<char> _text;

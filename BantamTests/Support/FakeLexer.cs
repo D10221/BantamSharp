@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
+
 using System.Linq;
 using Bantam;
 using SimpleParser;
@@ -43,7 +43,7 @@ namespace BantamTests.Support
 
         private static string AsText(char c)
         {
-            return c.ToString(CultureInfo.InvariantCulture);
+            return c.ToString();
         }
 
         private TokenType GetTokenType(char c)

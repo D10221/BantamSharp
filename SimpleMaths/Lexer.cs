@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
+
 using System.Linq;
 using System.Text.RegularExpressions;
 using SimpleParser;
@@ -53,7 +53,7 @@ namespace SimpleMaths
         //TODO: rename it
         private IToken TryGetLetter(string c)
         {            
-            var input = c.ToString(CultureInfo.InvariantCulture);
+            var input = c.ToString();
             return LooksLikeLetter(input) ? new Token<TokenType>( TokenType.NAME,input) : Token<TokenType>.Empty();
         }
 
@@ -78,7 +78,7 @@ namespace SimpleMaths
 
             public override string ToString()
             {
-                return Char.ToString(CultureInfo.InvariantCulture);
+                return Char.ToString();
             }
         }
 
