@@ -1,7 +1,9 @@
-﻿using SimpleParser.Expressions;
+﻿
 using ITokenConfig = SimpleParser.ITokenConfig<Bantam.TokenType, char>;
 using IBuilder = SimpleParser.IBuilder<char>;
 using ISimpleExpression = SimpleParser.ISimpleExpression<char>;
+using SimpleParser;
+
 namespace Bantam
 {
     /// <summary>

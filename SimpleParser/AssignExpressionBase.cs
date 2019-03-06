@@ -1,6 +1,6 @@
 using System;
 
-namespace SimpleParser.Expressions
+namespace SimpleParser
 {
     public abstract class AssignExpressionBase<TCHAR> : ISimpleExpression<TCHAR>
     {

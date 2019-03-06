@@ -1,4 +1,4 @@
-﻿namespace SimpleParser.Expressions
+﻿namespace SimpleParser
 {
     public abstract class PostfixExpressionBase<TokenType,TCHAR> : ISimpleExpression<TCHAR>
     {

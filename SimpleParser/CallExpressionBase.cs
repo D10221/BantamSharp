@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SimpleParser.Expressions
+namespace SimpleParser
 {
     public abstract class CallExpressionBase<TCHAR> : ISimpleExpression<TCHAR>
     {

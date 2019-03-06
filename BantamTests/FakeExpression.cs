@@ -1,5 +1,5 @@
 ﻿using SimpleParser;
-using SimpleParser.Expressions;
+
 using ParseException = SimpleParser.ParseException<Bantam.TokenType>;
 using ITokenConfig = SimpleParser.ITokenConfig<Bantam.TokenType, char>;
 using Prefix = System.Tuple<Bantam.TokenType, SimpleParser.IParselet<Bantam.TokenType, char>>;

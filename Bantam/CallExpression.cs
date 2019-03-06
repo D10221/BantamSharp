@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using SimpleParser.Expressions;
+using SimpleParser;
 using IBuilder = SimpleParser.IBuilder<char>;
 using ISimpleExpression = SimpleParser.ISimpleExpression<char>;
 
