@@ -1,11 +1,6 @@
 ﻿using Bantam;
-using Bantam.Common;
-
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SimpleParser;
-using Prefix = System.Tuple<Bantam.TokenType, SimpleParser.IParselet<Bantam.TokenType, char>>;
-using Infix = System.Tuple<Bantam.TokenType, SimpleParser.InfixParselet<Bantam.TokenType, char>>;
+using System.Text.RegularExpressions;
 
 namespace BantamTests
 {
@@ -17,25 +12,11 @@ namespace BantamTests
         {
             const string expression = "a+(b+c)";
 
-            var tokenConfig = new TokenConfig();
-
-            Prefix[] prefixes =
-            {
-                new Prefix(TokenType.NAME, new NameParselet()),
-                new Prefix(TokenType.PLUS, new PrefixOperatorParselet((int) Precedence.PREFIX,tokenConfig)),
-                new Prefix(TokenType.LEFT_PAREN, new GroupParselet())
-            };
-
-            Infix[] infixes =
-            {
-                new Infix(TokenType.PLUS, new BinaryOperatorParselet((int) Precedence.SUM, InfixType.Left,tokenConfig))
-            };
-
-            string actual = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
+            string actual = Parser.Parse(expression);
 
             const string expected = "(a+(b+c))";
 
-            Assert.AreEqual(expected, actual.Reglex("\\s", "")); //Fails           
+            Assert.AreEqual(expected, new Regex("\\s").Replace(actual.Trim(), ""));            
         }
 
         // Unary and binary predecence.
@@ -43,18 +24,7 @@ namespace BantamTests
         public void TestMethod1()
         {
             const string expression = "-a * b";
-            var tokenConfig = new TokenConfig();
-            Prefix[] prefixes =
-            {
-                new Prefix(TokenType.NAME, new NameParselet()),
-                new Prefix(TokenType.MINUS, new PrefixOperatorParselet((int) Precedence.PREFIX,tokenConfig))
-            };
-            Infix[] infixes =
-            {
-                new Infix(TokenType.ASTERISK, new BinaryOperatorParselet((int) Precedence.PRODUCT, InfixType.Left,tokenConfig))
-            };
-
-            string actual = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
+            string actual = Parser.Parse(expression);
 
             const string expected = "((-a) * b)";
             Assert.AreEqual(expected, actual); //Fails           
@@ -64,18 +34,7 @@ namespace BantamTests
         public void TestMethod2()
         {
             const string expression = "!a + b";
-            var tokenConfig = new TokenConfig();
-            Prefix[] prefixes =
-            {
-                new Prefix(TokenType.NAME, new NameParselet()),
-                new Prefix(TokenType.BANG, new PrefixOperatorParselet((int) Precedence.PREFIX,tokenConfig))
-            };
-            Infix[] infixes =
-            {
-                new Infix(TokenType.PLUS, new BinaryOperatorParselet((int) Precedence.SUM, InfixType.Left,tokenConfig))
-            };
-
-            string actual = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
+            string actual = Parser.Parse(expression);
 
             const string expected = "((!a) + b)";
             Assert.AreEqual(expected, actual); //Fails     
@@ -85,19 +44,7 @@ namespace BantamTests
         public void TestMethod3()
         {
             const string expression = "~a ^ b";
-            var tokenConfig = new TokenConfig();
-            Prefix[] prefixes =
-            {
-                new Prefix(TokenType.NAME, new NameParselet()),
-                new Prefix(TokenType.TILDE, new PrefixOperatorParselet((int) Precedence.PREFIX,tokenConfig))
-            };
-            Infix[] infixes =
-            {
-                //TODO: 
-                new Infix(TokenType.CARET, new BinaryOperatorParselet((int) Precedence.PRODUCT, InfixType.Left,tokenConfig))
-            };
-
-            string actual = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
+            string actual = Parser.Parse(expression);
 
             const string expected = "((~a) ^ b)";
             Assert.AreEqual(expected, actual); //Fails     
@@ -108,20 +55,7 @@ namespace BantamTests
         public void TestMethod4()
         {
             const string expression = "-a!";
-            var tokenConfig = new TokenConfig();
-            Prefix[] prefixes =
-            {
-                new Prefix(TokenType.NAME, new NameParselet()),
-                new Prefix(TokenType.MINUS, new PrefixOperatorParselet((int) Precedence.PREFIX,tokenConfig))
-            };
-
-            Infix[] infixes =
-            {
-                new Infix(TokenType.BANG, new PostfixOperatorParselet((int) Precedence.POSTFIX,tokenConfig))
-            };
-
-            string actual = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
-
+            string actual = Parser.Parse(expression);
             const string expected = "(-(a!))";
             Assert.AreEqual(expected, actual); //Fails   
         }
@@ -130,20 +64,7 @@ namespace BantamTests
         public void TestMethod5()
         {
             const string expression = "!a!";
-            var tokenConfig = new TokenConfig();
-            Prefix[] prefixes =
-            {
-                new Prefix(TokenType.NAME, new NameParselet()),
-                new Prefix(TokenType.BANG, new PrefixOperatorParselet((int) Precedence.PREFIX,tokenConfig))
-            };
-
-            Infix[] infixes =
-            {
-                new Infix(TokenType.BANG, new PostfixOperatorParselet((int) Precedence.POSTFIX,tokenConfig))
-            };
-
-            string actual = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
-
+            string actual = Parser.Parse(expression);
             const string expected = "(!(a!))";
             Assert.AreEqual(expected, actual); //Fails   
         }
@@ -154,28 +75,7 @@ namespace BantamTests
         public void BinaryPrecedenceTest()
         {
             const string expression = "(a = ((b + (c * (d ^ e))) - (f / g)))";
-            var tokenConfig = new TokenConfig();
-            Prefix[] prefixes =
-            {
-                new Prefix(TokenType.NAME, new NameParselet()),
-                new Prefix(TokenType.MINUS, new PrefixOperatorParselet((int) Precedence.PREFIX,tokenConfig)),
-                new Prefix(TokenType.LEFT_PAREN, new GroupParselet()),
-                new Prefix(TokenType.PLUS, new PrefixOperatorParselet((int) Precedence.PREFIX,tokenConfig))
-            };
-
-            Infix[] infixes =
-            {
-                new Infix(TokenType.ASSIGN, new AssignParselet()),
-                new Infix(TokenType.LEFT_PAREN, new CallParselet()),
-                new Infix(TokenType.PLUS, new BinaryOperatorParselet((int) Precedence.SUM, InfixType.Left,tokenConfig)),
-                new Infix(TokenType.MINUS, new BinaryOperatorParselet((int) Precedence.SUM, InfixType.Left,tokenConfig)),
-                new Infix(TokenType.ASTERISK, new BinaryOperatorParselet((int) Precedence.PRODUCT, InfixType.Left,tokenConfig)),
-                new Infix(TokenType.SLASH, new BinaryOperatorParselet((int) Precedence.PRODUCT, InfixType.Left,tokenConfig)),
-                new Infix(TokenType.CARET, new BinaryOperatorParselet((int) Precedence.PRODUCT, InfixType.Right,tokenConfig))
-            };
-
-            var actual = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
-
+            var actual = Parser.Parse(expression);
             const string expected = "(a = ((b + (c * (d ^ e))) - (f / g)))";
             Assert.AreEqual(expected, actual); //Fails               
         }

@@ -1,32 +1,28 @@
 ﻿
+using System;
+using System.Collections.Generic;
+
 namespace SimpleParser
 {
     public abstract class PrefixExpressionBase<TTokenType, TTokenBase> : ISimpleExpression<TTokenBase>
     {
-        protected PrefixExpressionBase(ITokenConfig<TTokenType, TTokenBase> tokenConfig,
-            TTokenType @operator, ISimpleExpression<TTokenBase> right)
+        protected PrefixExpressionBase(
+            IDictionary<TTokenType, TTokenBase> tokenTypes,
+            TTokenType tokenType, 
+            ISimpleExpression<TTokenBase> right)
         {
-            _right = right;
-            _punctuator = tokenConfig.Punctuator(@operator);
-
-            if (!tokenConfig.IsValidPunctuator(_punctuator))
-                throw new ParseException<TTokenType>("Not A valid operator");
+            Right = right;
+            if(!tokenTypes.TryGetValue(tokenType, out var type))
+            {
+                throw new Exception($"Invalid tokenTypes:'{tokenType}'");
+            }
+            Punctuator = type;
         }
 
-        protected TTokenBase Punctuator
-        {
-            get { return _punctuator; }
-        }
+        protected TTokenBase Punctuator { get; }
 
-        protected ISimpleExpression<TTokenBase> Right
-        {
-            get { return _right; }
-        }
+        protected ISimpleExpression<TTokenBase> Right { get; }
 
         public abstract void Print(IBuilder<TTokenBase> builder);
-
-        private readonly ISimpleExpression<TTokenBase> _right;
-
-        private readonly TTokenBase _punctuator;
     }
 }

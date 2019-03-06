@@ -33,7 +33,7 @@ namespace BantamTests
         public void FakeBuilderTest()
         {
             var fake = new FakeExpression("x");
-            var builder = new FakeBuilder();
+            var builder = new Builder();
             fake.Print(builder);
             Assert.AreEqual("x", builder.Build());
         }

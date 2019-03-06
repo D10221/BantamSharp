@@ -1,20 +1,22 @@
-﻿using System;
-using SimpleParser;
-using IBuilder = SimpleParser.IBuilder<char>;
-using ISimpleExpression = SimpleParser.ISimpleExpression<char>;
+﻿using SimpleParser;
+using System;
 
 namespace Bantam
 {
     /// <summary>
     /// An assignment expression like "a = b"
     /// </summary>
-    public class AssignExpression : AssignExpressionBase<char>
+    public class AssignExpression : ISimpleExpression<char>
     {
-        public AssignExpression(String name, ISimpleExpression right) : base(name, right)
-        {
-        }
+        protected string Name { get; private set; }
+        protected ISimpleExpression<char> Right { get; private set; }
 
-        public override void Print(IBuilder builder)
+        public AssignExpression(String name, ISimpleExpression<char> right)
+        {
+            Name = name;
+            Right = right;
+        }      
+        public void Print(IBuilder<char> builder)
         {
             builder.Append("(").Append(Name).Append(" = ");
             Right.Print(builder);

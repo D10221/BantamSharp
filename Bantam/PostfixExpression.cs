@@ -1,21 +1,25 @@
-﻿
-using ITokenConfig = SimpleParser.ITokenConfig<Bantam.TokenType, char>;
-using IBuilder = SimpleParser.IBuilder<char>;
-using ISimpleExpression = SimpleParser.ISimpleExpression<char>;
-using SimpleParser;
+﻿using SimpleParser;
+using System.Collections.Generic;
 
 namespace Bantam
 {
     /// <summary>
     ///     A postfix unary arithmetic expression like "a!".
     /// </summary>
-    public class PostfixExpression : PostfixExpressionBase<TokenType, char>
+    public class PostfixExpression : ISimpleExpression<char>
     {
-        public PostfixExpression(ITokenConfig TokenConfig, ISimpleExpression left, TokenType @operator) : base(TokenConfig, left, @operator)
+        ISimpleExpression<char> Left { get; }
+
+        char Punctuator { get; }
+
+        public PostfixExpression(IDictionary<TokenType, char> tokenTypes, ISimpleExpression<char> left, TokenType tokenType)
         {
+            Left = left;
+            tokenTypes.TryGetValue(tokenType, out var type);
+            Punctuator = type;
         }
 
-        public override void Print(IBuilder builder)
+        public void Print(IBuilder<char> builder)
         {
             builder.Append("(");
             Left.Print(builder);

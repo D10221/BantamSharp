@@ -1,7 +1,8 @@
 ﻿using Bantam;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Parser = SimpleParser.Parser<Bantam.TokenType, char>;
+using SimpleParser;
+using System.Collections.Generic;
 
 namespace BantamTests
 {
@@ -31,14 +32,6 @@ namespace BantamTests
             Assert.AreEqual(expression, s);
         }
 
-        /* [TestMethod]
-         public void FunctionCallTest4()
-         {
-             const string expression = "a(b)(c)";
-             var s =Parse(expression);
-             Assert.AreEqual(expression,s);
-         }*/
-
         [TestMethod]
         public void FunctionCallTest5()
         {
@@ -66,11 +59,9 @@ namespace BantamTests
         }
 
         public static string Parse(string source)
-        {
-            var tokenConfig = new TokenConfig();
-            var lexer = new Lexer(source, tokenConfig);
-            var parser = new Parser(lexer, new BantamMap(tokenConfig));
-
+        {            
+            var lexer = new Lexer(source, Parser.TokenConfig);
+            var parser = new Parser<TokenType, char>(lexer, Parser.PrefixParselets, Parser.InfixParselets);
             var result = parser.ParseExpression();
             var builder = new Builder();
             result.Print(builder);

@@ -1,18 +1,19 @@
-﻿using System;
-using SimpleParser;
-using IBuilder = SimpleParser.IBuilder<char>;
+﻿using SimpleParser;
 
 namespace Bantam
 {
     /// <summary>
     /// A simple variable name expression like "abc".
     /// </summary>
-    public class NameExpression : NameExpressionBase<char>
+    public class NameExpression : ISimpleExpression<char>
     {
-        public NameExpression(string name) : base(name)
+        public string Name { get; private set; }
+
+        public NameExpression(string name)
         {
+            Name = name;
         }
-        public override void Print(IBuilder builder)
+        public void Print(IBuilder<char> builder)
         {
             builder.Append(Name);
         }

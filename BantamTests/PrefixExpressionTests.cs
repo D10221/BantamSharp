@@ -1,6 +1,4 @@
 ﻿using Bantam;
-
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
 
@@ -11,12 +9,11 @@ namespace BantamTests
     {
         [TestMethod]
         public void PrefixExpressionTest()
-        {
-            var tokenConfig = new TokenConfig();
+        {            
             const TokenType @operator = TokenType.MINUS;
             var right = new FakeExpression("A");
-            var exression = new PrefixExpression(tokenConfig, @operator, right);
-            var builder = new FakeBuilder();
+            var exression = new PrefixExpression(Parser.TokenConfig, @operator, right);
+            var builder = new Builder();
             exression.Print(builder);
             var actual = builder.Build();
             Assert.AreEqual("(-A)", actual);
@@ -24,12 +21,11 @@ namespace BantamTests
 
         [TestMethod]
         public void PrefixExpressionTest2()
-        {
-            var tokenConfig = new TokenConfig();
+        {            
             const TokenType @operator = TokenType.BANG;
             var right = new FakeExpression("A");
-            var exression = new PrefixExpression(tokenConfig, @operator, right);
-            var builder = new FakeBuilder();
+            var exression = new PrefixExpression(Parser.TokenConfig, @operator, right);
+            var builder = new Builder();
             exression.Print(builder);
             var actual = builder.Build();
             Assert.AreEqual("(!A)", actual);
@@ -37,12 +33,11 @@ namespace BantamTests
 
         [TestMethod]
         public void PrefixExpressionTest3()
-        {
-            var tokenConfig = new TokenConfig();
+        {            
             const TokenType @operator = TokenType.PLUS;
             var right = new FakeExpression("A");
-            var exression = new PrefixExpression(tokenConfig, @operator, right);
-            var builder = new FakeBuilder();
+            var exression = new PrefixExpression(Parser.TokenConfig, @operator, right);
+            var builder = new Builder();
             exression.Print(builder);
             var actual = builder.Build();
             Assert.AreEqual("(+A)", actual);
@@ -50,12 +45,11 @@ namespace BantamTests
 
         [TestMethod]
         public void PrefixExpressionTest4()
-        {
-            var tokenConfig = new TokenConfig();
+        {            
             const TokenType @operator = TokenType.TILDE;
             var right = new FakeExpression("A");
-            var exression = new PrefixExpression(tokenConfig, @operator, right);
-            var builder = new FakeBuilder();
+            var exression = new PrefixExpression(Parser.TokenConfig, @operator, right);
+            var builder = new Builder();
             exression.Print(builder);
             var actual = builder.Build();
             Assert.AreEqual("(~A)", actual);

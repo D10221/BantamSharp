@@ -40,7 +40,7 @@ namespace BantamTests
             const string name = "a";
             ISimpleExpression right = new FakeExpression("x");
             var expresison = new AssignExpression(name, right);
-            var builder = new FakeBuilder();
+            var builder = new Builder();
             expresison.Print(builder);
             var actual = builder.Build();
             Assert.AreEqual("(a = x)", actual);

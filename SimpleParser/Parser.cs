@@ -14,22 +14,37 @@ namespace SimpleParser
         private readonly ILexer<TTokenType, TCHAR> _lexer;
         private readonly List<IToken<TTokenType>> _tokens = new List<IToken<TTokenType>>();
 
-        #endregion
+        private readonly IDictionary<TTokenType, IParselet<TTokenType, TCHAR>> _prefixParselets = new Dictionary<TTokenType, IParselet<TTokenType, TCHAR>>();
 
-        public Parser(ILexer<TTokenType, TCHAR> lexer, IParserMap<TTokenType, TCHAR> parserMap)
+        private readonly IDictionary<TTokenType, InfixParselet<TTokenType, TCHAR>> _infixParselets = new Dictionary<TTokenType, InfixParselet<TTokenType, TCHAR>>();
+
+        #endregion
+        public Parser(
+            ILexer<TTokenType, TCHAR> lexer,
+            IDictionary<TTokenType, IParselet<TTokenType, TCHAR>> prefixParselets,
+            IDictionary<TTokenType, InfixParselet<TTokenType, TCHAR>> infixParselets)
         {
-            _parserMap = parserMap;
             _lexer = lexer;
+            _prefixParselets = prefixParselets;
+            _infixParselets = infixParselets;
         }
 
         private IParselet<TTokenType, TCHAR> GetPrefixParselet(TTokenType tokenType)
         {
-            return _parserMap.GetPrefixParselet(tokenType);
+            _prefixParselets.TryGetValue(tokenType, out var value);
+            return value;
+        }
+
+        private InfixParselet<TTokenType, TCHAR> GetInfixParselet(TTokenType tokenType)
+        {
+            _infixParselets.TryGetValue(tokenType, out var value);
+            return value;
         }
 
         private InfixParselet<TTokenType, TCHAR> GetInfixParselet(IToken<TTokenType> atoken)
         {
-            return _parserMap.GetInfixParselet(atoken.TokenType);
+            _infixParselets.TryGetValue(atoken.TokenType, out var value);
+            return value;
         }
 
         #region IParser
@@ -40,15 +55,15 @@ namespace SimpleParser
 
             var prefix =
                 GetPrefixParselet(token.TokenType);
-            if (prefix == null) throw new ParseException<TTokenType>("No Prefix found for @name"
-                         .Replace("@name", token.GetText()), token);
-
-            var left = prefix.Parse(this, token); //Expression
+            var left = prefix?.Parse(this, token); //Expression
             while (precedence < GetPrecedence())
             {
                 var atoken = Consume();
-                var p = GetInfixParselet(atoken);
-                if (p != null) { left = p.Parse(this, left, atoken); }
+                if (atoken.HasValue)
+                {
+                    var p = GetInfixParselet(atoken);
+                    if (p != null) { left = p.Parse(this, left, atoken); }
+                }
             }
             return left;
         }
@@ -106,7 +121,7 @@ namespace SimpleParser
 
         private int GetPrecedence(TTokenType tokenType)
         {
-            var result = _parserMap.GetInfixParselet(tokenType);
+            var result = GetInfixParselet(tokenType);
             if (result != null)
                 return result.Precedence;
             return 0;
@@ -114,7 +129,5 @@ namespace SimpleParser
             /* _parserMap.GetInfixParselet(tokenType)
                  .OnSuccess(x => precedence = x.Precedence);*/
         }
-
-        private readonly IParserMap<TTokenType, TCHAR> _parserMap;
     }
 }

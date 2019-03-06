@@ -1,25 +1,19 @@
 ﻿using Bantam;
-
-using IParser = SimpleParser.IParser<Bantam.TokenType, char>;
-using IParserMap = SimpleParser.IParserMap<Bantam.TokenType, char>;
-using ISimpleExpression = SimpleParser.ISimpleExpression<char>;
-using IToken = SimpleParser.IToken<Bantam.TokenType>;
+using SimpleParser;
 
 namespace BantamTests
 {
-    public class FakeParser : IParser
+    public class FakeParser : IParser<Bantam.TokenType, char>
     {
         private readonly NameExpression _expression;
-        private readonly IParserMap _parserMap;
 
-        public FakeParser(NameExpression expression, IParserMap parserMap)
+        public FakeParser(NameExpression expression)
         {
-            _expression = expression;
-            _parserMap = parserMap;
+            _expression = expression;            
         }
 
 
-        public ISimpleExpression ParseExpression(int precedence)
+        public ISimpleExpression<char> ParseExpression(int precedence)
         {
             return _expression;
         }
@@ -29,12 +23,12 @@ namespace BantamTests
             throw new System.NotImplementedException();
         }
 
-        public IToken Consume(TokenType expected)
+        public IToken<TokenType> Consume(TokenType expected)
         {
             throw new System.NotImplementedException();
         }
 
-        public IToken Consume()
+        public IToken<TokenType> Consume()
         {
             throw new System.NotImplementedException();
         }

@@ -1,21 +1,35 @@
-﻿
-using ITokenConfig = SimpleParser.ITokenConfig<Bantam.TokenType, char>;
-using IBuilder = SimpleParser.IBuilder<char>;
+﻿using SimpleParser;
+using System.Collections.Generic;
 using ISimpleExpression = SimpleParser.ISimpleExpression<char>;
-using SimpleParser;
 
 namespace Bantam
 {
     /// <summary>
     ///     A binary arithmetic expression like "a + b" or "c ^ d"
     /// </summary>
-    public class OperatorExpression : OperatorExpressionBase<TokenType, char>
+    public class OperatorExpression : ISimpleExpression<char>
     {
-        public OperatorExpression(ITokenConfig
-            tokenConfig, ISimpleExpression left, TokenType @operator, ISimpleExpression right) : base(tokenConfig, left, @operator, right)
+        ISimpleExpression<char> Left { get; }
+
+        ISimpleExpression<char> Right { get; }
+
+        char Punctuator { get; set; }
+
+        public OperatorExpression(
+            IDictionary<TokenType, char> tokenTypes,
+            TokenType tokenType,
+            ISimpleExpression left,
+            ISimpleExpression right)
         {
+            Left = left;
+            Right = right;
+            if (!tokenTypes.TryGetValue(tokenType, out var x))
+            {
+                throw new ParseException<TokenType>($"Invalid tokenType: '{tokenType.ToString()}'");
+            }
+            Punctuator = x;
         }
-        public override void Print(IBuilder builder)
+        public void Print(IBuilder<char> builder)
         {
             builder.Append("(");
             Left.Print(builder);

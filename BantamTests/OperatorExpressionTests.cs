@@ -1,10 +1,8 @@
-﻿using System;
-using Bantam;
-
-
+﻿using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ParseException = SimpleParser.ParseException<Bantam.TokenType>;
+using System;
 using IBuilder = SimpleParser.IBuilder<char>;
+using ParseException = SimpleParser.ParseException<Bantam.TokenType>;
 
 namespace BantamTests
 {
@@ -17,9 +15,8 @@ namespace BantamTests
             var left = new FakeExpression("x");
             var right = new FakeExpression("y");
             const TokenType @operator = TokenType.PLUS;
-            var tokenConfig = new TokenConfig();
-            var expression = new OperatorExpression(tokenConfig, left, @operator, right);
-            IBuilder builder = new FakeBuilder();
+            var expression = new OperatorExpression(Parser.TokenConfig, @operator, left, right);
+            IBuilder builder = new Builder();
             expression.Print(builder);
             var actual = builder.Build();
             Assert.AreEqual("(x + y)", actual);
@@ -31,11 +28,10 @@ namespace BantamTests
             Exception ex = null;
             try
             {
-                var tokenConfig = new TokenConfig();
                 var left = new FakeExpression("x");
                 var right = new FakeExpression("y");
                 const TokenType @operator = TokenType.NONE;
-                var expression = new OperatorExpression(tokenConfig, left, @operator, right);
+                var expression = new OperatorExpression(Parser.TokenConfig, @operator, left, right);
                 //Just to stop the compiler warning becasue is not used 
                 Assert.IsNotNull(expression);
             }

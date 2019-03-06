@@ -12,7 +12,7 @@ namespace BantamTests
         [TestMethod]
         public void NextTest()
         {
-            var lexer = new Lexer("a + b - abc", new TokenConfig());
+            var lexer = new Lexer("a + b - abc", Parser.TokenConfig);
 
             var a = lexer.Next();
             Assert.AreEqual("a", a.GetText());
@@ -32,7 +32,7 @@ namespace BantamTests
         public void Test2()
         {
             const string expression = "((-a) * b)";
-            var a = new Lexer(expression, new TokenConfig());
+            var a = new Lexer(expression, Parser.TokenConfig);
             var splitted = expression.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).ToArray();
             foreach (var c in splitted)
             {
@@ -43,7 +43,7 @@ namespace BantamTests
         [TestMethod]
         public void InputTextTest()
         {
-            ILexer lexer = new Lexer("a+b", new TokenConfig());
+            ILexer lexer = new Lexer("a+b", Parser.TokenConfig);
             Assert.AreEqual("a+b", lexer.InputText);
         }
     }

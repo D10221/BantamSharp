@@ -1,11 +1,8 @@
-﻿using System;
+﻿using SimpleParser;
+using System;
 using System.Collections.Generic;
-
 using System.Linq;
 using System.Text.RegularExpressions;
-using SimpleParser;
-using IToken = SimpleParser.IToken<Bantam.TokenType>;
-using ILexer = SimpleParser.ILexer<Bantam.TokenType, char>;
 
 namespace Bantam
 {
@@ -17,35 +14,33 @@ namespace Bantam
     // not supported. This is really just the bare minimum to give the parser
     // something to work with.
     /// </summary>
-    public class Lexer : ILexer
+    public class Lexer : ILexer<TokenType, char>
     {
+        private readonly IDictionary<TokenType, char> _tokenTypes;
+        private readonly IDictionary<char, TokenType> _charTypes;
+
         /// <summary>
         /// Creates a new Lexer to tokenize the given string.
         /// @param text String to tokenize.
         /// </summary>
-        public Lexer(string text, TokenConfig tokenConfig)
+        public Lexer(string text, IDictionary<TokenType, char> tokenTypes)
         {
-            TokenConfig = tokenConfig;
-            _text = text.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).ToArray();
-            _enumerator = text.ToCharArray().Cast<Char>().GetEnumerator();
+            _tokenTypes = tokenTypes;
+            _charTypes = _tokenTypes.ToDictionary(x => x.Value, x => x.Key);
+            _text = text.ToCharArray().Where(c => !char.IsWhiteSpace(c) && c != Char.MinValue).ToArray();
+            _enumerator = _text.GetEnumerator();
         }
 
-        public TokenConfig TokenConfig { get; set; }
-
-        private IToken TryGetPunctuator(char c)
+        private IToken<TokenType> TryGetPunctuator(char c)
         {
-            var token = TokenConfig.TokenTypes
-                .GetTokenType(c)
-                .Extract(tt => new Token<TokenType>(tt.TknType(), AsString(tt)));
-            return token;
+            if (!_charTypes.TryGetValue(c, out var t))
+            {
+                return Token<TokenType>.Empty();
+            }
+            return Token.New(t, c);
         }
 
-        private static string AsString(Tuple<TokenType, char> tt)
-        {
-            return tt.Value().ToString();
-        }
-
-        private IToken TryGetLetter(char c)
+        private IToken<TokenType> TryGetLetter(char c)
         {
             var input = c.ToString();
             return LooksLikeLetter(input) ? new Token<TokenType>(TokenType.NAME, input) : Token<TokenType>.Empty();
@@ -77,32 +72,43 @@ namespace Bantam
             }
         }
 
-        private readonly Func<IEnumerator<Char>, Iteration> _moveNext = enumerator =>
+        private readonly Func<IEnumerator<char>, Iteration> _moveNext = enumerator =>
         {
             var ok = enumerator.MoveNext();
             var eof = !ok;
-            return new Iteration(ok, eof, ok ? enumerator.Current : default(Char));
+            return new Iteration(ok, eof, ok ? enumerator.Current : default(char));
         };
 
-        public IToken Next()
+        public IToken<TokenType> Next()
         {
-            var token = Token<TokenType>.Empty();
-
-            var eof = false;
-
             for (var current = _moveNext(_enumerator); current.Ok; current = _moveNext(_enumerator))
             {
-                eof = current.Eof;
-                token = TryGetPunctuator(current.Char);
-                if (token != null) break;
+                if (current.Eof)
+                {
+                    return new Token<TokenType>(TokenType.EOF, "");
+                }
+                else
+                {
+                    {   // Punct, operations 
+                        var token = TryGetPunctuator(current.Char);
+                        if (token != null && token.HasValue)
+                        {
+                            return token;
+                        }
 
-                token = TryGetLetter(current.Char);
-                if (token.HasValue) break;
+                    }
+                    {  // Values, letters numbers 
+                        var token = TryGetLetter(current.Char);
+                        if (token != null && token.HasValue)
+                        {
+                            return token;
+                        }
+                    }
+                    throw new Exception($"Invalid Character:'{current}'");
+                }
             }
 
-            if (eof) return new Token<TokenType>(TokenType.EOF, "");
-
-            return token;
+            return Token<TokenType>.Empty();
         }
 
         public IEnumerable<char> InputText

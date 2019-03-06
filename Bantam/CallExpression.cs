@@ -1,22 +1,23 @@
-﻿using System.Collections.Generic;
-using SimpleParser;
-using IBuilder = SimpleParser.IBuilder<char>;
-using ISimpleExpression = SimpleParser.ISimpleExpression<char>;
+﻿using SimpleParser;
+using System.Collections.Generic;
 
 namespace Bantam
 {
     /// <summary>
     /// A function call like "a(b, c, d) OR a(x)(z)".
     /// </summary>
-    public class CallExpression : CallExpressionBase<char>
+    public class CallExpression: ISimpleExpression<char>
     {
-        public CallExpression(ISimpleExpression function, List<ISimpleExpression> args) : base(function, args)
+        public CallExpression(ISimpleExpression<char> function, List<ISimpleExpression<char>> args)
         {
+            Function = function;
+
+            Args = args ?? new List<ISimpleExpression<char>>();
         }
 
-        public override void Print(IBuilder builder)
+        public void Print(IBuilder<char> builder)
         {
-            Function.Print(builder);
+            Function?.Print(builder);
             builder.Append("(");
             for (var i = 0; i < Args.Count; i++)
             {
@@ -25,5 +26,10 @@ namespace Bantam
             }
             builder.Append(")");
         }
+
+        protected ISimpleExpression<char> Function { get; private set; }
+
+        protected List<ISimpleExpression<char>> Args { get; private set; }
+
     }
 }

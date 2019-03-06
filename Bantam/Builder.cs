@@ -1,19 +1,19 @@
-﻿using System.Collections.Generic;
-using IBuilder = SimpleParser.IBuilder<char>;
+﻿using SimpleParser;
+using System.Collections.Generic;
 
-namespace BantamTests
+namespace Bantam
 {
-    public class FakeBuilder : IBuilder
+    public class Builder : IBuilder<char>
     {
         private string _result;
 
-        public IBuilder Append(IEnumerable<char> s)
+        public IBuilder<char> Append(IEnumerable<char> s)
         {
             _result += s;
             return this;
         }
 
-        public IBuilder Append(char c)
+        public IBuilder<char> Append(char c)
         {
             _result += c.ToString();
             return this;

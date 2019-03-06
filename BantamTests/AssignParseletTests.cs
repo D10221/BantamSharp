@@ -4,7 +4,6 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
-using Token = SimpleParser.Token<Bantam.TokenType>;
 
 namespace BantamTests
 {
@@ -16,7 +15,7 @@ namespace BantamTests
         {
             var parselet = new AssignParselet();
             var token = Token.New(TokenType.ASSIGN, "=");
-            var parser = new FakeParser(new NameExpression("a"), null);
+            var parser = new FakeParser(new NameExpression("a"));
             var left = new NameExpression("A");
             var p = parselet.Parse(parser, left, token);
             var builder = new Builder();

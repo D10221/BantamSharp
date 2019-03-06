@@ -18,7 +18,6 @@ namespace BantamTests
             string actual = _builder.Build();
             Assert.AreEqual("a()", actual);
         }
-
         [TestMethod]
         public void TestMethod2()
         {
@@ -28,6 +27,6 @@ namespace BantamTests
             exp.Print(_builder);
             string actual = _builder.Build();
             Assert.AreEqual("()", actual);
-        }
+        }        
     }
 }

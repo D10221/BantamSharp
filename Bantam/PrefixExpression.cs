@@ -1,8 +1,6 @@
 ﻿
-using ITokenConfig = SimpleParser.ITokenConfig<Bantam.TokenType, char>;
-using IBuilder = SimpleParser.IBuilder<char>;
-using ISimpleExpression = SimpleParser.ISimpleExpression<char>;
 using SimpleParser;
+using System.Collections.Generic;
 
 namespace Bantam
 {
@@ -11,12 +9,12 @@ namespace Bantam
     /// </summary>
     public class PrefixExpression : PrefixExpressionBase<TokenType, char>
     {
-        public PrefixExpression(ITokenConfig tokenConfig, TokenType @operator, ISimpleExpression right)
-            : base(tokenConfig, @operator, right)
+        public PrefixExpression(IDictionary<TokenType, char> tokenTypes, TokenType @operator, ISimpleExpression<char> right)
+            : base(tokenTypes, @operator, right)
         {
         }
 
-        public override void Print(IBuilder builder)
+        public override void Print(IBuilder<char> builder)
         {
             builder.Append("(").Append(Punctuator);
             Right.Print(builder);

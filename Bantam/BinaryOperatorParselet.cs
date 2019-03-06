@@ -1,9 +1,9 @@
 ﻿
 using SimpleParser;
+using System.Collections.Generic;
 using IParser = SimpleParser.IParser<Bantam.TokenType, char>;
 using ISimpleExpression = SimpleParser.ISimpleExpression<char>;
 using IToken = SimpleParser.IToken<Bantam.TokenType>;
-using ITokenConfig = SimpleParser.ITokenConfig<Bantam.TokenType, char>;
 
 namespace Bantam
 {
@@ -16,13 +16,15 @@ namespace Bantam
     {
         public int Precedence { get; }
 
-        private readonly bool _isRight;
-        private readonly ITokenConfig _tokenConfig;
+        IDictionary<TokenType, char> TokenTypes { get; }
 
-        public BinaryOperatorParselet(int precedence, InfixType infixType, ITokenConfig tokenConfig)
+        private readonly bool _isRight;
+
+
+        public BinaryOperatorParselet(int precedence, InfixType infixType, IDictionary<TokenType, char> tokenTypes)
         {
             Precedence = precedence;
-            _tokenConfig = tokenConfig;
+            TokenTypes = tokenTypes;
             _isRight = infixType == InfixType.Right;
         }
 
@@ -34,7 +36,7 @@ namespace Bantam
             // take *this* parselet's result as its left-hand argument.
             var right = parser.ParseExpression(Precedence - (_isRight ? 1 : 0));
 
-            return new OperatorExpression(_tokenConfig, left, token.TokenType, right);
+            return new OperatorExpression(TokenTypes, token.TokenType, left, right);
         }
     }
 }

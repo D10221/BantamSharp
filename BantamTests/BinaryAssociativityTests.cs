@@ -1,8 +1,6 @@
 ﻿using Bantam;
-
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SimpleParser;
+using System.Collections.Generic;
 using Infix = System.Tuple<Bantam.TokenType, SimpleParser.InfixParselet<Bantam.TokenType, char>>;
 using Prefix = System.Tuple<Bantam.TokenType, SimpleParser.IParselet<Bantam.TokenType, char>>;
 
@@ -11,6 +9,25 @@ namespace BantamTests
     [TestClass]
     public class BinaryAssociativityTests
     {
+        IDictionary<TokenType, char> tokenTypes = new Dictionary<TokenType, char>
+            {
+                { TokenType.LEFT_PAREN, '('},
+                { TokenType.RIGHT_PAREN, ')'},
+                { TokenType.COMMA, ','},
+                { TokenType.ASSIGN, '='},
+                { TokenType.PLUS, '+'},
+                { TokenType.MINUS, '-'},
+                { TokenType.ASTERISK, '*'},
+                { TokenType.SLASH, '/'},
+                { TokenType.CARET, '^'},
+                { TokenType.TILDE, '~'},
+                { TokenType.BANG, '!'},
+                { TokenType.QUESTION, '?'},
+                { TokenType.COLON, ';'},
+                { TokenType.NAME, default(char)},
+                { TokenType.EOF, default(char)}
+            };
+
         [TestMethod]
         public void TestMethod1()
         {
@@ -28,7 +45,7 @@ namespace BantamTests
                 new Infix(TokenType.LEFT_PAREN, new CallParselet()),
             };
 
-            string actual = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
+            string actual = Parser.Parse(expression);
             const string expected = "(a = (b = c))";
             Assert.AreEqual(expected, actual);
         }
@@ -37,19 +54,7 @@ namespace BantamTests
         public void TestMethod2()
         {
             const string expression = "a + b - c";
-            var tokenConfig = new TokenConfig();
-            Prefix[] prefixes =
-            {
-                new Prefix(TokenType.NAME, new NameParselet()),
-            };
-
-            Infix[] infixes =
-            {
-                new Infix(TokenType.PLUS, new BinaryOperatorParselet((int) Precedence.SUM, InfixType.Left,tokenConfig)),
-                new Infix(TokenType.MINUS, new BinaryOperatorParselet((int) Precedence.SUM, InfixType.Left,tokenConfig)),
-            };
-
-            string actual = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
+            string actual = Parser.Parse(expression);
             const string expected = "((a + b) - c)";
             Assert.AreEqual(expected, actual);
         }
@@ -60,19 +65,7 @@ namespace BantamTests
             // BinaryAssociativity.
             // _expectationses.AddExpectation("a ^ b ^ c", "(a ^ (b ^ c))");
             const string expression = "a * b / c";
-            var tokenConfig = new TokenConfig();
-            Prefix[] prefixes =
-            {
-                new Prefix(TokenType.NAME, new NameParselet()),
-            };
-
-            Infix[] infixes =
-            {
-                new Infix(TokenType.ASTERISK, new BinaryOperatorParselet((int) Precedence.PRODUCT, InfixType.Left,tokenConfig)),
-                new Infix(TokenType.SLASH, new BinaryOperatorParselet((int)Precedence.PRODUCT, InfixType.Left,tokenConfig)),
-            };
-
-            string actual = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
+            string actual = Parser.Parse(expression);
             const string expected = "((a * b) / c)";
             Assert.AreEqual(expected, actual); //Fails           
         }
@@ -81,18 +74,7 @@ namespace BantamTests
         public void TestMethod4()
         {
             const string expression = "a ^ b ^ c";
-            var tokenConfig = new TokenConfig();
-            Prefix[] prefixes =
-            {
-                new Prefix(TokenType.NAME, new NameParselet()),
-            };
-
-            Infix[] infixes =
-            {
-                new Infix(TokenType.CARET, new BinaryOperatorParselet((int) Precedence.PRODUCT, InfixType.Right,tokenConfig)),
-            };
-
-            var actual = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
+            var actual = Parser.Parse(expression);
             const string expected = "(a ^ (b ^ c))";
             Assert.AreEqual(expected, actual); //Fails           
         }
