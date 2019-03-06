@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+dotnet build SimpleParser && dotnet build Bantam && dotnet test BantamTests
