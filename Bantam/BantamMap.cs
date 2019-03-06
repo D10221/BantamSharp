@@ -1,19 +1,16 @@
 ﻿
 using SimpleParser;
 using System.Collections.Generic;
-using InfixParselet = SimpleParser.InfixParselet<Bantam.TokenType, char>;
-using IParserMap = SimpleParser.IParserMap<Bantam.TokenType, char>;
-using IParselet = SimpleParser.IParselet<Bantam.TokenType, char>;
-using ITokenConfig = SimpleParser.ITokenConfig<Bantam.TokenType, char>;
+
 
 namespace Bantam
 {
-    public class BantamMap : IParserMap
+    public class BantamMap : IParserMap<TokenType, char>
     {
-        private readonly IDictionary<TokenType, IParselet> _prefixParselets = new Dictionary<TokenType, IParselet>();
-        private readonly IDictionary<TokenType, InfixParselet> _infixParselets = new Dictionary<TokenType, InfixParselet>();
+        private readonly IDictionary<TokenType, IParselet<TokenType, char>> _prefixParselets = new Dictionary<TokenType, IParselet<TokenType, char>>();
+        private readonly IDictionary<TokenType, InfixParselet<TokenType, char>> _infixParselets = new Dictionary<TokenType, InfixParselet<TokenType, char>>();
 
-        public BantamMap(ITokenConfig tokenConfig)
+        public BantamMap(ITokenConfig<TokenType, char> tokenConfig)
         {
 
             // Register all of the parselets for the grammar.    
@@ -39,25 +36,25 @@ namespace Bantam
             _infixParselets.Add(TokenType.CARET, new BinaryOperatorParselet((int)Precedence.EXPONENT, InfixType.Right, tokenConfig));
         }
 
-        public void Register(TokenType tokenType, IParselet parselet)
+        public void Register(TokenType tokenType, IParselet<TokenType, char> parselet)
         {
             _prefixParselets.Add(tokenType, parselet);
         }
 
-        public void Register(TokenType tokenType, InfixParselet parselet)
+        public void Register(TokenType tokenType, InfixParselet<TokenType, char> parselet)
         {
             _infixParselets.Add(tokenType, parselet);
         }
 
-        public InfixParselet GetInfixParselet(TokenType tokenType)
+        public InfixParselet<TokenType, char> GetInfixParselet(TokenType tokenType)
         {
-            _infixParselets.TryGetValue(tokenType, out InfixParselet parselet);
+            _infixParselets.TryGetValue(tokenType, out InfixParselet<TokenType, char> parselet);
             return parselet;
         }
 
-        public IParselet GetPrefixParselet(TokenType tokenType)
+        public IParselet<TokenType, char> GetPrefixParselet(TokenType tokenType)
         {
-            _prefixParselets.TryGetValue(tokenType, out IParselet parselet);
+            _prefixParselets.TryGetValue(tokenType, out IParselet<TokenType, char> parselet);
             return parselet;
         }
     }
