@@ -81,33 +81,27 @@ namespace Bantam
 
         public IToken<TokenType> Next()
         {
+            IToken<TokenType> token = Token<TokenType>.Empty(); ;
+
             for (var current = _moveNext(_enumerator); current.Ok; current = _moveNext(_enumerator))
             {
                 if (current.Eof)
                 {
-                    return new Token<TokenType>(TokenType.EOF, "");
+                    token = new Token<TokenType>(TokenType.EOF, "");
+                    break;
                 }
-                else
+                token = TryGetPunctuator(current.Char);
+                if (token != null && token.HasValue) break;
+
+                token = TryGetLetter(current.Char);
+                if (token != null && token.HasValue) break;
+
+                if (!current.Eof)
                 {
-                    {   // Punct, operations 
-                        var token = TryGetPunctuator(current.Char);
-                        if (token != null && token.HasValue)
-                        {
-                            return token;
-                        }
-                    }
-                    {  // Values, letters numbers 
-                        var token = TryGetLetter(current.Char);
-                        if (token != null && token.HasValue)
-                        {
-                            return token;
-                        }
-                    }
                     throw new Exception($"Invalid Character:'{current}'");
                 }
             }
-
-            return Token<TokenType>.Empty();
+            return token;
         }
 
         public IEnumerable<char> InputText
