@@ -8,11 +8,11 @@ using Token = SimpleParser.Token<Bantam.TokenType>;
 
 namespace BantamTests
 {
-    public class FakeLexer : ILexer<TokenType,char>
+    public class FakeLexer : ILexer<TokenType, char>
     {
         private readonly string _input;
 
-        private IDictionary<TokenType,char> _punctuators = new Dictionary<TokenType, char>
+        private IDictionary<TokenType, char> _punctuators = new Dictionary<TokenType, char>
         {
             {TokenType.LEFT_PAREN,'('},
             {TokenType.RIGHT_PAREN,')'},
@@ -51,18 +51,18 @@ namespace BantamTests
             if (Char.IsWhiteSpace(c)) return TokenType.NONE;
             //FIXME:
             if (char.IsLetterOrDigit(c)) return TokenType.NAME;
-            
+
             var found = _punctuators.FirstOrDefault(p => p.Value == c);
             if (found.Value != default(char)) return found.Key;
 
             throw new LexerException(String.Format("Don't know what to do with {0}", AsText(c)));
         }
 
-       
+
         public IToken<TokenType> Next()
         {
-            if(_enumerator.MoveNext())
-            return _enumerator.Current;
+            if (_enumerator.MoveNext())
+                return _enumerator.Current;
             return Token.Empty();
         }
 

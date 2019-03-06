@@ -11,8 +11,8 @@ namespace Bantam
     /// </summary>
     public class OperatorExpression : OperatorExpressionBase<TokenType, char>
     {
-        public OperatorExpression(ITokenConfig 
-            tokenConfig,ISimpleExpression left, TokenType @operator, ISimpleExpression right) : base(tokenConfig, left, @operator, right)
+        public OperatorExpression(ITokenConfig
+            tokenConfig, ISimpleExpression left, TokenType @operator, ISimpleExpression right) : base(tokenConfig, left, @operator, right)
         {
         }
         public override void Print(IBuilder builder)
@@ -22,7 +22,6 @@ namespace Bantam
             builder.Append(" ").Append(Punctuator).Append(" ");
             Right.Print(builder);
             builder.Append(")");
-
         }
     }
 }

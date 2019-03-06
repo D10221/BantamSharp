@@ -2,7 +2,8 @@
 using System.Linq;
 using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ILexer = SimpleParser.ILexer<Bantam.TokenType,char>;
+using ILexer = SimpleParser.ILexer<Bantam.TokenType, char>;
+
 namespace BantamTests
 {
     [TestClass]
@@ -25,7 +26,6 @@ namespace BantamTests
             //This Lexer Can't handle Words
             /*var abc = lexer.Next();
             Assert.Equals("abc", abc.GetText());*/
-
         }
 
         [TestMethod]
@@ -36,18 +36,15 @@ namespace BantamTests
             var splitted = expression.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).ToArray();
             foreach (var c in splitted)
             {
-                Assert.AreEqual(a.Next().GetText(),c.ToString());
+                Assert.AreEqual(a.Next().GetText(), c.ToString());
             }
-            
-            
         }
 
         [TestMethod]
         public void InputTextTest()
         {
             ILexer lexer = new Lexer("a+b", new TokenConfig());
-            Assert.AreEqual("a+b",lexer.InputText);
+            Assert.AreEqual("a+b", lexer.InputText);
         }
     }
-
 }

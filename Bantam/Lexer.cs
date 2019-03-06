@@ -9,7 +9,6 @@ using ILexer = SimpleParser.ILexer<Bantam.TokenType, char>;
 
 namespace Bantam
 {
-
     /// <summary>
     /// A very primitive lexer. Takes a string and splits it into a series of
     // Tokens. Operators and punctuation are mapped to unique keywords. Names,
@@ -18,7 +17,7 @@ namespace Bantam
     // not supported. This is really just the bare minimum to give the parser
     // something to work with.
     /// </summary>
-    public class Lexer: ILexer
+    public class Lexer : ILexer
     {
         /// <summary>
         /// Creates a new Lexer to tokenize the given string.
@@ -47,9 +46,9 @@ namespace Bantam
         }
 
         private IToken TryGetLetter(char c)
-        {            
+        {
             var input = c.ToString();
-            return LooksLikeLetter(input) ? new Token<TokenType>( TokenType.NAME,input) : Token<TokenType>.Empty();
+            return LooksLikeLetter(input) ? new Token<TokenType>(TokenType.NAME, input) : Token<TokenType>.Empty();
         }
 
         private static bool LooksLikeLetter(string input)
@@ -63,7 +62,7 @@ namespace Bantam
         {
             public Iteration(bool ok, bool eof, char c)
             {
-                Ok = ok;Eof = eof;Char = c;
+                Ok = ok; Eof = eof; Char = c;
             }
 
             public char Char { get; private set; }
@@ -78,39 +77,39 @@ namespace Bantam
             }
         }
 
-        readonly Func<IEnumerator<Char>, Iteration> moveNext = enumerator =>
+        private readonly Func<IEnumerator<Char>, Iteration> _moveNext = enumerator =>
         {
             var ok = enumerator.MoveNext();
             var eof = !ok;
-            return new Iteration(ok, eof,ok ? enumerator.Current : default(Char));
+            return new Iteration(ok, eof, ok ? enumerator.Current : default(Char));
         };
 
         public IToken Next()
         {
-            var token = Token<TokenType>.Empty();            
+            var token = Token<TokenType>.Empty();
 
-            var eof = false;                        
+            var eof = false;
 
-            for (var current = moveNext(_enumerator);current.Ok; current = moveNext(_enumerator))
+            for (var current = _moveNext(_enumerator); current.Ok; current = _moveNext(_enumerator))
             {
                 eof = current.Eof;
                 token = TryGetPunctuator(current.Char);
                 if (token != null) break;
-                
+
                 token = TryGetLetter(current.Char);
-                if (token.HasValue ) break;                
+                if (token.HasValue) break;
             }
-            
+
             if (eof) return new Token<TokenType>(TokenType.EOF, "");
 
-            return token ;                                
+            return token;
         }
 
         public IEnumerable<char> InputText
         {
             get
             {
-                return _text.Select(a=> a.ToString()).Aggregate((a, b) => a + b);
+                return _text.Select(a => a.ToString()).Aggregate((a, b) => a + b);
             }
         }
         private readonly IEnumerable<char> _text;

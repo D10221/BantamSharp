@@ -1,7 +1,8 @@
-﻿namespace SimpleParser
+﻿
+namespace SimpleParser
 {
     public enum InfixType
     {
-        Left,Right
+        Left, Right
     }
 }

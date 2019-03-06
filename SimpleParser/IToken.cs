@@ -1,4 +1,5 @@
-﻿namespace SimpleParser
+﻿
+namespace SimpleParser
 {
     //TOkenType is the current enum 
     public interface IToken<TTokenType>

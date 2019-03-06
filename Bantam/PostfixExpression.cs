@@ -11,7 +11,7 @@ namespace Bantam
     /// </summary>
     public class PostfixExpression : PostfixExpressionBase<TokenType, char>
     {
-        public PostfixExpression(ITokenConfig TokenConfig,ISimpleExpression left, TokenType @operator) : base(TokenConfig, left, @operator)
+        public PostfixExpression(ITokenConfig TokenConfig, ISimpleExpression left, TokenType @operator) : base(TokenConfig, left, @operator)
         {
         }
 
@@ -21,6 +21,5 @@ namespace Bantam
             Left.Print(builder);
             builder.Append(Punctuator).Append(")");
         }
-
     }
 }

@@ -12,9 +12,8 @@ namespace SimpleParser
         /// <returns></returns>
         TCHAR Punctuator(TTokenType tokenType);
 
-        bool IsValidPunctuator( TCHAR c);
+        bool IsValidPunctuator(TCHAR c);
 
         IEnumerable<Tuple<TTokenType, TCHAR>> TokenTypes { get; }
-        
     }
 }

@@ -1,4 +1,5 @@
-﻿namespace SimpleParser
+﻿
+namespace SimpleParser
 {
     public abstract class PrefixExpressionBase<TTokenType, TTokenBase> : ISimpleExpression<TTokenBase>
     {

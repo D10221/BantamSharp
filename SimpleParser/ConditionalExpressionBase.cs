@@ -1,3 +1,4 @@
+
 namespace SimpleParser
 {
     public abstract class ConditionalExpressionBase<TCHAR> : ISimpleExpression<TCHAR>

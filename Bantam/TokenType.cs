@@ -1,7 +1,8 @@
-﻿namespace Bantam
+﻿
+namespace Bantam
 {
     public enum TokenType
-    {      
+    {
         NONE,
         LEFT_PAREN,
         RIGHT_PAREN,
@@ -17,7 +18,7 @@
         QUESTION,
         COLON,
         NAME,
-        EOF,             
+        EOF,
     }
     //
 }

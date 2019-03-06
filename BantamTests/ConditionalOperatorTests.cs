@@ -13,7 +13,7 @@ namespace BantamTests
     {
         [TestMethod]
         public void TestMethod1()
-        {           
+        {
             const string expression = "a ? b : c ? d : e";
 
             Prefix[] prefixes =
@@ -23,14 +23,14 @@ namespace BantamTests
 
             Infix[] infixes =
             {
-                new Infix(TokenType.QUESTION,new ConditionalParselet()),                
+                new Infix(TokenType.QUESTION,new ConditionalParselet()),
             };
 
             string actual = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
             const string expected = "(a ? b : (c ? d : e))";
-            Assert.AreEqual(expected, actual);      
+            Assert.AreEqual(expected, actual);
         }
-        
+
         [TestMethod]
         public void TestMethod2()
         {
@@ -43,17 +43,17 @@ namespace BantamTests
 
             Infix[] infixes =
             {
-                new Infix(TokenType.QUESTION,new ConditionalParselet()),                
+                new Infix(TokenType.QUESTION,new ConditionalParselet()),
             };
 
             string actual = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
             const string expected = "(a ? (b ? c : d) : e)";
-            Assert.AreEqual(expected, actual);      
+            Assert.AreEqual(expected, actual);
         }
-        
+
         [TestMethod]
         public void TestMethod3()
-        {                        
+        {
             const string expression = "a + b ? c * d : e / f";
             var tokenConfig = new TokenConfig();
             Prefix[] prefixes =
@@ -71,9 +71,7 @@ namespace BantamTests
 
             string actual = TestParser.Factory.CreateNew(prefixes, infixes).Parse(expression);
             const string expected = "((a + b) ? (c * d) : (e / f))";
-            Assert.AreEqual(expected, actual);      
+            Assert.AreEqual(expected, actual);
         }
-        
-        
     }
 }

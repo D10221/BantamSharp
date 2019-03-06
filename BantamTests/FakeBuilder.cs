@@ -19,7 +19,7 @@ namespace BantamTests
             return this;
         }
 
-        public  string Build()
+        public string Build()
         {
             return _result;
         }

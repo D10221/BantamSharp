@@ -20,6 +20,6 @@ namespace Bantam
             return new ConditionalExpression(left, thenArm, elseArm);
         }
 
-        public int Precedence { get; } = (int) Bantam.Precedence.CONDITIONAL;
+        public int Precedence { get; } = (int)Bantam.Precedence.CONDITIONAL;
     }
 }

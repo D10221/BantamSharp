@@ -377,3 +377,4 @@ UpgradeLog*.htm
 FakesAssemblies/
 
 **/.vs/*
+tools/

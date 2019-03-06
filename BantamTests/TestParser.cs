@@ -22,13 +22,13 @@ namespace BantamTests
             _tokenConfig = tokenConfig;
         }
 
-        public  string Parse(string source)
-        {            
+        public string Parse(string source)
+        {
             var lexer = new Lexer(source, _tokenConfig);
-            var parserMap = new ParserMap(_config.PrefixParselets,_config.InfixParselets);
-            var parser = new Parser(lexer,parserMap);
+            var parserMap = new ParserMap(_config.PrefixParselets, _config.InfixParselets);
+            var parser = new Parser(lexer, parserMap);
             var result = parser.ParseExpression();
-           
+
             result.Print(_builder);
             var actual = _builder.Build();
             return actual;
@@ -36,18 +36,16 @@ namespace BantamTests
 
         private readonly IBuilder _builder;
         private readonly TokenConfig _tokenConfig;
-        
-        public static readonly TestParserFactory Factory =  new TestParserFactory();
 
-        public  class TestParserFactory
-       {
-           public  TestParser CreateNew(IEnumerable<Prefix> prefixes, IEnumerable<Infix> infixes = null)
-           {
-               var config = ParserConfig.Factory.CreateNew(prefixes, infixes);
-               return new TestParser(config, new FakeBuilder(), new TokenConfig());
-           }
+        public static readonly TestParserFactory Factory = new TestParserFactory();
 
-            
-       }
+        public class TestParserFactory
+        {
+            public TestParser CreateNew(IEnumerable<Prefix> prefixes, IEnumerable<Infix> infixes = null)
+            {
+                var config = ParserConfig.Factory.CreateNew(prefixes, infixes);
+                return new TestParser(config, new FakeBuilder(), new TokenConfig());
+            }
+        }
     }
 }

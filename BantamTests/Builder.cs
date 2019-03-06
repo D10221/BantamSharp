@@ -8,7 +8,7 @@ namespace BantamTests
     /// <summary>
     /// Abstraction :)
     /// </summary>
-    public class Builder:IBuilder
+    public class Builder : IBuilder
     {
         private readonly StringBuilder _builder;
 
@@ -29,7 +29,7 @@ namespace BantamTests
             return this;
         }
 
-        public  string Build()
+        public string Build()
         {
             return _builder.ToString();
         }

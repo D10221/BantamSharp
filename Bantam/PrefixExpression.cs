@@ -11,10 +11,9 @@ namespace Bantam
     /// </summary>
     public class PrefixExpression : PrefixExpressionBase<TokenType, char>
     {
-        public PrefixExpression(ITokenConfig tokenConfig,TokenType @operator, ISimpleExpression right) 
-            : base(tokenConfig,@operator,right)
+        public PrefixExpression(ITokenConfig tokenConfig, TokenType @operator, ISimpleExpression right)
+            : base(tokenConfig, @operator, right)
         {
-           
         }
 
         public override void Print(IBuilder builder)
@@ -23,7 +22,5 @@ namespace Bantam
             Right.Print(builder);
             builder.Append(")");
         }
-
-        
     }
 }

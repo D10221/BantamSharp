@@ -12,7 +12,6 @@ namespace Bantam
 
         public BantamMap(ITokenConfig<TokenType, char> tokenConfig)
         {
-
             // Register all of the parselets for the grammar.    
             // Register the ones that need special parselets.
             _prefixParselets.Add(TokenType.NAME, new NameParselet());
@@ -58,6 +57,4 @@ namespace Bantam
             return parselet;
         }
     }
-
-
 }

@@ -12,7 +12,6 @@ namespace BantamTests
     [TestClass] //Unary and binary predecence
     public class UnaryAndBinaryPrecedenceTests
     {
-
         [TestMethod]
         public void TestMethod()
         {
@@ -36,7 +35,7 @@ namespace BantamTests
 
             const string expected = "(a+(b+c))";
 
-            Assert.AreEqual(expected, actual.Reglex("\\s","")); //Fails           
+            Assert.AreEqual(expected, actual.Reglex("\\s", "")); //Fails           
         }
 
         // Unary and binary predecence.
@@ -161,7 +160,7 @@ namespace BantamTests
                 new Prefix(TokenType.NAME, new NameParselet()),
                 new Prefix(TokenType.MINUS, new PrefixOperatorParselet((int) Precedence.PREFIX,tokenConfig)),
                 new Prefix(TokenType.LEFT_PAREN, new GroupParselet()),
-                new Prefix(TokenType.PLUS, new PrefixOperatorParselet((int) Precedence.PREFIX,tokenConfig))                
+                new Prefix(TokenType.PLUS, new PrefixOperatorParselet((int) Precedence.PREFIX,tokenConfig))
             };
 
             Infix[] infixes =

@@ -4,7 +4,8 @@ namespace SimpleParser
 {
     public abstract class NameExpressionBase<TCHAR> : ISimpleExpression<TCHAR>
     {
-        protected NameExpressionBase(String name) {
+        protected NameExpressionBase(String name)
+        {
             Name = name;
         }
 

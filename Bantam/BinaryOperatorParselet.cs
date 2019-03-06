@@ -7,7 +7,6 @@ using ITokenConfig = SimpleParser.ITokenConfig<Bantam.TokenType, char>;
 
 namespace Bantam
 {
-
     /// <summary>
     /// Generic infix parselet for a binary arithmetic operator. The only
     /// difference when parsing, "+", "-", "*", "/", and "^" is precedence and
@@ -37,7 +36,5 @@ namespace Bantam
 
             return new OperatorExpression(_tokenConfig, left, token.TokenType, right);
         }
-
-
     }
 }

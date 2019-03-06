@@ -8,7 +8,8 @@ namespace Bantam
     /// <summary>
     /// An assignment expression like "a = b"
     /// </summary>
-    public class AssignExpression : AssignExpressionBase<char> {
+    public class AssignExpression : AssignExpressionBase<char>
+    {
         public AssignExpression(String name, ISimpleExpression right) : base(name, right)
         {
         }

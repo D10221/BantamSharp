@@ -36,6 +36,4 @@ namespace SimpleParser
             return _prefixParselets.FirstOrDefault(x => Equals(x.Key, tokenType)).Value;
         }
     }
-
-
 }

@@ -26,7 +26,7 @@ namespace BantamTests
         {
             var lexer = new FakeLexer("");
             //WARNING ! , null not ok 
-            Assert.AreEqual(null, lexer.Next().GetText());          
+            Assert.AreEqual(null, lexer.Next().GetText());
         }
 
         [TestMethod]
@@ -37,8 +37,5 @@ namespace BantamTests
             fake.Print(builder);
             Assert.AreEqual("x", builder.Build());
         }
-        
     }
-
-    
 }

@@ -15,12 +15,12 @@ namespace BantamTests
             var tokenCOnfig = new TokenConfig();
             var op = TokenType.QUESTION;
             ISimpleExpression left = new FakeExpression("A");
-            var expression = new PostfixExpression(tokenCOnfig,left,op);
-            var builder =  new FakeBuilder();
+            var expression = new PostfixExpression(tokenCOnfig, left, op);
+            var builder = new FakeBuilder();
             expression.Print(builder);
             var actual = builder.Build();
             var expected = "(A?)";
-            Assert.AreEqual(expected,actual);
+            Assert.AreEqual(expected, actual);
         }
     }
 }

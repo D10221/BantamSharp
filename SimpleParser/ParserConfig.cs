@@ -5,27 +5,27 @@ using System.Linq;
 
 namespace SimpleParser
 {
-    public class ParserConfig<TTokenType,TCHAR> : IParserConfig<TTokenType, TCHAR>
+    public class ParserConfig<TTokenType, TCHAR> : IParserConfig<TTokenType, TCHAR>
     {
-        private readonly List<Tuple<TTokenType, InfixParselet<TTokenType, TCHAR>>> INFIXES
+        private readonly List<Tuple<TTokenType, InfixParselet<TTokenType, TCHAR>>> _INFIXES
             = new List<Tuple<TTokenType, InfixParselet<TTokenType, TCHAR>>>();
 
-        private readonly List<Tuple<TTokenType, IParselet<TTokenType, TCHAR>>> PREFIXES
+        private readonly List<Tuple<TTokenType, IParselet<TTokenType, TCHAR>>> _PREFIXES
             = new List<Tuple<TTokenType, IParselet<TTokenType, TCHAR>>>();
 
         public IDictionary<TTokenType, InfixParselet<TTokenType, TCHAR>> InfixParselets
         {
-            get { return INFIXES.ToDictionary(p => p.Item1, p => p.Item2); }
+            get { return _INFIXES.ToDictionary(p => p.Item1, p => p.Item2); }
         }
 
-        public IDictionary<TTokenType, IParselet<TTokenType,TCHAR>> PrefixParselets
+        public IDictionary<TTokenType, IParselet<TTokenType, TCHAR>> PrefixParselets
         {
-            get { return PREFIXES.ToDictionary(p => p.Item1, p => p.Item2); }
+            get { return _PREFIXES.ToDictionary(p => p.Item1, p => p.Item2); }
         }
 
         public void Register(Tuple<TTokenType, IParselet<TTokenType, TCHAR>> prefix)
         {
-            PREFIXES.Add(prefix);
+            _PREFIXES.Add(prefix);
         }
 
         public void Register(params Tuple<TTokenType, IParselet<TTokenType, TCHAR>>[] prefixes)
@@ -38,7 +38,7 @@ namespace SimpleParser
 
         public void Register(Tuple<TTokenType, InfixParselet<TTokenType, TCHAR>> infix)
         {
-            INFIXES.Add(infix);
+            _INFIXES.Add(infix);
         }
 
         public void Register(params Tuple<TTokenType, InfixParselet<TTokenType, TCHAR>>[] infixes)

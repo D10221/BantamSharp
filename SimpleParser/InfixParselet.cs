@@ -10,9 +10,9 @@ namespace SimpleParser
     ///     that comes after the token. This is also used for postfix expressions, in
     ///     which case it simply doesn't consume any more tokens in its parse() call.
     /// </summary>
-    public interface InfixParselet<TTokenType,TTokenBase>
+    public interface InfixParselet<TTokenType, TTokenBase>
     {
-        ISimpleExpression<TTokenBase> Parse(IParser<TTokenType,TTokenBase> parser, ISimpleExpression<TTokenBase> left, IToken<TTokenType> token);
+        ISimpleExpression<TTokenBase> Parse(IParser<TTokenType, TTokenBase> parser, ISimpleExpression<TTokenBase> left, IToken<TTokenType> token);
         int Precedence { get; }
     }
 }

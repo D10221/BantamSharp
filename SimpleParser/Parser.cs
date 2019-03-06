@@ -36,7 +36,6 @@ namespace SimpleParser
 
         public ISimpleExpression<TCHAR> ParseExpression(int precedence = 0)
         {
-
             var token = Consume();
 
             var prefix =
@@ -100,7 +99,6 @@ namespace SimpleParser
 
         private int GetPrecedence()
         {
-
             var token = lookAhead();
             var tokenType = token.TokenType;
             return Equals(tokenType, default(TTokenType)) ? 0 : GetPrecedence(tokenType);

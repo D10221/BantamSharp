@@ -1,4 +1,5 @@
-﻿namespace Bantam
+﻿
+namespace Bantam
 {
     /**
     * Defines the different precendence levels used by the infix parsers. These

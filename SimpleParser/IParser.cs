@@ -2,7 +2,7 @@
 
 namespace SimpleParser
 {
-    public interface IParser<TTokenType,TCHAR>
+    public interface IParser<TTokenType, TCHAR>
     {
         ISimpleExpression<TCHAR> ParseExpression(int precedence = 0);
         bool IsMatch(TTokenType expected);

@@ -1,8 +1,9 @@
+
 namespace SimpleParser
 {
-    public abstract class OperatorExpressionBase<TTokenType,TCHAR> : ISimpleExpression<TCHAR>
+    public abstract class OperatorExpressionBase<TTokenType, TCHAR> : ISimpleExpression<TCHAR>
     {
-        protected OperatorExpressionBase(ITokenConfig<TTokenType, TCHAR> tokenConfig,ISimpleExpression<TCHAR> left, TTokenType @operator, ISimpleExpression<TCHAR> right)
+        protected OperatorExpressionBase(ITokenConfig<TTokenType, TCHAR> tokenConfig, ISimpleExpression<TCHAR> left, TTokenType @operator, ISimpleExpression<TCHAR> right)
         {
             Left = left;
             Right = right;

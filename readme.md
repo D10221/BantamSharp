@@ -11,3 +11,7 @@ Abut Pratt's parser's background
 [Operator-precedence grammar](http://en.wikipedia.org/wiki/Operator-precedence_grammar)
 
 [Pratt Parsers: Expression Parsing Made Easy](https://news.ycombinator.com/item?id=2344837)
+
+Build & test:
+
+	# ./test

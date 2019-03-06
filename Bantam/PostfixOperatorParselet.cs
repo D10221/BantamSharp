@@ -27,6 +27,5 @@ namespace Bantam
         {
             return new PostfixExpression(_tokenConfig, left, token.TokenType);
         }
-
     }
 }

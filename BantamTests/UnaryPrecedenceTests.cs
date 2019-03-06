@@ -18,14 +18,12 @@ namespace BantamTests
             var tokenConfig = new TokenConfig();
             var parser = TestParser.Factory.CreateNew(prefixes: new[]
             {
-                new Prefix(TokenType.NAME, new NameParselet()),               
+                new Prefix(TokenType.NAME, new NameParselet()),
                 new Prefix(TokenType.LEFT_PAREN, new GroupParselet()),
-                
-            }, infixes: new[]
+}, infixes: new[]
             {
                 new Infix(TokenType.BANG, new PostfixOperatorParselet((int) Precedence.POSTFIX,tokenConfig))
-              
-            });
+});
 
             var actual = parser.Parse(expression);
             //NOTE: the extra ()

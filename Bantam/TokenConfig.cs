@@ -23,7 +23,7 @@ namespace Bantam
         /// </summary>
         /// <param name="tokenType"></param>
         /// <returns></returns>
-        public  char Punctuator( TokenType tokenType)
+        public char Punctuator(TokenType tokenType)
         {
             switch (tokenType)
             {
@@ -44,13 +44,13 @@ namespace Bantam
             }
         }
 
-        public  bool IsValidPunctuator( char c)
+        public bool IsValidPunctuator(char c)
         {
             var reverse = Punctuators.ToDictionary(p => p.Value, p => p.Key);
-            return reverse.ContainsKey(c);            
+            return reverse.ContainsKey(c);
         }
 
-        public  readonly IDictionary<TokenType, char> Punctuators = new Dictionary<TokenType, char>
+        public readonly IDictionary<TokenType, char> Punctuators = new Dictionary<TokenType, char>
         {
             {TokenType.LEFT_PAREN,'('},
             {TokenType.RIGHT_PAREN,')'},

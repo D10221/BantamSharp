@@ -7,7 +7,8 @@ namespace Bantam
     /// <summary>
     /// A simple variable name expression like "abc".
     /// </summary>
-    public class NameExpression : NameExpressionBase<char> {
+    public class NameExpression : NameExpressionBase<char>
+    {
         public NameExpression(string name) : base(name)
         {
         }
