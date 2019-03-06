@@ -9,10 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BantamTests", "BantamTests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleParser", "SimpleParser\SimpleParser.csproj", "{B3F8D821-5C5C-49C3-8250-1EE1A7F79F62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMaths", "SImpleMaths\SimpleMaths.csproj", "{A7762061-D174-454C-9216-4AA342835D84}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMathTests", "SimpleMathTests\SimpleMathTests.csproj", "{03ED4C9D-D955-4B14-8102-10EEC5D93872}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
