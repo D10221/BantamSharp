@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using System.Linq;
 using Bantam;
 using SimpleParser;
@@ -8,7 +7,7 @@ using Token = SimpleParser.Token<Bantam.TokenType>;
 
 namespace BantamTests
 {
-    public class FakeLexer : ILexer<TokenType, char>
+    public class FakeLexer : ILexer<TokenType>
     {
         private readonly string _input;
 
@@ -66,7 +65,7 @@ namespace BantamTests
             return Token.Empty();
         }
 
-        public IEnumerable<char> InputText
+        public string InputText
         {
             get { return _input; }
         }

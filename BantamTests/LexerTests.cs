@@ -2,7 +2,7 @@
 using System.Linq;
 using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ILexer = SimpleParser.ILexer<Bantam.TokenType, char>;
+using SimpleParser;
 
 namespace BantamTests
 {
@@ -15,13 +15,13 @@ namespace BantamTests
             var lexer = new Lexer("a + b - abc", Parser.TokenConfig);
 
             var a = lexer.Next();
-            Assert.AreEqual("a", a.GetText());
+            Assert.AreEqual("a", a.Text);
             var plus = lexer.Next();
-            Assert.AreEqual("+", plus.GetText());
+            Assert.AreEqual("+", plus.Text);
             var b = lexer.Next();
-            Assert.AreEqual("b", b.GetText());
+            Assert.AreEqual("b", b.Text);
             var m = lexer.Next();
-            Assert.AreEqual("-", m.GetText());
+            Assert.AreEqual("-", m.Text);
 
             //This Lexer Can't handle Words
             /*var abc = lexer.Next();
@@ -36,14 +36,14 @@ namespace BantamTests
             var splitted = expression.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).ToArray();
             foreach (var c in splitted)
             {
-                Assert.AreEqual(a.Next().GetText(), c.ToString());
+                Assert.AreEqual(a.Next().Text, c.ToString());
             }
         }
 
         [TestMethod]
         public void InputTextTest()
         {
-            ILexer lexer = new Lexer("a+b", Parser.TokenConfig);
+            ILexer<TokenType> lexer = new Lexer("a+b", Parser.TokenConfig);
             Assert.AreEqual("a+b", lexer.InputText);
         }
     }

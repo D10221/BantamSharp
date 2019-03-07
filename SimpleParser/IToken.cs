@@ -5,7 +5,8 @@ namespace SimpleParser
     public interface IToken<TTokenType>
     {
         TTokenType TokenType { get; }
-        string GetText();
+        string Text { get; }
+
         string ToString();
         bool HasValue { get; }
         bool IsEmpty { get; }

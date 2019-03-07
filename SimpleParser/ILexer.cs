@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace SimpleParser
 {
-    public interface ILexer<TTokenType, TCHAR>
+    public interface ILexer<TTokenType>
     {
         IToken<TTokenType> Next();
-        IEnumerable<TCHAR> InputText { get; }
+        string InputText { get; }
     }
 }

@@ -11,7 +11,7 @@ namespace SimpleParser
     {
         #region Dependencies
 
-        private readonly ILexer<TTokenType, TCHAR> _lexer;
+        private readonly ILexer<TTokenType> _lexer;
         private readonly List<IToken<TTokenType>> _tokens = new List<IToken<TTokenType>>();
 
         private readonly IDictionary<TTokenType, IParselet<TTokenType, TCHAR>> _prefixParselets = new Dictionary<TTokenType, IParselet<TTokenType, TCHAR>>();
@@ -20,7 +20,7 @@ namespace SimpleParser
 
         #endregion
         public Parser(
-            ILexer<TTokenType, TCHAR> lexer,
+            ILexer<TTokenType> lexer,
             IDictionary<TTokenType, IParselet<TTokenType, TCHAR>> prefixParselets,
             IDictionary<TTokenType, InfixParselet<TTokenType, TCHAR>> infixParselets)
         {

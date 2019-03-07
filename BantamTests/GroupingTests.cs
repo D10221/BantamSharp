@@ -1,6 +1,4 @@
-﻿
-
-using Bantam;
+﻿using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BantamTests

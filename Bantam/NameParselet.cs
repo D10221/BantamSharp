@@ -14,7 +14,7 @@ namespace Bantam
     {
         public ISimpleExpression Parse(IParser parser, IToken token)
         {
-            return new NameExpression(token.GetText());
+            return new NameExpression(token.Text);
         }
     }
 }

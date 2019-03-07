@@ -1,5 +1,4 @@
 ﻿using Bantam;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
 using System.Collections.Generic;
