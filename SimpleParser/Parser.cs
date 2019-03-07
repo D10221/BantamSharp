@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,15 +8,13 @@ namespace SimpleParser
     /// <summary>
     /// Bantam implementation of SimpleParser
     /// </summary>
-    public class Parser<TTokenType> : IParser<TTokenType>
+    public class Parser<TTokenType> : IParser<TTokenType> where TTokenType: Enum
     {
         #region Dependencies
 
         private readonly ILexer<TTokenType> _lexer;
         private readonly List<IToken<TTokenType>> _tokens = new List<IToken<TTokenType>>();
-
         private readonly IDictionary<TTokenType, IParselet<TTokenType>> _prefixParselets = new Dictionary<TTokenType, IParselet<TTokenType>>();
-
         private readonly IDictionary<TTokenType, InfixParselet<TTokenType>> _infixParselets = new Dictionary<TTokenType, InfixParselet<TTokenType>>();
 
         #endregion
@@ -86,7 +85,7 @@ namespace SimpleParser
             var token = lookAhead();
             if (!Equals(token.TokenType, expected))
             {
-                throw new ParseException<TTokenType>("Expected token {0} and found {1}", expected, token.TokenType);
+                throw new ParseException("Expected token {0} and found {1}", expected, token.TokenType);
             }
             return Consume();
         }

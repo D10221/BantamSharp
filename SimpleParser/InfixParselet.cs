@@ -1,5 +1,7 @@
 ﻿
 
+using System;
+
 namespace SimpleParser
 {
     /// <summary>
@@ -10,7 +12,7 @@ namespace SimpleParser
     ///     that comes after the token. This is also used for postfix expressions, in
     ///     which case it simply doesn't consume any more tokens in its parse() call.
     /// </summary>
-    public interface InfixParselet<TTokenType>
+    public interface InfixParselet<TTokenType> where TTokenType: Enum
     {
         ISimpleExpression Parse(IParser<TTokenType> parser, ISimpleExpression left, IToken<TTokenType> token);
         int Precedence { get; }

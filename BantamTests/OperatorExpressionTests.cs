@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
 using System;
-using ParseException = SimpleParser.ParseException<Bantam.TokenType>;
 
 namespace BantamTests
 {

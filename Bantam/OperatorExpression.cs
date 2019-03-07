@@ -24,7 +24,7 @@ namespace Bantam
             _right = right;
             if (!tokenTypes.TryGetValue(tokenType, out var x))
             {
-                throw new ParseException<TokenType>($"Invalid tokenType: '{tokenType.ToString()}'");
+                throw new ParseException($"Invalid tokenType: '{tokenType.ToString()}'");
             }
             Punctuator = x;
         }
