@@ -16,9 +16,8 @@ namespace Bantam
     /// </summary>
     public class Lexer : ILexer<TokenType>
     {
-        private readonly IDictionary<TokenType, char> _tokenTypes;
-        private readonly IDictionary<char, TokenType> _charTypes;
-        private readonly IEnumerable<char> _text;
+        private readonly IDictionary<char, TokenType> _punctuators;
+        private readonly IEnumerable<IToken<TokenType>> _tokens;
         private readonly IEnumerator<IToken<TokenType>> _enumerator;
 
         /// <summary>
@@ -27,10 +26,9 @@ namespace Bantam
         /// </summary>
         public Lexer(string text, IDictionary<TokenType, char> tokenTypes)
         {
-            _tokenTypes = tokenTypes;
-            _charTypes = _tokenTypes.ToDictionary(x => x.Value, x => x.Key);
-            _text = text.ToCharArray().Where(c => !char.IsWhiteSpace(c) && c != Char.MinValue).ToArray();
-            _enumerator = _text.Select(Tokenize).GetEnumerator();
+            _punctuators = tokenTypes.ToDictionary(x => x.Value, x => x.Key);
+            _tokens = text.ToCharArray().Where(c => !char.IsWhiteSpace(c) && c != Char.MinValue).Select(Tokenize);
+            _enumerator = _tokens.GetEnumerator();
         }
         IToken<TokenType> Tokenize(char x)
         {
@@ -49,7 +47,7 @@ namespace Bantam
         }
         private IToken<TokenType> TryGetPunctuator(char c)
         {
-            if (!_charTypes.TryGetValue(c, out var t))
+            if (!_punctuators.TryGetValue(c, out var t))
             {
                 return Token<TokenType>.Empty();
             }
@@ -80,7 +78,7 @@ namespace Bantam
         {
             get
             {
-                return _text.Select(a => a.ToString()).Aggregate((a, b) => a + b);
+                return _tokens.Select(a => a.ToString()).Aggregate((a, b) => a + b);
             }
         }
     }
