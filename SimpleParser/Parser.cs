@@ -7,7 +7,7 @@ namespace SimpleParser
     /// <summary>
     /// Bantam implementation of SimpleParser
     /// </summary>
-    public class Parser<TTokenType, TCHAR> : IParser<TTokenType>
+    public class Parser<TTokenType> : IParser<TTokenType>
     {
         #region Dependencies
 

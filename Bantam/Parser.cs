@@ -48,7 +48,7 @@ namespace Bantam
         public static string Parse(string text)
         {
             var lexer = new Lexer(text, TokenConfig);
-            var parser = new SimpleParser.Parser<TokenType, char>(lexer, PrefixParselets, InfixParselets);
+            var parser = new SimpleParser.Parser<TokenType>(lexer, PrefixParselets, InfixParselets);
             var result = parser.ParseExpression();
             var builder = new Builder();
             result.Print(builder);
