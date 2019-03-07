@@ -71,7 +71,7 @@ namespace SimpleParser
             while (precedence < GetPrecedence())
             {
                 var atoken = Consume();
-                if (atoken.HasValue)
+                if (!atoken.IsEmpty)
                 {
                     var p = GetInfixParselet(atoken);
                     if (p != null) { left = p.Parse(this, atoken, left); }

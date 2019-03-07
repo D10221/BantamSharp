@@ -1,13 +1,9 @@
-﻿
-using System;
-
-namespace SimpleParser
+﻿namespace SimpleParser
 {
-    //TOkenType is the current enum 
-    public interface IToken<TTokenType> 
+    public interface IToken<TTokenType>
     {
-        TTokenType TokenType { get; }                
-        bool HasValue { get; }
+        TTokenType TokenType { get; }
+        object Value { get; }
         bool IsEmpty { get; }
     }
 }

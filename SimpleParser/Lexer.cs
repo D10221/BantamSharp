@@ -22,12 +22,11 @@ namespace SimpleParser
             _enumerator = tokens.GetEnumerator();
         }
 
-
         public IToken<T> Next()
         {
             if (_enumerator.MoveNext())
                 return _enumerator.Current;
-            return Token<T>.Empty();
+            return Token.Empty<T>();
         }
 
         public override string ToString()

@@ -33,12 +33,12 @@ namespace Bantam
         private IToken<TokenType> Tokenize(char x)
         {
             var token = TryGetPunctuator(x);
-            if (token.HasValue)
+            if (!token.IsEmpty)
             {
                 return token;
             }
             token = TryGetLetter(x);
-            if (token.HasValue)
+            if (!token.IsEmpty)
             {
                 return token;
             }
@@ -49,7 +49,7 @@ namespace Bantam
         {
             if (!_punctuators.TryGetValue(c, out var t))
             {
-                return Token<TokenType>.Empty();
+                return Token.Empty(default(TokenType));
             }
             return Token.New(t, c.ToString());
         }
@@ -57,7 +57,7 @@ namespace Bantam
         private IToken<TokenType> TryGetLetter(char c)
         {
             var input = c.ToString();
-            return LooksLikeLetter(input) ? new Token<TokenType>(TokenType.NAME, input) : Token<TokenType>.Empty();
+            return LooksLikeLetter(input) ? new Token<TokenType>(TokenType.NAME, input) : Token.Empty<TokenType>();
         }
 
         private static bool LooksLikeLetter(string input)
