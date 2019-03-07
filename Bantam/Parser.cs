@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Bantam
 {
+ 
     public static class Parser
     {        
         public static Dictionary<TokenType, char> punctuators = new Dictionary<TokenType, char>

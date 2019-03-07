@@ -12,7 +12,7 @@ namespace Bantam
 
         private object _token;
 
-        public PostfixExpression(ISimpleExpression left, object token)
+        public PostfixExpression(object token, ISimpleExpression left)
         {
             Left = left;            
             _token = token;
@@ -22,7 +22,7 @@ namespace Bantam
         {
             builder.Append("(");
             Left.Print(builder);
-            builder.Append(_token).Append(")");
+            builder.Append(_token).Append("(");
         }
     }
 }

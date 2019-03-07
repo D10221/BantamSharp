@@ -20,7 +20,9 @@ namespace Bantam
 
         public void Print(IBuilder builder)
         {
-            builder.Append("(").Append(_punctuator);
+            builder
+                .Append("(")
+                .Append(_punctuator);
             _right.Print(builder);
             builder.Append(")");
         }

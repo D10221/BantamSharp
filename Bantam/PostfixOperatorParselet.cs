@@ -18,7 +18,7 @@ namespace Bantam
 
         public ISimpleExpression Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression left)
         {
-            return new PostfixExpression(left, token);
+            return new PostfixExpression(token, left);
         }
     }
 }

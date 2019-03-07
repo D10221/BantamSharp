@@ -26,9 +26,9 @@ namespace Bantam
         {
             builder.Append("(");
             Condition.Print(builder);
-            builder.Append(" ? ");
+            builder.Append("?");
             Then.Print(builder);
-            builder.Append(" : ");
+            builder.Append(":");
             Else.Print(builder);
             builder.Append(")");
         }
