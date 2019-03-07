@@ -1,50 +1,51 @@
-﻿using System;
-using System.Linq;
-using Bantam;
+﻿using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
+using System.Linq;
 
 namespace BantamTests
 {
     [TestClass]
     public class LexerTests
     {
+
         [TestMethod]
         public void NextTest()
         {
-            var lexer = new Lexer("a + b - abc", Parser.punctuators);
+            var lexer = Lexer.From(Parser.punctuators.Tokenize("a + b - abc"));
 
             var a = lexer.Next();
-            Assert.AreEqual("a", a.Text);
+            Assert.AreEqual("a", a.ToString());
             var plus = lexer.Next();
-            Assert.AreEqual("+", plus.Text);
+            Assert.AreEqual("+", plus.ToString());
             var b = lexer.Next();
-            Assert.AreEqual("b", b.Text);
+            Assert.AreEqual("b", b.ToString());
             var m = lexer.Next();
-            Assert.AreEqual("-", m.Text);
+            Assert.AreEqual("-", m.ToString());
 
             //This Lexer Can't handle Words
-            /*var abc = lexer.Next();
-            Assert.Equals("abc", abc.GetText());*/
+            //var abc = lexer.Next();
+            //Assert.AreEqual("abc", abc.ToString());
         }
 
         [TestMethod]
         public void Test2()
         {
-            const string expression = "((-a) * b)";
-            var a = new Lexer(expression, Parser.punctuators);
-            var splitted = expression.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).ToArray();
+            const string text = "((-a) * b)";
+            var lexer = Lexer.From(Parser.punctuators.Tokenize(text));
+            var splitted = text.ToCharArray().Where(c => !char.IsWhiteSpace(c)).ToArray();
             foreach (var c in splitted)
             {
-                Assert.AreEqual(a.Next().Text, c.ToString());
+                Assert.AreEqual(lexer.Next().ToString(), c.ToString());
             }
         }
 
         [TestMethod]
         public void InputTextTest()
         {
-            ILexer<TokenType> lexer = new Lexer("a+b", Parser.punctuators);
-            Assert.AreEqual("a+b", lexer.Text);
+            var text = "a+b";
+            var lexer = Lexer.From(Parser.punctuators.Tokenize(text));
+            Assert.AreEqual("a+b", lexer.ToString());
         }
     }
 }

@@ -1,11 +1,9 @@
-
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace SimpleParser
-{  
-    public class Parser<TTokenType> : IParser<TTokenType> where TTokenType : Enum
+{
+    public class Parser<TTokenType> : IParser<TTokenType>
     {
 
         private readonly ILexer<TTokenType> _lexer;
@@ -22,25 +20,20 @@ namespace SimpleParser
             _prefixParselets = prefixParselets;
             _infixParselets = infixParselets;
         }
-
         private IParselet<TTokenType> GetPrefixParselet(TTokenType tokenType)
         {
             _prefixParselets.TryGetValue(tokenType, out var value);
             return value;
         }
-
         private InfixParselet<TTokenType> GetInfixParselet(TTokenType tokenType)
         {
             _infixParselets.TryGetValue(tokenType, out var value);
             return value;
         }
-
         private InfixParselet<TTokenType> GetInfixParselet(IToken<TTokenType> atoken)
         {
-            _infixParselets.TryGetValue(atoken.TokenType, out var value);
-            return value;
+            return GetInfixParselet(atoken.TokenType);
         }
-
         private IToken<TTokenType> LookAhead()
         {
             while (!_tokens.Any())
@@ -50,15 +43,6 @@ namespace SimpleParser
             }
             return _tokens.First();
         }
-
-
-        private int GetPrecedence()
-        {
-            var token = LookAhead();
-            var tokenType = token.TokenType;
-            return Equals(tokenType, default(TTokenType)) ? 0 : GetPrecedence(tokenType);
-        }
-
         private int GetPrecedence(TTokenType tokenType)
         {
             var result = GetInfixParselet(tokenType);
@@ -68,6 +52,11 @@ namespace SimpleParser
 
             /* _parserMap.GetInfixParselet(tokenType)
                  .OnSuccess(x => precedence = x.Precedence);*/
+        }
+        private int GetPrecedence()
+        {
+            var token = LookAhead();
+            return Equals(token.TokenType, default(TTokenType)) ? 0 : GetPrecedence(token.TokenType);
         }
 
         #region IParser

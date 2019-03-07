@@ -4,12 +4,9 @@ using System;
 namespace SimpleParser
 {
     //TOkenType is the current enum 
-    public interface IToken<TTokenType> where TTokenType : Enum
+    public interface IToken<TTokenType> 
     {
-        TTokenType TokenType { get; }
-        string Text { get; }
-
-        string ToString();
+        TTokenType TokenType { get; }                
         bool HasValue { get; }
         bool IsEmpty { get; }
     }

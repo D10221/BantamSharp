@@ -2,9 +2,8 @@ using System;
 
 namespace SimpleParser
 {
-    public interface ILexer<TTokenType> where TTokenType : Enum
+    public interface ILexer<TTokenType> 
     {
-        IToken<TTokenType> Next();
-        string Text { get; }
+        IToken<TTokenType> Next();        
     }
 }
