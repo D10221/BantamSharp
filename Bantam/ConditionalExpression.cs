@@ -6,23 +6,23 @@ namespace Bantam
     /// <summary>
     ///     A ternary conditional expression like "a ? b : c".
     /// </summary>
-    public class ConditionalExpression : ISimpleExpression<char>
+    public class ConditionalExpression : ISimpleExpression
     {
         public ConditionalExpression(
-           ISimpleExpression<char> condition, ISimpleExpression<char> then, ISimpleExpression<char> @else)
+           ISimpleExpression condition, ISimpleExpression then, ISimpleExpression @else)
         {
             Condition = condition;
             Then = then;
             Else = @else;
         }
 
-        private ISimpleExpression<char> Condition { get; }
+        private ISimpleExpression Condition { get; }
 
-        private ISimpleExpression<char> Then { get; }
+        private ISimpleExpression Then { get; }
 
-        private ISimpleExpression<char> Else { get; }
+        private ISimpleExpression Else { get; }
 
-        public void Print(IBuilder<char> builder)
+        public void Print(IBuilder builder)
         {
             builder.Append("(");
             Condition.Print(builder);

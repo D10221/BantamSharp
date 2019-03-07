@@ -1,9 +1,6 @@
 ﻿
 using SimpleParser;
 using System.Collections.Generic;
-using IParser = SimpleParser.IParser<Bantam.TokenType, char>;
-using ISimpleExpression = SimpleParser.ISimpleExpression<char>;
-using IToken = SimpleParser.IToken<Bantam.TokenType>;
 
 namespace Bantam
 {
@@ -11,7 +8,7 @@ namespace Bantam
     ///     Generic prefix parselet for an unary arithmetic operator. Parses prefix
     ///     unary "-", "+", "~", and "!" expressions.
     /// </summary>
-    public class PrefixOperatorParselet : IParselet<TokenType, char>
+    public class PrefixOperatorParselet : IParselet<TokenType>
     {
         public int Precedence { get; }
 
@@ -23,7 +20,7 @@ namespace Bantam
             TokenTypes = tokenTypes;
         }
 
-        public ISimpleExpression Parse(IParser parser, IToken token)
+        public ISimpleExpression Parse(IParser<TokenType> parser, IToken<TokenType> token)
         {
             // To handle right-associative operators like "^", we allow a slightly
             // lower precedence when parsing the right-hand side. This will let a

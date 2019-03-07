@@ -7,41 +7,41 @@ namespace SimpleParser
     /// <summary>
     /// Bantam implementation of SimpleParser
     /// </summary>
-    public class Parser<TTokenType, TCHAR> : IParser<TTokenType, TCHAR>
+    public class Parser<TTokenType, TCHAR> : IParser<TTokenType>
     {
         #region Dependencies
 
         private readonly ILexer<TTokenType> _lexer;
         private readonly List<IToken<TTokenType>> _tokens = new List<IToken<TTokenType>>();
 
-        private readonly IDictionary<TTokenType, IParselet<TTokenType, TCHAR>> _prefixParselets = new Dictionary<TTokenType, IParselet<TTokenType, TCHAR>>();
+        private readonly IDictionary<TTokenType, IParselet<TTokenType>> _prefixParselets = new Dictionary<TTokenType, IParselet<TTokenType>>();
 
-        private readonly IDictionary<TTokenType, InfixParselet<TTokenType, TCHAR>> _infixParselets = new Dictionary<TTokenType, InfixParselet<TTokenType, TCHAR>>();
+        private readonly IDictionary<TTokenType, InfixParselet<TTokenType>> _infixParselets = new Dictionary<TTokenType, InfixParselet<TTokenType>>();
 
         #endregion
         public Parser(
             ILexer<TTokenType> lexer,
-            IDictionary<TTokenType, IParselet<TTokenType, TCHAR>> prefixParselets,
-            IDictionary<TTokenType, InfixParselet<TTokenType, TCHAR>> infixParselets)
+            IDictionary<TTokenType, IParselet<TTokenType>> prefixParselets,
+            IDictionary<TTokenType, InfixParselet<TTokenType>> infixParselets)
         {
             _lexer = lexer;
             _prefixParselets = prefixParselets;
             _infixParselets = infixParselets;
         }
 
-        private IParselet<TTokenType, TCHAR> GetPrefixParselet(TTokenType tokenType)
+        private IParselet<TTokenType> GetPrefixParselet(TTokenType tokenType)
         {
             _prefixParselets.TryGetValue(tokenType, out var value);
             return value;
         }
 
-        private InfixParselet<TTokenType, TCHAR> GetInfixParselet(TTokenType tokenType)
+        private InfixParselet<TTokenType> GetInfixParselet(TTokenType tokenType)
         {
             _infixParselets.TryGetValue(tokenType, out var value);
             return value;
         }
 
-        private InfixParselet<TTokenType, TCHAR> GetInfixParselet(IToken<TTokenType> atoken)
+        private InfixParselet<TTokenType> GetInfixParselet(IToken<TTokenType> atoken)
         {
             _infixParselets.TryGetValue(atoken.TokenType, out var value);
             return value;
@@ -49,7 +49,7 @@ namespace SimpleParser
 
         #region IParser
 
-        public ISimpleExpression<TCHAR> ParseExpression(int precedence = 0)
+        public ISimpleExpression ParseExpression(int precedence = 0)
         {
             var token = Consume();
 

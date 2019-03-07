@@ -6,9 +6,9 @@ namespace Bantam
     /// <summary>
     ///     Parselet for the condition or "ternary" operator, like "a ? b : c".
     /// </summary>
-    public class ConditionalParselet : InfixParselet<TokenType, char>
+    public class ConditionalParselet : InfixParselet<TokenType>
     {
-        public ISimpleExpression<char> Parse(IParser<TokenType, char> parser, ISimpleExpression<char> left, IToken<TokenType> token)
+        public ISimpleExpression Parse(IParser<TokenType> parser, ISimpleExpression left, IToken<TokenType> token)
         {
             var thenArm = parser.ParseExpression(/*Precedence.ZERO*/);
             parser.Consume(TokenType.COLON);

@@ -1,6 +1,6 @@
 ﻿using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ISimpleExpression = SimpleParser.ISimpleExpression<char>;
+using SimpleParser;
 
 namespace BantamTests
 {

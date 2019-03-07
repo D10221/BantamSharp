@@ -1,9 +1,8 @@
 ﻿using SimpleParser;
-using IBuilder = SimpleParser.IBuilder<char>;
 
 namespace BantamTests
 {
-    public class FakeExpression : ISimpleExpression<char>
+    public class FakeExpression : ISimpleExpression
     {
         private readonly string _what;
 

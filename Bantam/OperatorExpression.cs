@@ -1,17 +1,16 @@
 ﻿using SimpleParser;
 using System.Collections.Generic;
-using ISimpleExpression = SimpleParser.ISimpleExpression<char>;
 
 namespace Bantam
 {
     /// <summary>
     ///     A binary arithmetic expression like "a + b" or "c ^ d"
     /// </summary>
-    public class OperatorExpression : ISimpleExpression<char>
+    public class OperatorExpression : ISimpleExpression
     {
-        private ISimpleExpression<char> Left { get; }
+        private ISimpleExpression _left ;
 
-        private ISimpleExpression<char> Right { get; }
+        private ISimpleExpression _right ;
 
         private char Punctuator { get; set; }
 
@@ -21,20 +20,20 @@ namespace Bantam
             ISimpleExpression left,
             ISimpleExpression right)
         {
-            Left = left;
-            Right = right;
+            _left = left;
+            _right = right;
             if (!tokenTypes.TryGetValue(tokenType, out var x))
             {
                 throw new ParseException<TokenType>($"Invalid tokenType: '{tokenType.ToString()}'");
             }
             Punctuator = x;
         }
-        public void Print(IBuilder<char> builder)
+        public void Print(IBuilder builder)
         {
             builder.Append("(");
-            Left.Print(builder);
+            _left.Print(builder);
             builder.Append(" ").Append(Punctuator).Append(" ");
-            Right.Print(builder);
+            _right.Print(builder);
             builder.Append(")");
         }
     }

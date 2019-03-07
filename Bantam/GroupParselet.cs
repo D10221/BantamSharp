@@ -1,19 +1,26 @@
 ﻿using SimpleParser;
 
-using ISimpleExpression = SimpleParser.ISimpleExpression<char>;
-using IParser = SimpleParser.IParser<Bantam.TokenType, char>;
+
+using IParser = SimpleParser.IParser<Bantam.TokenType>;
 
 namespace Bantam
 {
     /// <summary>
-    /// Parses parentheses used to group an expression, like "a * (b + c)".
+    /// Parses token used to group an expression, like "a * (b + c)".
     /// </summary>
-    public class GroupParselet : IParselet<TokenType, char>
+    public class GroupParselet : IParselet<TokenType>
     {
+        readonly TokenType _right;
+
+        public GroupParselet(TokenType right)
+        {
+            _right = right;
+        }
+
         public ISimpleExpression Parse(IParser parser, IToken<TokenType> token)
         {
             var simpleExpression = parser.ParseExpression();
-            parser.Consume(TokenType.RIGHT_PAREN);
+            parser.Consume(_right);
             return simpleExpression;
         }
     }

@@ -1,18 +1,14 @@
 ﻿
 using SimpleParser;
-using IParser = SimpleParser.IParser<Bantam.TokenType, char>;
-using ISimpleExpression = SimpleParser.ISimpleExpression<char>;
-using IToken = SimpleParser.IToken<Bantam.TokenType>;
-
 
 namespace Bantam
 {
-    public class AssignParselet : InfixParselet<TokenType, char>
+    public class AssignParselet : InfixParselet<TokenType>
     {
         public ISimpleExpression Left { get; set; }
         public ISimpleExpression Right { get; set; }
 
-        public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token)
+        public ISimpleExpression Parse(IParser<TokenType> parser, ISimpleExpression left, IToken<TokenType> token)
         {
             //Why -1
             Right = parser.ParseExpression(Precedence - 1);

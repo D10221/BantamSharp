@@ -6,17 +6,17 @@ namespace Bantam
     /// <summary>
     /// An assignment expression like "a = b"
     /// </summary>
-    public class AssignExpression : ISimpleExpression<char>
+    public class AssignExpression : ISimpleExpression
     {
         protected string Name { get; private set; }
-        protected ISimpleExpression<char> Right { get; private set; }
+        protected ISimpleExpression Right { get; private set; }
 
-        public AssignExpression(String name, ISimpleExpression<char> right)
+        public AssignExpression(String name, ISimpleExpression right)
         {
             Name = name;
             Right = right;
         }
-        public void Print(IBuilder<char> builder)
+        public void Print(IBuilder builder)
         {
             builder.Append("(").Append(Name).Append(" = ");
             Right.Print(builder);

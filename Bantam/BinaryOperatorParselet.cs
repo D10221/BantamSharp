@@ -1,9 +1,6 @@
 ﻿
 using SimpleParser;
 using System.Collections.Generic;
-using IParser = SimpleParser.IParser<Bantam.TokenType, char>;
-using ISimpleExpression = SimpleParser.ISimpleExpression<char>;
-using IToken = SimpleParser.IToken<Bantam.TokenType>;
 
 namespace Bantam
 {
@@ -12,7 +9,7 @@ namespace Bantam
     /// difference when parsing, "+", "-", "*", "/", and "^" is precedence and
     /// associativity, so we can use a single parselet class for all of those.
     /// </summary>
-    public class BinaryOperatorParselet : InfixParselet<TokenType, char>
+    public class BinaryOperatorParselet : InfixParselet<TokenType>
     {
         public int Precedence { get; }
 
@@ -28,7 +25,7 @@ namespace Bantam
             _isRight = infixType == InfixType.Right;
         }
 
-        public ISimpleExpression Parse(IParser parser, ISimpleExpression left, IToken token)
+        public ISimpleExpression Parse(IParser<TokenType> parser, ISimpleExpression left, IToken<TokenType> token)
         {
             // To handle right-associative operators like "^", we allow a slightly
             // lower precedence when parsing the right-hand side. This will let a

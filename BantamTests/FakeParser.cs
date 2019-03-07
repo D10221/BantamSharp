@@ -3,7 +3,7 @@ using SimpleParser;
 
 namespace BantamTests
 {
-    public class FakeParser : IParser<Bantam.TokenType, char>
+    public class FakeParser : IParser<Bantam.TokenType>
     {
         private readonly NameExpression _expression;
 
@@ -13,7 +13,7 @@ namespace BantamTests
         }
 
 
-        public ISimpleExpression<char> ParseExpression(int precedence)
+        public ISimpleExpression ParseExpression(int precedence)
         {
             return _expression;
         }

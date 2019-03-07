@@ -10,6 +10,7 @@ namespace Bantam
     public enum Precedence
     {
         // Ordered in increasing precedence.
+        ZERO = 0,
         ASSIGNMENT = 1,
         CONDITIONAL = 2,
         SUM = 3,
@@ -18,6 +19,5 @@ namespace Bantam
         PREFIX = 6,
         POSTFIX = 7,
         CALL = 8,
-        ZERO = 0
     }
 }

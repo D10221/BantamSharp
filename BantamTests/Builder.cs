@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using SimpleParser;
-using IBuilder = SimpleParser.IBuilder<char>;
 
 namespace BantamTests
 {
@@ -18,6 +17,11 @@ namespace BantamTests
         }
 
         public IBuilder Append(IEnumerable<char> s)
+        {
+            _builder.Append(s);
+            return this;
+        }
+        public IBuilder Append(string s)
         {
             _builder.Append(s);
             return this;

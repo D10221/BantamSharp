@@ -5,7 +5,7 @@ namespace Bantam
     /// <summary>
     /// A simple variable name expression like "abc".
     /// </summary>
-    public class NameExpression : ISimpleExpression<char>
+    public class NameExpression : ISimpleExpression
     {
         public string Name { get; private set; }
 
@@ -13,7 +13,7 @@ namespace Bantam
         {
             Name = name;
         }
-        public void Print(IBuilder<char> builder)
+        public void Print(IBuilder builder)
         {
             builder.Append(Name);
         }

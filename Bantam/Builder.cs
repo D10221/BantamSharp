@@ -3,21 +3,20 @@ using System.Collections.Generic;
 
 namespace Bantam
 {
-    public class Builder : IBuilder<char>
+    public class Builder : IBuilder
     {
         private string _result;
 
-        public IBuilder<char> Append(IEnumerable<char> s)
+        public IBuilder Append(string s)
         {
             _result += s;
             return this;
-        }
-
-        public IBuilder<char> Append(char c)
+        }        
+        public IBuilder Append(char c)
         {
             _result += c.ToString();
             return this;
-        }
+        }        
 
         public string Build()
         {

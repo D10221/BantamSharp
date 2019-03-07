@@ -2,9 +2,9 @@
 
 namespace SimpleParser
 {
-    public interface IParser<TTokenType, TCHAR>
+    public interface IParser<TTokenType>
     {
-        ISimpleExpression<TCHAR> ParseExpression(int precedence = 0);
+        ISimpleExpression ParseExpression(int precedence = 0);
         bool IsMatch(TTokenType expected);
         IToken<TTokenType> Consume(TTokenType expected);
         IToken<TTokenType> Consume();

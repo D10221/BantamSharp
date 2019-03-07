@@ -2,10 +2,10 @@
 
 namespace SimpleParser
 {
-    public interface IBuilder<TCHAR>
+    public interface IBuilder
     {
-        IBuilder<TCHAR> Append(IEnumerable<TCHAR> cs);
-        IBuilder<TCHAR> Append(TCHAR c);
+        IBuilder Append(string cs);        
+        IBuilder Append(char cs);        
         string Build();
     }
 }

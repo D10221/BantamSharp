@@ -6,16 +6,16 @@ namespace Bantam
     /// <summary>
     /// A function call like "a(b, c, d) OR a(x)(z)".
     /// </summary>
-    public class CallExpression : ISimpleExpression<char>
+    public class CallExpression : ISimpleExpression
     {
-        public CallExpression(ISimpleExpression<char> function, List<ISimpleExpression<char>> args)
+        public CallExpression(ISimpleExpression function, List<ISimpleExpression> args)
         {
             Function = function;
 
-            Args = args ?? new List<ISimpleExpression<char>>();
+            Args = args ?? new List<ISimpleExpression>();
         }
 
-        public void Print(IBuilder<char> builder)
+        public void Print(IBuilder builder)
         {
             Function?.Print(builder);
             builder.Append("(");
@@ -27,8 +27,8 @@ namespace Bantam
             builder.Append(")");
         }
 
-        protected ISimpleExpression<char> Function { get; private set; }
+        protected ISimpleExpression Function { get; private set; }
 
-        protected List<ISimpleExpression<char>> Args { get; private set; }
+        protected List<ISimpleExpression> Args { get; private set; }
     }
 }

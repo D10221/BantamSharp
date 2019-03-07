@@ -1,8 +1,8 @@
 ﻿
 namespace SimpleParser
 {
-    public interface IParselet<TTokenType, TTokenBase>
+    public interface IParselet<TTokenType>
     {
-        ISimpleExpression<TTokenBase> Parse(IParser<TTokenType, TTokenBase> parser, IToken<TTokenType> token);
+        ISimpleExpression Parse(IParser<TTokenType> parser, IToken<TTokenType> token);
     }
 }

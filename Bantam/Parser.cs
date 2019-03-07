@@ -24,23 +24,23 @@ namespace Bantam
                 //{ TokenType.EOF, default(char)}
             };
 
-        public static Dictionary<TokenType, IParselet<TokenType, char>> PrefixParselets = new Dictionary<TokenType, IParselet<TokenType, char>>{
+        public static Dictionary<TokenType, IParselet<TokenType>> PrefixParselets = new Dictionary<TokenType, IParselet<TokenType>>{
                 { TokenType.NAME, new NameParselet()},
-                { TokenType.LEFT_PAREN, new GroupParselet() },
+                { TokenType.LEFT_PAREN, new GroupParselet(TokenType.RIGHT_PAREN) },
                 { TokenType.PLUS, new PrefixOperatorParselet((int)Precedence.PREFIX, TokenConfig) },
                 { TokenType.MINUS, new PrefixOperatorParselet((int)Precedence.PREFIX, TokenConfig) },
                 { TokenType.TILDE, new PrefixOperatorParselet((int)Precedence.PREFIX, TokenConfig) },
                 { TokenType.BANG, new PrefixOperatorParselet((int)Precedence.PREFIX, TokenConfig) }
                 };
 
-        public static Dictionary<TokenType, InfixParselet<TokenType, char>> InfixParselets = new Dictionary<TokenType, InfixParselet<TokenType, char>>(){
+        public static Dictionary<TokenType, InfixParselet<TokenType>> InfixParselets = new Dictionary<TokenType, InfixParselet<TokenType>>(){
                 { TokenType.BANG, new PostfixOperatorParselet((int)Precedence.POSTFIX, TokenConfig)},
                 { TokenType.ASSIGN, new AssignParselet()},
-                {  TokenType.QUESTION, new ConditionalParselet() },
+                { TokenType.QUESTION, new ConditionalParselet() },
                 { TokenType.LEFT_PAREN, new CallParselet()} ,
-                {  TokenType.PLUS, new BinaryOperatorParselet((int)Precedence.SUM, InfixType.Left, TokenConfig) },
+                { TokenType.PLUS, new BinaryOperatorParselet((int)Precedence.SUM, InfixType.Left, TokenConfig) },
                 { TokenType.MINUS, new BinaryOperatorParselet((int)Precedence.SUM, InfixType.Left, TokenConfig)},
-                {  TokenType.ASTERISK, new BinaryOperatorParselet((int)Precedence.PRODUCT, InfixType.Left, TokenConfig) },
+                { TokenType.ASTERISK, new BinaryOperatorParselet((int)Precedence.PRODUCT, InfixType.Left, TokenConfig) },
                 { TokenType.SLASH, new BinaryOperatorParselet((int)Precedence.PRODUCT, InfixType.Left, TokenConfig)},
                 { TokenType.CARET, new BinaryOperatorParselet((int)Precedence.EXPONENT, InfixType.Right, TokenConfig)}
                 };
@@ -48,7 +48,7 @@ namespace Bantam
         public static string Parse(string text)
         {
             var lexer = new Lexer(text, TokenConfig);
-            var parser = new Parser<TokenType, char>(lexer, PrefixParselets, InfixParselets);
+            var parser = new SimpleParser.Parser<TokenType, char>(lexer, PrefixParselets, InfixParselets);
             var result = parser.ParseExpression();
             var builder = new Builder();
             result.Print(builder);

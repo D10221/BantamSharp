@@ -1,5 +1,6 @@
 ﻿
 using SimpleParser;
+using System;
 using System.Collections.Generic;
 
 namespace Bantam
@@ -7,16 +8,29 @@ namespace Bantam
     /// <summary>
     /// A prefix unary arithmetic expression like "!a" or "-b".
     /// </summary>
-    public class PrefixExpression : PrefixExpressionBase<TokenType, char>
-    {
-        public PrefixExpression(IDictionary<TokenType, char> tokenTypes, TokenType @operator, ISimpleExpression<char> right)
-            : base(tokenTypes, @operator, right)
+    public class PrefixExpression : ISimpleExpression
+    {        
+        public PrefixExpression(
+            IDictionary<TokenType, char> tokenTypes,
+            TokenType tokenType,
+            ISimpleExpression right)
         {
+            Right = right;
+            if (!tokenTypes.TryGetValue(tokenType, out var type))
+            {
+                throw new Exception($"Invalid tokenTypes:'{tokenType}'");
+            }
+            Punctuator = type;
         }
 
-        public override void Print(IBuilder<char> builder)
+        protected char Punctuator { get; }
+
+        protected ISimpleExpression Right { get; }
+
+       
+        public void Print(IBuilder builder)
         {
-            builder.Append("(").Append(Punctuator);
+            builder.Append("(").Append(Punctuator.ToString());
             Right.Print(builder);
             builder.Append(")");
         }
