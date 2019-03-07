@@ -30,9 +30,8 @@ namespace Bantam
             _tokens = text.ToCharArray().Where(c => !char.IsWhiteSpace(c) && c != Char.MinValue).Select(Tokenize);
             _enumerator = _tokens.GetEnumerator();
         }
-        IToken<TokenType> Tokenize(char x)
+        private IToken<TokenType> Tokenize(char x)
         {
-
             var token = TryGetPunctuator(x);
             if (token.HasValue)
             {

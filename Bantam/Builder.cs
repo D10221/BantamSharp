@@ -11,12 +11,12 @@ namespace Bantam
         {
             _result += s;
             return this;
-        }        
+        }
         public IBuilder Append(char c)
         {
             _result += c.ToString();
             return this;
-        }        
+        }
 
         public string Build()
         {

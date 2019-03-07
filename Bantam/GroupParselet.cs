@@ -10,7 +10,7 @@ namespace Bantam
     /// </summary>
     public class GroupParselet : IParselet<TokenType>
     {
-        readonly TokenType _right;
+        private readonly TokenType _right;
 
         public GroupParselet(TokenType right)
         {

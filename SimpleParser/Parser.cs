@@ -8,7 +8,7 @@ namespace SimpleParser
     /// <summary>
     /// Bantam implementation of SimpleParser
     /// </summary>
-    public class Parser<TTokenType> : IParser<TTokenType> where TTokenType: Enum
+    public class Parser<TTokenType> : IParser<TTokenType> where TTokenType : Enum
     {
         #region Dependencies
 

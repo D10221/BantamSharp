@@ -8,9 +8,9 @@ namespace Bantam
     /// </summary>
     public class OperatorExpression : ISimpleExpression
     {
-        private ISimpleExpression _left ;
+        private ISimpleExpression _left;
 
-        private ISimpleExpression _right ;
+        private ISimpleExpression _right;
 
         private char Punctuator { get; set; }
 

@@ -9,7 +9,7 @@ namespace Bantam
     /// A prefix unary arithmetic expression like "!a" or "-b".
     /// </summary>
     public class PrefixExpression : ISimpleExpression
-    {        
+    {
         public PrefixExpression(
             IDictionary<TokenType, char> tokenTypes,
             TokenType tokenType,
@@ -27,7 +27,7 @@ namespace Bantam
 
         protected ISimpleExpression Right { get; }
 
-       
+
         public void Print(IBuilder builder)
         {
             builder.Append("(").Append(Punctuator.ToString());
