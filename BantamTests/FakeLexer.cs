@@ -65,7 +65,7 @@ namespace BantamTests
             return Token.Empty();
         }
 
-        public string InputText
+        public string Text
         {
             get { return _input; }
         }

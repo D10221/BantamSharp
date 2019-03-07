@@ -44,7 +44,7 @@ namespace BantamTests
         public void InputTextTest()
         {
             ILexer<TokenType> lexer = new Lexer("a+b", Parser.TokenConfig);
-            Assert.AreEqual("a+b", lexer.InputText);
+            Assert.AreEqual("a+b", lexer.Text);
         }
     }
 }

@@ -5,6 +5,6 @@ namespace SimpleParser
     public interface ILexer<TTokenType>
     {
         IToken<TTokenType> Next();
-        string InputText { get; }
+        string Text { get; }
     }
 }

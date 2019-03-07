@@ -76,7 +76,7 @@ namespace Bantam
             return Token<TokenType>.Empty();
         }
 
-        public string InputText
+        public string Text
         {
             get
             {
