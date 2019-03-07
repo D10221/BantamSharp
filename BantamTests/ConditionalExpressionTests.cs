@@ -11,9 +11,9 @@ namespace BantamTests
         [TestMethod]
         public void ConditionalExpressionTest()
         {
-            ISimpleExpression condition = new FakeExpression("x");
-            ISimpleExpression then = new FakeExpression("y");
-            ISimpleExpression @else = new FakeExpression("z");
+            ISimpleExpression condition = new NameExpression("x");
+            ISimpleExpression then = new NameExpression("y");
+            ISimpleExpression @else = new NameExpression("z");
             var expresion = new ConditionalExpression(condition, then, @else);
             var _builder = new Builder();
             expresion.Print(_builder);

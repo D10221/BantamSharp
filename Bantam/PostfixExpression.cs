@@ -10,20 +10,19 @@ namespace Bantam
     {
         private ISimpleExpression Left { get; }
 
-        private char Punctuator { get; }
+        private object _token;
 
-        public PostfixExpression(IDictionary<TokenType, char> tokenTypes, ISimpleExpression left, TokenType tokenType)
+        public PostfixExpression(ISimpleExpression left, object token)
         {
-            Left = left;
-            tokenTypes.TryGetValue(tokenType, out var type);
-            Punctuator = type;
+            Left = left;            
+            _token = token;
         }
 
         public void Print(IBuilder builder)
         {
             builder.Append("(");
             Left.Print(builder);
-            builder.Append(Punctuator.ToString()).Append(")");
+            builder.Append(_token).Append(")");
         }
     }
 }

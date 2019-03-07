@@ -1,6 +1,5 @@
 ﻿using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SimpleParser;
 
 namespace BantamTests
 {
@@ -8,11 +7,9 @@ namespace BantamTests
     public class PostfixExpressionTests
     {
         [TestMethod]
-        public void PostfixExpressionTest()
+        public void Test1()
         {
-            var op = TokenType.QUESTION;
-            ISimpleExpression left = new FakeExpression("A");
-            var expression = new PostfixExpression(Parser.TokenConfig, left, op);
+            var expression = new PostfixExpression(new NameExpression("A"), "?");
             var builder = new Builder();
             expression.Print(builder);
             var actual = builder.Build();

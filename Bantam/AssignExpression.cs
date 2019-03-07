@@ -8,14 +8,16 @@ namespace Bantam
     /// </summary>
     public class AssignExpression : ISimpleExpression
     {
-        protected string Name { get; private set; }
-        protected ISimpleExpression Right { get; private set; }
+        public object Name { get;  }
 
-        public AssignExpression(String name, ISimpleExpression right)
+        public ISimpleExpression Right { get; }
+
+        public AssignExpression(object name, ISimpleExpression right)
         {
             Name = name;
             Right = right;
         }
+
         public void Print(IBuilder builder)
         {
             builder.Append("(").Append(Name).Append(" = ");

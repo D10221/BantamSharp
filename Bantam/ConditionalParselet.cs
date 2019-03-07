@@ -8,7 +8,7 @@ namespace Bantam
     /// </summary>
     public class ConditionalParselet : InfixParselet<TokenType>
     {
-        public ISimpleExpression Parse(IParser<TokenType> parser, ISimpleExpression left, IToken<TokenType> token)
+        public ISimpleExpression Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression left)
         {
             var thenArm = parser.ParseExpression(/*Precedence.ZERO*/);
             parser.Consume(TokenType.COLON);

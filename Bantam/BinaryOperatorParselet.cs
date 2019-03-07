@@ -1,6 +1,5 @@
 ﻿
 using SimpleParser;
-using System.Collections.Generic;
 
 namespace Bantam
 {
@@ -13,27 +12,22 @@ namespace Bantam
     {
         public int Precedence { get; }
 
-        private IDictionary<TokenType, char> TokenTypes { get; }
-
         private readonly bool _isRight;
 
-
-        public BinaryOperatorParselet(int precedence, InfixType infixType, IDictionary<TokenType, char> tokenTypes)
+        public BinaryOperatorParselet(int precedence, InfixType infixType)
         {
             Precedence = precedence;
-            TokenTypes = tokenTypes;
             _isRight = infixType == InfixType.Right;
         }
 
-        public ISimpleExpression Parse(IParser<TokenType> parser, ISimpleExpression left, IToken<TokenType> token)
+        public ISimpleExpression Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression left)
         {
             // To handle right-associative operators like "^", we allow a slightly
             // lower precedence when parsing the right-hand side. This will let a
             // parselet with the same precedence appear on the right, which will then
             // take *this* parselet's result as its left-hand argument.
             var right = parser.ParseExpression(Precedence - (_isRight ? 1 : 0));
-
-            return new OperatorExpression(TokenTypes, token.TokenType, left, right);
+            return new OperatorExpression(left, right, token);
         }
     }
 }

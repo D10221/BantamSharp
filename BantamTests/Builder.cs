@@ -15,19 +15,14 @@ namespace BantamTests
         {
             _builder = new StringBuilder();
         }
-
-        public IBuilder Append(IEnumerable<char> s)
-        {
-            _builder.Append(s);
-            return this;
-        }
+        
         public IBuilder Append(string s)
         {
             _builder.Append(s);
             return this;
         }
 
-        public IBuilder Append(char c)
+        public IBuilder Append(object c)
         {
             _builder.Append(c);
             return this;

@@ -1,6 +1,5 @@
 ﻿
 using SimpleParser;
-using System.Collections.Generic;
 
 namespace Bantam
 {
@@ -10,19 +9,16 @@ namespace Bantam
     /// </summary>
     public class PostfixOperatorParselet : InfixParselet<TokenType>
     {
-        private readonly IDictionary<TokenType, char> _tokenTypes;
-
         public int Precedence { get; }
 
-        public PostfixOperatorParselet(int precedence, IDictionary<TokenType, char> tokenTypes)
+        public PostfixOperatorParselet(int precedence)
         {
-            _tokenTypes = tokenTypes;
             Precedence = precedence;
         }
 
-        public ISimpleExpression Parse(IParser<TokenType> parser, ISimpleExpression left, IToken<TokenType> token)
+        public ISimpleExpression Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression left)
         {
-            return new PostfixExpression(_tokenTypes, left, token.TokenType);
+            return new PostfixExpression(left, token);
         }
     }
 }

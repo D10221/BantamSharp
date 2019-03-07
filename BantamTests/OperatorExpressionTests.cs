@@ -11,10 +11,9 @@ namespace BantamTests
         [TestMethod]
         public void OperatorExpressionTest()
         {
-            var left = new FakeExpression("x");
-            var right = new FakeExpression("y");
-            const TokenType @operator = TokenType.PLUS;
-            var expression = new OperatorExpression(Parser.TokenConfig, @operator, left, right);
+            var left = new NameExpression("x");
+            var right = new NameExpression("y");            
+            var expression = new OperatorExpression(left, right, "+");
             IBuilder builder = new Builder();
             expression.Print(builder);
             var actual = builder.Build();
@@ -27,10 +26,9 @@ namespace BantamTests
             Exception ex = null;
             try
             {
-                var left = new FakeExpression("x");
-                var right = new FakeExpression("y");
-                const TokenType @operator = TokenType.NONE;
-                var expression = new OperatorExpression(Parser.TokenConfig, @operator, left, right);
+                var left = new NameExpression("x");
+                var right = new NameExpression("y");                
+                var expression = new OperatorExpression(left, right, null);
                 //Just to stop the compiler warning becasue is not used 
                 Assert.IsNotNull(expression);
             }

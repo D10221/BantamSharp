@@ -8,7 +8,7 @@ namespace Bantam
         public ISimpleExpression Left { get; set; }
         public ISimpleExpression Right { get; set; }
 
-        public ISimpleExpression Parse(IParser<TokenType> parser, ISimpleExpression left, IToken<TokenType> token)
+        public ISimpleExpression Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression left)
         {
             //Why -1
             Right = parser.ParseExpression(Precedence - 1);

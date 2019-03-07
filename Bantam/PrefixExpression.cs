@@ -1,7 +1,4 @@
-﻿
-using SimpleParser;
-using System;
-using System.Collections.Generic;
+﻿using SimpleParser;
 
 namespace Bantam
 {
@@ -10,28 +7,21 @@ namespace Bantam
     /// </summary>
     public class PrefixExpression : ISimpleExpression
     {
+        readonly object _punctuator;
+        ISimpleExpression _right;
+
         public PrefixExpression(
-            IDictionary<TokenType, char> tokenTypes,
-            TokenType tokenType,
+            object punctuator,
             ISimpleExpression right)
         {
-            Right = right;
-            if (!tokenTypes.TryGetValue(tokenType, out var type))
-            {
-                throw new Exception($"Invalid tokenTypes:'{tokenType}'");
-            }
-            Punctuator = type;
+            _punctuator = punctuator;
+            _right = right;
         }
-
-        protected char Punctuator { get; }
-
-        protected ISimpleExpression Right { get; }
-
 
         public void Print(IBuilder builder)
         {
-            builder.Append("(").Append(Punctuator.ToString());
-            Right.Print(builder);
+            builder.Append("(").Append(_punctuator);
+            _right.Print(builder);
             builder.Append(")");
         }
     }

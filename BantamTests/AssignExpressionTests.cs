@@ -11,11 +11,10 @@ namespace BantamTests
         [TestMethod]
         public void AssignExpressionTest()
         {
-            const string name = "a";
-            ISimpleExpression right = new NameExpression("b");
-            var expresison = new AssignExpression(name, right);
+            const string name = "a";            
+            var e = new AssignExpression(name, new NameExpression("b"));
             var builder = new Builder();
-            expresison.Print(builder);
+            e.Print(builder);
             var actual = builder.Build();
             Assert.AreEqual("(a = b)", actual);
         }
@@ -30,18 +29,6 @@ namespace BantamTests
             expresison.Print(builder);
             var actual = builder.Build();
             Assert.AreEqual("(a = b())", actual);
-        }
-
-        [TestMethod]
-        public void AssignExpressionTest3()
-        {
-            const string name = "a";
-            ISimpleExpression right = new FakeExpression("x");
-            var expresison = new AssignExpression(name, right);
-            var builder = new Builder();
-            expresison.Print(builder);
-            var actual = builder.Build();
-            Assert.AreEqual("(a = x)", actual);
         }
     }
 }

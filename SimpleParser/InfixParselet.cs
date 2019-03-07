@@ -14,7 +14,7 @@ namespace SimpleParser
     /// </summary>
     public interface InfixParselet<TTokenType> where TTokenType : Enum
     {
-        ISimpleExpression Parse(IParser<TTokenType> parser, ISimpleExpression left, IToken<TTokenType> token);
         int Precedence { get; }
+        ISimpleExpression Parse(IParser<TTokenType> parser, IToken<TTokenType> token, ISimpleExpression left);
     }
 }

@@ -4,20 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace SimpleParser
-{
-    /// <summary>
-    /// Bantam implementation of SimpleParser
-    /// </summary>
+{  
     public class Parser<TTokenType> : IParser<TTokenType> where TTokenType : Enum
     {
-        #region Dependencies
 
         private readonly ILexer<TTokenType> _lexer;
         private readonly List<IToken<TTokenType>> _tokens = new List<IToken<TTokenType>>();
         private readonly IDictionary<TTokenType, IParselet<TTokenType>> _prefixParselets = new Dictionary<TTokenType, IParselet<TTokenType>>();
         private readonly IDictionary<TTokenType, InfixParselet<TTokenType>> _infixParselets = new Dictionary<TTokenType, InfixParselet<TTokenType>>();
 
-        #endregion
         public Parser(
             ILexer<TTokenType> lexer,
             IDictionary<TTokenType, IParselet<TTokenType>> prefixParselets,
@@ -46,6 +41,35 @@ namespace SimpleParser
             return value;
         }
 
+        private IToken<TTokenType> LookAhead()
+        {
+            while (!_tokens.Any())
+            {
+                var token = _lexer.Next();
+                _tokens.Add(token);
+            }
+            return _tokens.First();
+        }
+
+
+        private int GetPrecedence()
+        {
+            var token = LookAhead();
+            var tokenType = token.TokenType;
+            return Equals(tokenType, default(TTokenType)) ? 0 : GetPrecedence(tokenType);
+        }
+
+        private int GetPrecedence(TTokenType tokenType)
+        {
+            var result = GetInfixParselet(tokenType);
+            if (result != null)
+                return result.Precedence;
+            return 0;
+
+            /* _parserMap.GetInfixParselet(tokenType)
+                 .OnSuccess(x => precedence = x.Precedence);*/
+        }
+
         #region IParser
 
         public ISimpleExpression ParseExpression(int precedence = 0)
@@ -61,16 +85,15 @@ namespace SimpleParser
                 if (atoken.HasValue)
                 {
                     var p = GetInfixParselet(atoken);
-                    if (p != null) { left = p.Parse(this, left, atoken); }
+                    if (p != null) { left = p.Parse(this, atoken, left); }
                 }
             }
             return left;
         }
 
-
         public bool IsMatch(TTokenType expected)
         {
-            var token = lookAhead();
+            var token = LookAhead();
             if (!Equals(token.TokenType, expected))
             {
                 return false;
@@ -82,7 +105,7 @@ namespace SimpleParser
 
         public IToken<TTokenType> Consume(TTokenType expected)
         {
-            var token = lookAhead();
+            var token = LookAhead();
             if (!Equals(token.TokenType, expected))
             {
                 throw new ParseException("Expected token {0} and found {1}", expected, token.TokenType);
@@ -93,40 +116,11 @@ namespace SimpleParser
         public IToken<TTokenType> Consume()
         {
             // Make sure we've read the token.
-            lookAhead();
+            LookAhead();
             var token = _tokens.First();
             _tokens.RemoveAt(0);
             return token;
         }
-
-        private IToken<TTokenType> lookAhead()
-        {
-            while (!_tokens.Any())
-            {
-                var token = _lexer.Next();
-                _tokens.Add(token);
-            }
-            return _tokens.First();
-        }
-
         #endregion
-
-        private int GetPrecedence()
-        {
-            var token = lookAhead();
-            var tokenType = token.TokenType;
-            return Equals(tokenType, default(TTokenType)) ? 0 : GetPrecedence(tokenType);
-        }
-
-        private int GetPrecedence(TTokenType tokenType)
-        {
-            var result = GetInfixParselet(tokenType);
-            if (result != null)
-                return result.Precedence;
-            return 0;
-
-            /* _parserMap.GetInfixParselet(tokenType)
-                 .OnSuccess(x => precedence = x.Precedence);*/
-        }
     }
 }

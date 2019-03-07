@@ -2,7 +2,6 @@
 using SimpleParser;
 using System.Collections.Generic;
 
-
 namespace Bantam
 {
     /// <summary>
@@ -12,7 +11,7 @@ namespace Bantam
     {
         public int Precedence { get; } = (int)Bantam.Precedence.CALL;
 
-        public ISimpleExpression Parse(IParser<TokenType> parser, ISimpleExpression left, IToken<TokenType> token)
+        public ISimpleExpression Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression left)
         {
             // Parse the comma-separated arguments until we hit, ")".
             var args = new List<ISimpleExpression>();

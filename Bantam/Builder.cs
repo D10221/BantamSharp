@@ -12,7 +12,7 @@ namespace Bantam
             _result += s;
             return this;
         }
-        public IBuilder Append(char c)
+        public IBuilder Append(object c)
         {
             _result += c.ToString();
             return this;
