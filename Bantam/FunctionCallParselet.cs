@@ -9,7 +9,7 @@ namespace Bantam
     /// </summary>
     public class FunctionCallParselet : IParselet<TokenType>
     {
-        public TokenType TokenType {get; set;} 
+        public TokenType TokenType { get; set; }
         public int Precedence { get; } = (int)Bantam.Precedence.CALL;
         public ParseletType ParseletType { get; } = ParseletType.Infix;
 

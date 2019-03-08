@@ -1,7 +1,8 @@
-﻿namespace SimpleParser
+﻿
+namespace SimpleParser
 {
     public interface IBuilder
     {
-        void Append(object cs);        
+        void Append(object cs);
     }
 }

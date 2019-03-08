@@ -1,4 +1,5 @@
-﻿namespace SimpleParser
+﻿
+namespace SimpleParser
 {
     public class Token
     {
@@ -31,7 +32,7 @@
         {
             return Value?.ToString();
         }
-    
+
         public bool IsEmpty
         {
             get { return Equals(TokenType, default(TTokenType)); }

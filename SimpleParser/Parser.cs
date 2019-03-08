@@ -5,7 +5,6 @@ namespace SimpleParser
 {
     public class Parser<TTokenType> : IParser<TTokenType>
     {
-
         private readonly ILexer<TTokenType> _lexer;
         private readonly List<IToken<TTokenType>> _tokens = new List<IToken<TTokenType>>();
         private readonly IEnumerable<IParselet<TTokenType>> _parselets;

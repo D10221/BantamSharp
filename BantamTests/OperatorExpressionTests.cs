@@ -12,7 +12,7 @@ namespace BantamTests
         public void OperatorExpressionTest()
         {
             var left = new NameExpression("x");
-            var right = new NameExpression("y");            
+            var right = new NameExpression("y");
             var expression = new BinaryOperatorExpression(Token.From(TokenType.NONE, "+"), left, right);
             IBuilder builder = new Builder();
             expression.Print(builder);
@@ -27,7 +27,7 @@ namespace BantamTests
             try
             {
                 var left = new NameExpression("x");
-                var right = new NameExpression("y");                
+                var right = new NameExpression("y");
                 var expression = new BinaryOperatorExpression(null, left, right);
                 //Just to stop the compiler warning becasue is not used 
                 Assert.IsNotNull(expression);

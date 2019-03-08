@@ -7,7 +7,7 @@ namespace Bantam
     /// </summary>
     public class PrefixExpression : ISimpleExpression
     {
-        public object Token {get;}
+        public object Token { get; }
         public ISimpleExpression Right { get; }
 
         public PrefixExpression(

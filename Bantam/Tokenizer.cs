@@ -16,13 +16,13 @@ namespace Bantam
     /// <summary>
     /// Convert text to tokens
     /// </summary>
-    class Tokenizer
+    internal class Tokenizer
     {
         private readonly IDictionary<char, TokenType> _punctuators;
-        
+
         public Tokenizer(IDictionary<TokenType, char> tokenTypes)
         {
-            _punctuators = tokenTypes.ToDictionary(x => x.Value, x => x.Key);            
+            _punctuators = tokenTypes.ToDictionary(x => x.Value, x => x.Key);
         }
 
         public IEnumerable<IToken<TokenType>> Tokenize(string text)

@@ -9,7 +9,7 @@ namespace Bantam
     /// </summary>
     public class PrefixOperatorParselet : IParselet<TokenType>
     {
-        public TokenType TokenType {get; set;} 
+        public TokenType TokenType { get; set; }
         public ParseletType ParseletType { get; } = ParseletType.Prefix;
         public int Precedence { get; }
 

@@ -1,4 +1,5 @@
-﻿namespace SimpleParser
+﻿
+namespace SimpleParser
 {
     public interface IToken<TTokenType>
     {

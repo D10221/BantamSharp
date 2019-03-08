@@ -8,14 +8,14 @@ namespace Bantam
     /// </summary>
     public class ConditionalExpression : ISimpleExpression
     {
-        public object Token {get;}
+        public object Token { get; }
         public ISimpleExpression Condition { get; }
         public ISimpleExpression Then { get; }
         public ISimpleExpression Else { get; }
 
         public ConditionalExpression(
            ISimpleExpression condition, ISimpleExpression then, ISimpleExpression @else)
-        {            
+        {
             Condition = condition;
             Then = then;
             Else = @else;

@@ -8,7 +8,6 @@ namespace BantamTests
     [TestClass]
     public class LexerTests
     {
-
         [TestMethod]
         public void NextTest()
         {

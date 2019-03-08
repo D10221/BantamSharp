@@ -4,7 +4,7 @@ using System;
 
 namespace SimpleParser
 {
-    public interface IParser<TTokenType> 
+    public interface IParser<TTokenType>
     {
         ISimpleExpression ParseExpression(int precedence = 0);
         bool IsMatch(TTokenType expected);

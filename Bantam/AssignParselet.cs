@@ -5,7 +5,7 @@ namespace Bantam
 {
     public class AssignParselet : IParselet<TokenType>
     {
-        public TokenType TokenType {get; set;} 
+        public TokenType TokenType { get; set; }
         public int Precedence { get; } = (int)Bantam.Precedence.ASSIGNMENT;
 
         public ParseletType ParseletType { get; } = ParseletType.Infix;
@@ -20,6 +20,5 @@ namespace Bantam
             if (left as NameExpression == null) throw new ParseException("The left-hand side of an assignment must be a name.");
             return new AssignExpression(left, Right);
         }
-
     }
 }

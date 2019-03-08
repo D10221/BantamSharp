@@ -11,7 +11,7 @@ namespace Bantam
     public class BinaryOperatorParselet : IParselet<TokenType>
     {
         public int Precedence { get; }
-        public TokenType TokenType {get; set;} 
+        public TokenType TokenType { get; set; }
         public ParseletType ParseletType { get; } = ParseletType.Infix;
 
         private readonly bool _isRight;

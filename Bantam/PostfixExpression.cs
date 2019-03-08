@@ -7,10 +7,10 @@ namespace Bantam
     /// </summary>
     public class PostfixExpression : ISimpleExpression
     {
-        public object Token {get;}
+        public object Token { get; }
 
         public ISimpleExpression Left { get; }
-        
+
         public PostfixExpression(IToken<TokenType> token, ISimpleExpression left)
         {
             Token = token;

@@ -7,7 +7,7 @@ namespace Bantam
     /// </summary>
     public class BinaryOperatorExpression : ISimpleExpression
     {
-        public object Token {get;}
+        public object Token { get; }
         public ISimpleExpression Left { get; }
         public ISimpleExpression Right { get; }
 

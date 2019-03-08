@@ -15,7 +15,7 @@ namespace SimpleParser
     {
         private readonly IEnumerable<IToken<T>> _tokens;
         private readonly IEnumerator<IToken<T>> _enumerator;
-        
+
         public Lexer(IEnumerable<IToken<T>> tokens)
         {
             _tokens = tokens;

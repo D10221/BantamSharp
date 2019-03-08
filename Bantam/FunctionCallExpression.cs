@@ -9,7 +9,7 @@ namespace Bantam
     /// </summary>
     public class FunctionCallExpression : ISimpleExpression
     {
-        public object Token {get;}
+        public object Token { get; }
         /// <summary>
         /// Function 
         /// </summary>
@@ -36,6 +36,5 @@ namespace Bantam
             }
             builder.Append(")");
         }
-
     }
 }

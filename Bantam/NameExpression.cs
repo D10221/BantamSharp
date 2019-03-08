@@ -7,7 +7,7 @@ namespace Bantam
     /// </summary>
     public class NameExpression : ISimpleExpression
     {
-        public object Token {get;}
+        public object Token { get; }
 
         public NameExpression(IToken<TokenType> token)
         {

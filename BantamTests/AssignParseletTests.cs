@@ -7,7 +7,7 @@ namespace BantamTests
     [TestClass]
     public class AssignParseletTests
     {
-        class FakeParser : IParser<TokenType>
+        private class FakeParser : IParser<TokenType>
         {
             private readonly NameExpression _expression;
 
