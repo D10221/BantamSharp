@@ -13,7 +13,7 @@ namespace BantamTests
             var exression = new PrefixExpression("-", new NameExpression("A"));
             var builder = new Builder();
             exression.Print(builder);
-            var actual = builder.Build();
+            var actual = builder.ToString();
             Assert.AreEqual("(-A)", actual);
         }
     }

@@ -47,7 +47,7 @@ namespace BantamTests
             var p = parselet.Parse(parser, token, left);
             var builder = new Builder();
             p.Print(builder);
-            var x = builder.Build();
+            var x = builder.ToString();
             Assert.AreEqual("(A=a)", x);
         }
     }

@@ -14,7 +14,7 @@ namespace BantamTests
             var exp = new FunctionCallExpression(nameExpression, null);
             var _builder = new Builder();
             exp.Print(_builder);
-            string actual = _builder.Build();
+            string actual = _builder.ToString();
             Assert.AreEqual("a()", actual);
         }
         [TestMethod]
@@ -24,7 +24,7 @@ namespace BantamTests
             var exp = new FunctionCallExpression(nameExpression, null);
             var _builder = new Builder();
             exp.Print(_builder);
-            string actual = _builder.Build();
+            string actual = _builder.ToString();
             Assert.AreEqual("()", actual);
         }
     }

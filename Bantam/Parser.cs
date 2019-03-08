@@ -54,7 +54,7 @@ namespace Bantam
             var result = parser.ParseExpression();
             var builder = new Builder();
             result.Print(builder);
-            var actual = builder.Build();
+            var actual = builder.ToString();
             return actual;
         }
     }

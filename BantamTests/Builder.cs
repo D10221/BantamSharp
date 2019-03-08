@@ -9,18 +9,7 @@ namespace BantamTests
     /// </summary>
     public class Builder : IBuilder
     {
-        private readonly StringBuilder _builder;
-
-        public Builder()
-        {
-            _builder = new StringBuilder();
-        }
-        
-        public IBuilder Append(string s)
-        {
-            _builder.Append(s);
-            return this;
-        }
+        private readonly StringBuilder _builder = new StringBuilder();        
 
         public IBuilder Append(object c)
         {
@@ -28,7 +17,7 @@ namespace BantamTests
             return this;
         }
 
-        public string Build()
+        public override string ToString()
         {
             return _builder.ToString();
         }

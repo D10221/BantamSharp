@@ -1,26 +1,25 @@
 ﻿using SimpleParser;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Bantam
 {
+    /// <summary>
+    /// Abstraction :)
+    /// </summary>
     public class Builder : IBuilder
     {
-        private string _result;
+        private readonly StringBuilder _builder = new StringBuilder();
 
-        public IBuilder Append(string s)
-        {
-            _result += s;
-            return this;
-        }
         public IBuilder Append(object c)
         {
-            _result += c.ToString();
+            _builder.Append(c);
             return this;
         }
 
-        public string Build()
+        public override string ToString()
         {
-            return _result;
+            return _builder.ToString();
         }
     }
 }

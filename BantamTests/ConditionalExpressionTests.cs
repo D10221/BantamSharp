@@ -17,7 +17,7 @@ namespace BantamTests
             var expresion = new ConditionalExpression(condition, then, @else);
             var _builder = new Builder();
             expresion.Print(_builder);
-            var actual = _builder.Build();
+            var actual = _builder.ToString();
             Assert.AreEqual("(x?y:z)", actual);
         }
     }

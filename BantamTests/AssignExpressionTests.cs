@@ -15,7 +15,7 @@ namespace BantamTests
             var e = new AssignExpression(name, new NameExpression("b"));
             var builder = new Builder();
             e.Print(builder);
-            var actual = builder.Build();
+            var actual = builder.ToString();
             Assert.AreEqual("(a=b)", actual);
         }
 
@@ -27,7 +27,7 @@ namespace BantamTests
             var expresison = new AssignExpression(name, right);
             var builder = new Builder();
             expresison.Print(builder);
-            var actual = builder.Build();
+            var actual = builder.ToString();
             Assert.AreEqual("(a=b())", actual);
         }
     }

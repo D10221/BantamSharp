@@ -12,7 +12,7 @@ namespace BantamTests
             var expression = new PostfixExpression("?", new NameExpression("A"));
             var builder = new Builder();
             expression.Print(builder);
-            var actual = builder.Build();
+            var actual = builder.ToString();
             var expected = "(A?)";
             Assert.AreEqual(expected, actual);
         }
