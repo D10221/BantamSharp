@@ -7,9 +7,11 @@ namespace Bantam
     /// <summary>
     ///     Parselet to parse a function call like "a(b, c, d)".
     /// </summary>
-    public class FunctionCallParselet : InfixParselet<TokenType>
+    public class FunctionCallParselet : IParselet<TokenType>
     {
+        public TokenType TokenType {get; set;} 
         public int Precedence { get; } = (int)Bantam.Precedence.CALL;
+        public ParseletType ParseletType { get; } = ParseletType.Infix;
 
         public ISimpleExpression Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression left)
         {

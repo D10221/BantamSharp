@@ -1,7 +1,5 @@
 ﻿
 
-using IParser = SimpleParser.IParser<Bantam.TokenType>;
-using IToken = SimpleParser.IToken<Bantam.TokenType>;
 using SimpleParser;
 
 namespace Bantam
@@ -11,7 +9,12 @@ namespace Bantam
     /// </summary>
     public class NameParselet : IParselet<TokenType>
     {
-        public ISimpleExpression Parse(IParser parser, IToken token)
+        public TokenType TokenType {get; set;} 
+        public ParseletType ParseletType { get; } = ParseletType.Prefix;
+
+        public int Precedence { get; }
+
+        public ISimpleExpression Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression left)
         {
             return new NameExpression(token);
         }

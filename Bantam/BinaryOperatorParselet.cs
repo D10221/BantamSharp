@@ -8,9 +8,11 @@ namespace Bantam
     /// difference when parsing, "+", "-", "*", "/", and "^" is precedence and
     /// associativity, so we can use a single parselet class for all of those.
     /// </summary>
-    public class BinaryOperatorParselet : InfixParselet<TokenType>
+    public class BinaryOperatorParselet : IParselet<TokenType>
     {
         public int Precedence { get; }
+        public TokenType TokenType {get; set;} 
+        public ParseletType ParseletType { get; } = ParseletType.Infix;
 
         private readonly bool _isRight;
 

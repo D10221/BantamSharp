@@ -9,6 +9,8 @@ namespace Bantam
     /// </summary>
     public class PrefixOperatorParselet : IParselet<TokenType>
     {
+        public TokenType TokenType {get; set;} 
+        public ParseletType ParseletType { get; } = ParseletType.Prefix;
         public int Precedence { get; }
 
         public PrefixOperatorParselet(int precedence)
@@ -16,7 +18,7 @@ namespace Bantam
             Precedence = precedence;
         }
 
-        public ISimpleExpression Parse(IParser<TokenType> parser, IToken<TokenType> token)
+        public ISimpleExpression Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression left)
         {
             // To handle right-associative operators like "^", we allow a slightly
             // lower precedence when parsing the right-hand side. This will let a

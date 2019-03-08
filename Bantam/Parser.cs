@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Bantam
 {
- 
+
     public static class Parser
-    {        
+    {
         public static Dictionary<TokenType, char> punctuators = new Dictionary<TokenType, char>
             {
                 { TokenType.LEFT_PAREN, '('},
@@ -25,32 +25,30 @@ namespace Bantam
                 //{ TokenType.EOF, default(char)}
             };
 
-        public static Dictionary<TokenType, IParselet<TokenType>> PrefixParselets = new Dictionary<TokenType, IParselet<TokenType>>{
-                { TokenType.NAME, new NameParselet()},
-                { TokenType.LEFT_PAREN, new GroupParselet(TokenType.RIGHT_PAREN) },
-                { TokenType.PLUS, new PrefixOperatorParselet((int)Precedence.PREFIX) },
-                { TokenType.MINUS, new PrefixOperatorParselet((int)Precedence.PREFIX) },
-                { TokenType.TILDE, new PrefixOperatorParselet((int)Precedence.PREFIX) },
-                { TokenType.BANG, new PrefixOperatorParselet((int)Precedence.PREFIX) }
+        public static IList<IParselet<TokenType>> Parselets = new List<IParselet<TokenType>>{
+                new NameParselet(){ TokenType = TokenType.NAME},
+                new GroupParselet(TokenType.RIGHT_PAREN) { TokenType = TokenType.LEFT_PAREN},
+                new PrefixOperatorParselet((int)Precedence.PREFIX) { TokenType = TokenType.PLUS},
+                new PrefixOperatorParselet((int)Precedence.PREFIX) { TokenType = TokenType.MINUS},
+                new PrefixOperatorParselet((int)Precedence.PREFIX) { TokenType = TokenType.TILDE},
+                new PrefixOperatorParselet((int)Precedence.PREFIX) { TokenType = TokenType.BANG},
+                new PostfixOperatorParselet((int)Precedence.POSTFIX) { TokenType = TokenType.BANG},
+                  new AssignParselet() { TokenType = TokenType.ASSIGN },
+                new ConditionalParselet() { TokenType = TokenType.QUESTION},
+                new FunctionCallParselet(){ TokenType = TokenType.LEFT_PAREN} ,
+                 new BinaryOperatorParselet((int)Precedence.SUM, InfixType.Left) { TokenType = TokenType.PLUS},
+                 new BinaryOperatorParselet((int)Precedence.SUM, InfixType.Left) { TokenType = TokenType.MINUS },
+                new BinaryOperatorParselet((int)Precedence.PRODUCT, InfixType.Left){ TokenType = TokenType.ASTERISK},
+                new BinaryOperatorParselet((int)Precedence.PRODUCT, InfixType.Left) { TokenType = TokenType.SLASH },
+                new BinaryOperatorParselet((int)Precedence.EXPONENT, InfixType.Right) { TokenType = TokenType.CARET}
                 };
 
-        public static Dictionary<TokenType, InfixParselet<TokenType>> InfixParselets = new Dictionary<TokenType, InfixParselet<TokenType>>(){
-                { TokenType.BANG, new PostfixOperatorParselet((int)Precedence.POSTFIX)},
-                { TokenType.ASSIGN, new AssignParselet()},
-                { TokenType.QUESTION, new ConditionalParselet() },
-                { TokenType.LEFT_PAREN, new FunctionCallParselet()} ,
-                { TokenType.PLUS, new BinaryOperatorParselet((int)Precedence.SUM, InfixType.Left) },
-                { TokenType.MINUS, new BinaryOperatorParselet((int)Precedence.SUM, InfixType.Left)},
-                { TokenType.ASTERISK, new BinaryOperatorParselet((int)Precedence.PRODUCT, InfixType.Left) },
-                { TokenType.SLASH, new BinaryOperatorParselet((int)Precedence.PRODUCT, InfixType.Left)},
-                { TokenType.CARET, new BinaryOperatorParselet((int)Precedence.EXPONENT, InfixType.Right)}
-                };
 
         public static string Parse(string text)
         {
             var tokens = new Tokenizer(punctuators).Tokenize(text);
             var lexer = new Lexer<TokenType>(tokens);
-            var parser = new SimpleParser.Parser<TokenType>(lexer, PrefixParselets, InfixParselets);
+            var parser = new SimpleParser.Parser<TokenType>(lexer, Parselets);
             var expression = parser.ParseExpression();
             var builder = new Builder();
             expression.Print(builder);

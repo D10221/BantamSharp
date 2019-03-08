@@ -8,32 +8,29 @@ namespace SimpleParser
 
         private readonly ILexer<TTokenType> _lexer;
         private readonly List<IToken<TTokenType>> _tokens = new List<IToken<TTokenType>>();
-        private readonly IDictionary<TTokenType, IParselet<TTokenType>> _prefixParselets = new Dictionary<TTokenType, IParselet<TTokenType>>();
-        private readonly IDictionary<TTokenType, InfixParselet<TTokenType>> _infixParselets = new Dictionary<TTokenType, InfixParselet<TTokenType>>();
+        private readonly IEnumerable<IParselet<TTokenType>> _parselets;
 
         public Parser(
             ILexer<TTokenType> lexer,
-            IDictionary<TTokenType, IParselet<TTokenType>> prefixParselets,
-            IDictionary<TTokenType, InfixParselet<TTokenType>> infixParselets)
+            IEnumerable<IParselet<TTokenType>> parselets)
         {
             _lexer = lexer;
-            _prefixParselets = prefixParselets;
-            _infixParselets = infixParselets;
+            _parselets = parselets;
         }
-        private IParselet<TTokenType> GetPrefixParselet(TTokenType tokenType)
+        private IParselet<TTokenType> GetParselet(TTokenType tokenType, ParseletType parseletType)
         {
-            _prefixParselets.TryGetValue(tokenType, out var value);
-            return value;
+            return _parselets.FirstOrDefault(x => x.ParseletType == parseletType && x.TokenType.Equals(tokenType));
         }
-        private InfixParselet<TTokenType> GetInfixParselet(TTokenType tokenType)
-        {
-            _infixParselets.TryGetValue(tokenType, out var value);
-            return value;
-        }
-        private InfixParselet<TTokenType> GetInfixParselet(IToken<TTokenType> atoken)
-        {
-            return GetInfixParselet(atoken.TokenType);
-        }
+        //private IParselet<TTokenType> GetInfixParselet(TTokenType tokenType)
+        //{
+        //    _infixParselets.TryGetValue(tokenType, out var value);
+        //    return value;
+        //}
+        //private IParselet<TTokenType> GetInfixParselet(IToken<TTokenType> atoken)
+        //{
+        //    return GetInfixParselet(atoken.TokenType);
+        //}
+        // Warning!
         private IToken<TTokenType> LookAhead()
         {
             while (!_tokens.Any())
@@ -45,7 +42,7 @@ namespace SimpleParser
         }
         private int GetPrecedence(TTokenType tokenType)
         {
-            var result = GetInfixParselet(tokenType);
+            var result = GetParselet(tokenType, ParseletType.Infix);
             if (result != null)
                 return result.Precedence;
             return 0;
@@ -65,15 +62,14 @@ namespace SimpleParser
         {
             var token = Consume();
 
-            var prefix =
-                GetPrefixParselet(token.TokenType);
-            var left = prefix?.Parse(this, token); //Expression
+            var prefix = GetParselet(token.TokenType, ParseletType.Prefix);
+            var left = prefix?.Parse(this, token, null); //Expression
             while (precedence < GetPrecedence())
             {
                 var atoken = Consume();
                 if (!atoken.IsEmpty)
                 {
-                    var p = GetInfixParselet(atoken);
+                    var p = GetParselet(atoken.TokenType, ParseletType.Infix);
                     if (p != null) { left = p.Parse(this, atoken, left); }
                 }
             }
