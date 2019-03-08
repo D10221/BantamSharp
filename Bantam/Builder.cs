@@ -11,10 +11,9 @@ namespace Bantam
     {
         private readonly StringBuilder _builder = new StringBuilder();
 
-        public IBuilder Append(object c)
+        public void Append(object c)
         {
             _builder.Append(c);
-            return this;
         }
 
         public override string ToString()

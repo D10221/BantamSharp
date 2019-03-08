@@ -7,23 +7,23 @@ namespace Bantam
     /// </summary>
     public class PrefixExpression : ISimpleExpression
     {
-        readonly object _punctuator;
-        ISimpleExpression _right;
+        public object Token {get;}
+        public ISimpleExpression Right { get; }
 
         public PrefixExpression(
-            object punctuator,
+            IToken<TokenType> token,
             ISimpleExpression right)
         {
-            _punctuator = punctuator;
-            _right = right;
+            Token = token;
+            Right = right;
         }
 
         public void Print(IBuilder builder)
         {
             builder
-                .Append("(")
-                .Append(_punctuator);
-            _right.Print(builder);
+                .Append("(");
+            builder.Append(Token);
+            Right.Print(builder);
             builder.Append(")");
         }
     }

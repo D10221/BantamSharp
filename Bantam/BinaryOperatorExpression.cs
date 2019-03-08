@@ -7,31 +7,26 @@ namespace Bantam
     /// </summary>
     public class BinaryOperatorExpression : ISimpleExpression
     {
-        private ISimpleExpression _left;
-
-        private ISimpleExpression _right;
-
-        private readonly object _punctuator;
+        public object Token {get;}
+        public ISimpleExpression Left { get; }
+        public ISimpleExpression Right { get; }
 
         public BinaryOperatorExpression(
+            IToken<TokenType> token,
             ISimpleExpression left,
-            ISimpleExpression right,
-            object punctuator)
+            ISimpleExpression right
+            )
         {
-            _left = left;
-            _right = right;
-            _punctuator = punctuator ?? throw new ParseException("Invalid punctuator");
+            Left = left;
+            Right = right;
+            Token = token ?? throw new ParseException("Invalid punctuator");
         }
         public void Print(IBuilder builder)
         {
             builder.Append("(");
-            _left.Print(builder);
-            builder
-                //.Append(" ")
-                .Append(_punctuator)
-                //.Append(" ")
-                ;
-            _right.Print(builder);
+            Left.Print(builder);
+            builder.Append(Token);
+            Right.Print(builder);
             builder.Append(")");
         }
     }

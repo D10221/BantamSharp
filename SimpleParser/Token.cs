@@ -2,7 +2,7 @@
 {
     public class Token
     {
-        public static IToken<T> New<T>(T tokenType, string text)
+        public static IToken<T> From<T>(T tokenType, string text)
         {
             return new Token<T>(tokenType, text);
         }

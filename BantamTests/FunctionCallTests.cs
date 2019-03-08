@@ -19,7 +19,6 @@ namespace BantamTests
         public void TestMethod2()
         {
             const string expression = "a(b)";
-
             var parsed = Parser.Parse(expression);
             Assert.AreEqual("a(b)", parsed);
         }

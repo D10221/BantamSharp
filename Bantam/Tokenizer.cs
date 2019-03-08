@@ -51,7 +51,7 @@ namespace Bantam
             {
                 return Token.Empty(default(TokenType));
             }
-            return Token.New(t, c.ToString());
+            return Token.From(t, c.ToString());
         }
 
         private IToken<TokenType> TryGetLetter(char c)

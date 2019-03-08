@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace SimpleParser
+﻿namespace SimpleParser
 {
     public interface IBuilder
     {
-        IBuilder Append(object cs);        
+        void Append(object cs);        
     }
 }

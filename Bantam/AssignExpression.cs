@@ -1,5 +1,4 @@
 ﻿using SimpleParser;
-using System;
 
 namespace Bantam
 {
@@ -7,23 +6,24 @@ namespace Bantam
     /// An assignment expression like "a = b"
     /// </summary>
     public class AssignExpression : ISimpleExpression
-    {
-        public object Name { get;  }
-
+    {        
+        public object Token {get;}
+        public ISimpleExpression Left { get; }
         public ISimpleExpression Right { get; }
 
-        public AssignExpression(object name, ISimpleExpression right)
+        public AssignExpression(ISimpleExpression left, ISimpleExpression right)
         {
-            Name = name;
+            this.Left = left;            
+            Token  = ((NameExpression) left).Token;
             Right = right;
         }
 
         public void Print(IBuilder builder)
         {
             builder
-                .Append("(")
-                .Append(Name)
-                .Append("=");
+                .Append("(");
+            builder.Append(Token);
+            builder.Append("=");
             Right.Print(builder);
             builder.Append(")");
         }

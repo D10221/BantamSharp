@@ -1,5 +1,4 @@
 ﻿using SimpleParser;
-using System.Collections.Generic;
 
 namespace Bantam
 {
@@ -8,21 +7,22 @@ namespace Bantam
     /// </summary>
     public class PostfixExpression : ISimpleExpression
     {
-        private ISimpleExpression Left { get; }
+        public object Token {get;}
 
-        private object _token;
-
-        public PostfixExpression(object token, ISimpleExpression left)
+        public ISimpleExpression Left { get; }
+        
+        public PostfixExpression(IToken<TokenType> token, ISimpleExpression left)
         {
-            Left = left;            
-            _token = token;
+            Token = token;
+            Left = left;
         }
 
         public void Print(IBuilder builder)
         {
             builder.Append("(");
             Left.Print(builder);
-            builder.Append(_token).Append(")");
+            builder.Append(Token);
+            builder.Append(")");
         }
     }
 }

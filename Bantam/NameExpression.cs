@@ -7,15 +7,21 @@ namespace Bantam
     /// </summary>
     public class NameExpression : ISimpleExpression
     {
-        public object Name { get; }
+        public object Token {get;}
 
-        public NameExpression(object name)
+        public NameExpression(IToken<TokenType> token)
         {
-            Name = name;
+            Token = token;
         }
+
+        public NameExpression(string token)
+        {
+            this.Token = SimpleParser.Token.From(TokenType.NAME, token);
+        }
+
         public void Print(IBuilder builder)
         {
-            builder.Append(Name);
+            builder.Append(Token);
         }
     }
 }

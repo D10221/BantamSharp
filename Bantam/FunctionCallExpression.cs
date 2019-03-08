@@ -1,5 +1,6 @@
 ﻿using SimpleParser;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bantam
 {
@@ -8,27 +9,33 @@ namespace Bantam
     /// </summary>
     public class FunctionCallExpression : ISimpleExpression
     {
-        public FunctionCallExpression(ISimpleExpression function, List<ISimpleExpression> args)
-        {
-            Function = function;
+        public object Token {get;}
+        /// <summary>
+        /// Function 
+        /// </summary>
+        public ISimpleExpression Left { get; }
+        public IEnumerable<ISimpleExpression> Right { get; }
 
-            Args = args ?? new List<ISimpleExpression>();
+        public FunctionCallExpression(ISimpleExpression left, List<ISimpleExpression> right)
+        {
+            Left = left;
+            Right = right ?? new List<ISimpleExpression>();
         }
 
         public void Print(IBuilder builder)
         {
-            Function?.Print(builder);
+            Left?.Print(builder);
             builder.Append("(");
-            for (var i = 0; i < Args.Count; i++)
+            int count = Right.Count();
+            // var i = 0; i < count; i++
+            var i = 0;
+            foreach (var arg in Right)
             {
-                Args[i].Print(builder);
-                if (i < Args.Count - 1) builder.Append(",");
+                arg.Print(builder);
+                if (++i < count) builder.Append(",");
             }
             builder.Append(")");
         }
 
-        protected ISimpleExpression Function { get; private set; }
-
-        protected List<ISimpleExpression> Args { get; private set; }
     }
 }

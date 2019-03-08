@@ -13,10 +13,8 @@ namespace Bantam
             //Why -1
             Right = parser.ParseExpression(Precedence - 1);
             Left = left;
-            //if (left as NameExpression == null)throw new ParseException("The left-hand side of an assignment must be a name.");
-
-            var name = ((NameExpression)left).Name;
-            return new AssignExpression(name, Right);
+            if (left as NameExpression == null)throw new ParseException("The left-hand side of an assignment must be a name.");            
+            return new AssignExpression(left, Right);
         }
 
         public int Precedence { get; } = (int)Bantam.Precedence.ASSIGNMENT;

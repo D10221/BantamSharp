@@ -1,7 +1,4 @@
-﻿
-using System;
-
-namespace SimpleParser
+﻿namespace SimpleParser
 {
     public interface IParselet<TTokenType> 
     {

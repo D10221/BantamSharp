@@ -19,9 +19,9 @@ namespace Bantam
 
         public ISimpleExpression Parse(IParser parser, IToken<TokenType> token)
         {
-            var simpleExpression = parser.ParseExpression();
-            parser.Consume(_right);
-            return simpleExpression;
+            var expression = parser.ParseExpression();
+            parser.Consume(expected: _right);
+            return expression;
         }
     }
 }

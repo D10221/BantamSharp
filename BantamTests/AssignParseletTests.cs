@@ -41,7 +41,7 @@ namespace BantamTests
         public void TestMethod1()
         {
             var parselet = new AssignParselet();
-            var token = Token.New(TokenType.ASSIGN, "=");
+            var token = Token.From(TokenType.ASSIGN, "=");
             var parser = new FakeParser(new NameExpression("a"));
             var left = new NameExpression("A");
             var p = parselet.Parse(parser, token, left);

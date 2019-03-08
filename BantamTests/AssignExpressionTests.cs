@@ -11,8 +11,7 @@ namespace BantamTests
         [TestMethod]
         public void AssignExpressionTest()
         {
-            const string name = "a";            
-            var e = new AssignExpression(name, new NameExpression("b"));
+            var e = new AssignExpression(new NameExpression("a"), new NameExpression("b"));
             var builder = new Builder();
             e.Print(builder);
             var actual = builder.ToString();
@@ -22,9 +21,9 @@ namespace BantamTests
         [TestMethod]
         public void AssignExpressionTest2()
         {
-            const string name = "a";
-            ISimpleExpression right = new FunctionCallExpression(new NameExpression("b"), null);
-            var expresison = new AssignExpression(name, right);
+            var token = Token.From(TokenType.NONE, "b");
+            ISimpleExpression right = new FunctionCallExpression(new NameExpression(token), null);
+            var expresison = new AssignExpression(new NameExpression("a"), right);
             var builder = new Builder();
             expresison.Print(builder);
             var actual = builder.ToString();
