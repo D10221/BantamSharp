@@ -26,7 +26,7 @@ namespace BantamTests
             const string expression = "-a * b";
             string actual = Parser.Parse(expression);
 
-            const string expected = "((-a) * b)";
+            const string expected = "((-a)*b)";
             Assert.AreEqual(expected, actual); //Fails           
         }
 
@@ -36,7 +36,7 @@ namespace BantamTests
             const string expression = "!a + b";
             string actual = Parser.Parse(expression);
 
-            const string expected = "((!a) + b)";
+            const string expected = "((!a)+b)";
             Assert.AreEqual(expected, actual); //Fails     
         }
 
@@ -46,7 +46,7 @@ namespace BantamTests
             const string expression = "~a ^ b";
             string actual = Parser.Parse(expression);
 
-            const string expected = "((~a) ^ b)";
+            const string expected = "((~a)^b)";
             Assert.AreEqual(expected, actual); //Fails     
         }
 
@@ -76,7 +76,7 @@ namespace BantamTests
         {
             const string expression = "(a = ((b + (c * (d ^ e))) - (f / g)))";
             var actual = Parser.Parse(expression);
-            const string expected = "(a = ((b + (c * (d ^ e))) - (f / g)))";
+            const string expected = "(a=((b+(c*(d^e)))-(f/g)))";
             Assert.AreEqual(expected, actual); //Fails               
         }
     }

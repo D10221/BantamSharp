@@ -27,7 +27,7 @@ namespace Bantam
             // parselet with the same precedence appear on the right, which will then
             // take *this* parselet's result as its left-hand argument.
             var right = parser.ParseExpression(Precedence - (_isRight ? 1 : 0));
-            return new OperatorExpression(left, right, token);
+            return new BinaryOperatorExpression(left, right, token);
         }
     }
 }

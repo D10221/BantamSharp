@@ -48,7 +48,7 @@ namespace BantamTests
             var builder = new Builder();
             p.Print(builder);
             var x = builder.Build();
-            Assert.AreEqual("(A = a)", x);
+            Assert.AreEqual("(A=a)", x);
         }
     }
 }

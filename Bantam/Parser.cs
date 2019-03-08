@@ -38,7 +38,7 @@ namespace Bantam
                 { TokenType.BANG, new PostfixOperatorParselet((int)Precedence.POSTFIX)},
                 { TokenType.ASSIGN, new AssignParselet()},
                 { TokenType.QUESTION, new ConditionalParselet() },
-                { TokenType.LEFT_PAREN, new CallParselet()} ,
+                { TokenType.LEFT_PAREN, new FunctionCallParselet()} ,
                 { TokenType.PLUS, new BinaryOperatorParselet((int)Precedence.SUM, InfixType.Left) },
                 { TokenType.MINUS, new BinaryOperatorParselet((int)Precedence.SUM, InfixType.Left)},
                 { TokenType.ASTERISK, new BinaryOperatorParselet((int)Precedence.PRODUCT, InfixType.Left) },

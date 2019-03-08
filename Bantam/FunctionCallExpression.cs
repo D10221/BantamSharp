@@ -6,9 +6,9 @@ namespace Bantam
     /// <summary>
     /// A function call like "a(b, c, d) OR a(x)(z)".
     /// </summary>
-    public class CallExpression : ISimpleExpression
+    public class FunctionCallExpression : ISimpleExpression
     {
-        public CallExpression(ISimpleExpression function, List<ISimpleExpression> args)
+        public FunctionCallExpression(ISimpleExpression function, List<ISimpleExpression> args)
         {
             Function = function;
 
@@ -22,7 +22,7 @@ namespace Bantam
             for (var i = 0; i < Args.Count; i++)
             {
                 Args[i].Print(builder);
-                if (i < Args.Count - 1) builder.Append(", ");
+                if (i < Args.Count - 1) builder.Append(",");
             }
             builder.Append(")");
         }

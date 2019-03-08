@@ -16,19 +16,19 @@ namespace BantamTests
             var builder = new Builder();
             e.Print(builder);
             var actual = builder.Build();
-            Assert.AreEqual("(a = b)", actual);
+            Assert.AreEqual("(a=b)", actual);
         }
 
         [TestMethod]
         public void AssignExpressionTest2()
         {
             const string name = "a";
-            ISimpleExpression right = new CallExpression(new NameExpression("b"), null);
+            ISimpleExpression right = new FunctionCallExpression(new NameExpression("b"), null);
             var expresison = new AssignExpression(name, right);
             var builder = new Builder();
             expresison.Print(builder);
             var actual = builder.Build();
-            Assert.AreEqual("(a = b())", actual);
+            Assert.AreEqual("(a=b())", actual);
         }
     }
 }

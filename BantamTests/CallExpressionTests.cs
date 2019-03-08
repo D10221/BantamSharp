@@ -11,7 +11,7 @@ namespace BantamTests
         public void TestMethod1()
         {
             var nameExpression = new NameExpression("a");
-            var exp = new CallExpression(nameExpression, null);
+            var exp = new FunctionCallExpression(nameExpression, null);
             var _builder = new Builder();
             exp.Print(_builder);
             string actual = _builder.Build();
@@ -21,7 +21,7 @@ namespace BantamTests
         public void TestMethod2()
         {
             var nameExpression = new NameExpression("");
-            var exp = new CallExpression(nameExpression, null);
+            var exp = new FunctionCallExpression(nameExpression, null);
             var _builder = new Builder();
             exp.Print(_builder);
             string actual = _builder.Build();

@@ -11,7 +11,7 @@ namespace BantamTests
         {
             const string expression = "a + (b + c) + d";
             string actual = Parser.Parse(expression);
-            const string expected = "((a + (b + c)) + d)";
+            const string expected = "((a+(b+c))+d)";
             Assert.AreEqual(expected, actual);
         }
 
@@ -20,7 +20,7 @@ namespace BantamTests
         {
             const string expression = "a ^ (b + c)";
             string actual = Parser.Parse(expression);
-            const string expected = "(a ^ (b + c))";
+            const string expected = "(a^(b+c))";
             Assert.AreEqual(expected, actual);
         }
 

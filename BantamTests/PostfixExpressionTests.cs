@@ -9,7 +9,7 @@ namespace BantamTests
         [TestMethod]
         public void Test1()
         {
-            var expression = new PostfixExpression(new NameExpression("A"), "?");
+            var expression = new PostfixExpression("?", new NameExpression("A"));
             var builder = new Builder();
             expression.Print(builder);
             var actual = builder.Build();

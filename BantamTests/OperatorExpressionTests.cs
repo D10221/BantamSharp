@@ -13,11 +13,11 @@ namespace BantamTests
         {
             var left = new NameExpression("x");
             var right = new NameExpression("y");            
-            var expression = new OperatorExpression(left, right, "+");
+            var expression = new BinaryOperatorExpression(left, right, "+");
             IBuilder builder = new Builder();
             expression.Print(builder);
             var actual = builder.Build();
-            Assert.AreEqual("(x + y)", actual);
+            Assert.AreEqual("(x+y)", actual);
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace BantamTests
             {
                 var left = new NameExpression("x");
                 var right = new NameExpression("y");                
-                var expression = new OperatorExpression(left, right, null);
+                var expression = new BinaryOperatorExpression(left, right, null);
                 //Just to stop the compiler warning becasue is not used 
                 Assert.IsNotNull(expression);
             }

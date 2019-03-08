@@ -5,7 +5,7 @@ namespace Bantam
     /// <summary>
     ///     A binary arithmetic expression like "a + b" or "c ^ d"
     /// </summary>
-    public class OperatorExpression : ISimpleExpression
+    public class BinaryOperatorExpression : ISimpleExpression
     {
         private ISimpleExpression _left;
 
@@ -13,7 +13,7 @@ namespace Bantam
 
         private readonly object _punctuator;
 
-        public OperatorExpression(
+        public BinaryOperatorExpression(
             ISimpleExpression left,
             ISimpleExpression right,
             object punctuator)
@@ -26,7 +26,11 @@ namespace Bantam
         {
             builder.Append("(");
             _left.Print(builder);
-            builder.Append(" ").Append(_punctuator).Append(" ");
+            builder
+                //.Append(" ")
+                .Append(_punctuator)
+                //.Append(" ")
+                ;
             _right.Print(builder);
             builder.Append(")");
         }

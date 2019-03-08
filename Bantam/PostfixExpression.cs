@@ -22,7 +22,7 @@ namespace Bantam
         {
             builder.Append("(");
             Left.Print(builder);
-            builder.Append(_token).Append("(");
+            builder.Append(_token).Append(")");
         }
     }
 }

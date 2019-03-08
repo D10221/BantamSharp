@@ -20,7 +20,10 @@ namespace Bantam
 
         public void Print(IBuilder builder)
         {
-            builder.Append("(").Append(Name).Append(" = ");
+            builder
+                .Append("(")
+                .Append(Name)
+                .Append("=");
             Right.Print(builder);
             builder.Append(")");
         }

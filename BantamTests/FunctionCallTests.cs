@@ -29,7 +29,7 @@ namespace BantamTests
         {
             const string expression = "a(b, c)";
             var parsed = Parser.Parse(expression);
-            Assert.AreEqual("a(b, c)", parsed);
+            Assert.AreEqual("a(b,c)", parsed);
         }
 
         [TestMethod]
@@ -45,7 +45,7 @@ namespace BantamTests
         {
             const string expression = "a(b) + c(d)";
             var parsed = Parser.Parse(expression);
-            Assert.AreEqual("(a(b) + c(d))", parsed);
+            Assert.AreEqual("(a(b)+c(d))", parsed);
         }
 
         [TestMethod]
@@ -53,7 +53,7 @@ namespace BantamTests
         {
             const string expression = "a(b ? c : d, e + f)";
             var parsed = Parser.Parse(expression);
-            Assert.AreEqual("a((b ? c : d), (e + f))", parsed);
+            Assert.AreEqual("a((b?c:d),(e+f))", parsed);
         }
     }
 }

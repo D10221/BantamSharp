@@ -7,7 +7,7 @@ namespace Bantam
     /// <summary>
     ///     Parselet to parse a function call like "a(b, c, d)".
     /// </summary>
-    public class CallParselet : InfixParselet<TokenType>
+    public class FunctionCallParselet : InfixParselet<TokenType>
     {
         public int Precedence { get; } = (int)Bantam.Precedence.CALL;
 
@@ -18,7 +18,7 @@ namespace Bantam
 
             // There may be no arguments at all.
             if (parser.IsMatch(TokenType.RIGHT_PAREN))
-                return new CallExpression(left, args);
+                return new FunctionCallExpression(left, args);
             do
             {
                 args.Add(parser.ParseExpression(/*Precedence.ZERO*/));
@@ -26,7 +26,7 @@ namespace Bantam
 
             parser.Consume(TokenType.RIGHT_PAREN);
 
-            return new CallExpression(left, args);
+            return new FunctionCallExpression(left, args);
         }
     }
 }
