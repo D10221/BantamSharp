@@ -6,7 +6,7 @@ namespace SimpleParser
     public class Parser<TTokenType> : IParser<TTokenType>
     {
         private readonly ILexer<TTokenType> _lexer;
-        private readonly List<IToken<TTokenType>> _tokens = new List<IToken<TTokenType>>();
+        private readonly IList<IToken<TTokenType>> _tokens = new List<IToken<TTokenType>>();
         private readonly IEnumerable<IParselet<TTokenType>> _parselets;
 
         public Parser(
@@ -16,20 +16,12 @@ namespace SimpleParser
             _lexer = lexer;
             _parselets = parselets;
         }
+
         private IParselet<TTokenType> GetParselet(TTokenType tokenType, ParseletType parseletType)
         {
             return _parselets.FirstOrDefault(x => x.ParseletType == parseletType && x.TokenType.Equals(tokenType));
-        }
-        //private IParselet<TTokenType> GetInfixParselet(TTokenType tokenType)
-        //{
-        //    _infixParselets.TryGetValue(tokenType, out var value);
-        //    return value;
-        //}
-        //private IParselet<TTokenType> GetInfixParselet(IToken<TTokenType> atoken)
-        //{
-        //    return GetInfixParselet(atoken.TokenType);
-        //}
-        // Warning!
+        }        
+       
         private IToken<TTokenType> LookAhead()
         {
             while (!_tokens.Any())
@@ -45,9 +37,6 @@ namespace SimpleParser
             if (result != null)
                 return result.Precedence;
             return 0;
-
-            /* _parserMap.GetInfixParselet(tokenType)
-                 .OnSuccess(x => precedence = x.Precedence);*/
         }
         private int GetPrecedence()
         {
@@ -56,6 +45,8 @@ namespace SimpleParser
         }
 
         #region IParser
+
+        public IEnumerable<IToken<TTokenType>> Tokens => _tokens;
 
         public ISimpleExpression ParseExpression(int precedence = 0)
         {

@@ -1,6 +1,7 @@
 ﻿using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
+using System.Collections.Generic;
 
 namespace BantamTests
 {
@@ -15,6 +16,7 @@ namespace BantamTests
             {
                 _expression = expression;
             }
+            public IEnumerable<IToken<TokenType>> Tokens { get; } = new List<IToken<TokenType>>();
 
             public ISimpleExpression ParseExpression(int precedence)
             {
