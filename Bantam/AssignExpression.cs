@@ -13,9 +13,9 @@ namespace Bantam
 
         public AssignExpression(ISimpleExpression left, ISimpleExpression right)
         {
-            this.Left = left;
+            Left = left;
             Token = ((NameExpression)left).Token;
-            Right = right;
+            Right = right ?? throw new ParseException($"Missing right side expression from {Left}");
         }
 
         public void Print(IBuilder builder)

@@ -23,5 +23,10 @@ namespace Bantam
         {
             builder.Append(Token);
         }
+
+        public override string ToString()
+        {
+            return $"NameExpression:\"{Token}\"";
+        }
     }
 }

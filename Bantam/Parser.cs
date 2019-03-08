@@ -5,21 +5,21 @@ namespace Bantam
 {
     public static class Parser
     {
-        public static Dictionary<TokenType, char> punctuators = new Dictionary<TokenType, char>
+        public static Dictionary<TokenType, string> punctuators = new Dictionary<TokenType, string>
             {
-                { TokenType.LEFT_PAREN, '('},
-                { TokenType.RIGHT_PAREN, ')'},
-                { TokenType.COMMA, ','},
-                { TokenType.ASSIGN, '='},
-                { TokenType.PLUS, '+'},
-                { TokenType.MINUS, '-'},
-                { TokenType.ASTERISK, '*'},
-                { TokenType.SLASH, '/'},
-                { TokenType.CARET, '^'},
-                { TokenType.TILDE, '~'},
-                { TokenType.BANG, '!'},
-                { TokenType.QUESTION, '?'},
-                { TokenType.COLON, ':'},
+                { TokenType.LEFT_PAREN, "("},
+                { TokenType.RIGHT_PAREN, ")"},
+                { TokenType.COMMA, ","},
+                { TokenType.ASSIGN, "="},
+                { TokenType.PLUS, "+"},
+                { TokenType.MINUS, "-"},
+                { TokenType.ASTERISK, "*"},
+                { TokenType.SLASH, "/"},
+                { TokenType.CARET, "^"},
+                { TokenType.TILDE, "~"},
+                { TokenType.BANG, "!"},
+                { TokenType.QUESTION, "?"},
+                { TokenType.COLON, ":"},
                 //{ TokenType.NAME, default(char)},
                 //{ TokenType.EOF, default(char)}
             };
