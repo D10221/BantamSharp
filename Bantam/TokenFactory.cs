@@ -23,20 +23,14 @@ namespace Bantam
             {
                 return Token.Empty(default(TokenType));
             }
-            return Token.From(t, c.ToString());
+            return Token.From(t, c?.ToString());
         }
-
+        Regex _nameRegex = new Regex(@"\w+");
         public IToken<TokenType> GetName(string c)
         {
-            var input = c.ToString();
-            return LooksLikeLetter(input) ? new Token<TokenType>(TokenType.NAME, input) : Token.Empty<TokenType>();
+            var input = c?.ToString();
+            return input!= null && _nameRegex.IsMatch(input) ? new Token<TokenType>(TokenType.NAME, input) : Token.Empty<TokenType>();
         }
 
-        private static bool LooksLikeLetter(string input)
-        {
-            var regex = new Regex(@"\w");
-            bool isMatch = regex.IsMatch(input);
-            return isMatch;
-        }
     }
 }
