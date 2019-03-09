@@ -22,9 +22,9 @@ namespace BantamTests
             var m = lexer.Next();
             Assert.AreEqual("-", m.ToString());
 
-            //This Lexer Can't handle Words
-            //var abc = lexer.Next();
-            //Assert.AreEqual("abc", abc.ToString());
+            //This Lexer Can handle Words
+            var abc = lexer.Next();
+            Assert.AreEqual("abc", abc.ToString());
         }
 
         [TestMethod]
