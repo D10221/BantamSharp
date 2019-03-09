@@ -8,9 +8,9 @@ namespace SimpleParser
             return new Token<T>(tokenType, text);
         }
 
-        public static IToken<T> Empty<T>(T empty = default)
+        public static IToken<T> Empty<T>(T empty = default, object value = null)
         {
-            return new Token<T>(default, null);
+            return new Token<T>(default, value);
         }
     }
     /// <summary>

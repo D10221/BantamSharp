@@ -25,11 +25,12 @@ namespace Bantam
             }
             return Token.From(t, c?.ToString());
         }
-        Regex _nameRegex = new Regex(@"\w+");
-        public IToken<TokenType> GetName(string c)
+        Regex _nameRegex = new Regex(@"^[a-zA-Z_][a-zA-Z_0123456789]*$");
+        public IToken<TokenType> GetName(string input)
         {
-            var input = c?.ToString();
-            return input!= null && _nameRegex.IsMatch(input) ? new Token<TokenType>(TokenType.NAME, input) : Token.Empty<TokenType>();
+            return input != null && _nameRegex.IsMatch(input) 
+                ? new Token<TokenType>(TokenType.NAME, input) 
+                : Token.Empty<TokenType>(default, input);
         }
 
     }
