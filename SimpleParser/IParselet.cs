@@ -1,12 +1,6 @@
 ﻿
 namespace SimpleParser
 {
-    public enum ParseletType
-    {
-        None,
-        Prefix,
-        Infix
-    }
     public interface IParselet<TTokenType>
     {
         int Precedence { get; }
