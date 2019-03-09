@@ -23,7 +23,6 @@ namespace Bantam
                 //{ TokenType.NAME, default(char)},
                 //{ TokenType.EOF, default(char)}
             };
-
         public static IList<IParselet<TokenType>> Parselets = new List<IParselet<TokenType>>{
                 new NameParselet(){ TokenType = TokenType.NAME},
                 new GroupParselet(TokenType.RIGHT_PAREN) { TokenType = TokenType.LEFT_PAREN},
@@ -41,11 +40,11 @@ namespace Bantam
                 new BinaryOperatorParselet((int)Precedence.PRODUCT, InfixType.Left) { TokenType = TokenType.SLASH },
                 new BinaryOperatorParselet((int)Precedence.EXPONENT, InfixType.Right) { TokenType = TokenType.CARET}
                 };
-
-
         public static string Parse(string text)
         {
-            var tokens = new Tokenizer(punctuators).Tokenize(text);
+            var tokenFactory = TokenFactory.From(punctuators.Reverse());
+            var tokenizer = Tokenizer.From(punctuators);
+            var tokens = tokenizer.Tokenize(text, tokenFactory);
             var lexer = new Lexer<TokenType>(tokens);
             var parser = new SimpleParser.Parser<TokenType>(lexer, Parselets);
             var expression = parser.ParseExpression();

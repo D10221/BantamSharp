@@ -10,18 +10,8 @@ namespace SimpleParser
         {
             return source.Where((t, i) => i > start && i < end);
         }
-
-        public static T With<T>(this T t, Action<T> action, Func<T, bool> condition = null)
-        {
-            condition = condition ?? (x => !Equals(x, default(T)));
-            if (condition(t)) action(t);
-            return default(T);
-        }
-
-        public static R Extract<T, R>(this T t, Func<T, R> action, Func<T, bool> condition = null)
-        {
-            condition = condition ?? (x => !Equals(x, default(T)));
-            return condition(t) ? action(t) : default(R);
+        public static IDictionary<TV, TK> Reverse<TK, TV>(this IDictionary<TK, TV> input ){
+            return input.ToDictionary(x=> x.Value, x=>x.Key);
         }
     }
 }

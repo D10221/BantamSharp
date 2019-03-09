@@ -4,19 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Bantam
+namespace SimpleParser
 {
-    public static class TokenizerExtensions
+    public static class Tokenizer
     {
-        public static IEnumerable<IToken<TokenType>> Tokenize(this IDictionary<TokenType, string> punctuators, string text)
+        public static Tokenizer<T> From<T>(IDictionary<T, string> punctuators)
         {
-            return new Tokenizer(punctuators).Tokenize(text);
+            return new Tokenizer<T>(punctuators);
         }
     }
     /// <summary>
     /// Convert text to tokens
     /// </summary>
-    internal class Tokenizer
+    public class Tokenizer<TokenType>
     {
         private readonly IDictionary<string, TokenType> _punctuators;
 
@@ -25,9 +25,29 @@ namespace Bantam
             _punctuators = tokenTypes.ToDictionary(x => x.Value, x => x.Key);
         }
 
-        public IEnumerable<IToken<TokenType>> Tokenize(string text)
+        Func<string, IToken<TokenType>> ToToken(ITokenFactory<TokenType> factory)
         {
-            return Split(text, _punctuators.Select(x => x.Key).ToArray()).Select(ToToken).ToArray();
+            return x =>
+            {
+                var token = factory.GetPunctuator(x);
+                if (!token.IsEmpty)
+                {
+                    return token;
+                }
+                token = factory.GetName(x);
+                if (!token.IsEmpty)
+                {
+                    return token;
+                }
+                throw new TokenizerException($"Invalid Token:'{x}'");
+            };
+        }
+
+        public IEnumerable<IToken<TokenType>> Tokenize(string text, ITokenFactory<TokenType> tokenFactory)
+        {
+            var toToken = ToToken(tokenFactory);
+            var delimiters = _punctuators.Select(x => x.Key).ToArray();
+            return Split(text, delimiters).Select(toToken).ToArray();
         }
 
         public static IEnumerable<string> Split(string input, params object[] delimiters)
@@ -67,43 +87,6 @@ namespace Bantam
                 results.Add(token);
             }
             return results;
-        }
-
-        private IToken<TokenType> ToToken(string x)
-        {
-            var token = TryGetPunctuator(x);
-            if (!token.IsEmpty)
-            {
-                return token;
-            }
-            token = TryGetLetter(x);
-            if (!token.IsEmpty)
-            {
-                return token;
-            }
-            throw new Exception($"Invalid Token:'{x}'");
-        }
-
-        private IToken<TokenType> TryGetPunctuator(string c)
-        {
-            if (!_punctuators.TryGetValue(c, out var t))
-            {
-                return Token.Empty(default(TokenType));
-            }
-            return Token.From(t, c.ToString());
-        }
-
-        private IToken<TokenType> TryGetLetter(string c)
-        {
-            var input = c.ToString();
-            return LooksLikeLetter(input) ? new Token<TokenType>(TokenType.NAME, input) : Token.Empty<TokenType>();
-        }
-
-        private static bool LooksLikeLetter(string input)
-        {
-            var regex = new Regex(@"\w");
-            bool isMatch = regex.IsMatch(input);
-            return isMatch;
         }
     }
 }
