@@ -9,37 +9,42 @@ namespace BantamTests
         [TestMethod]
         public void TestMethod0()
         {
-            const string expression = "a ? b : c";
-            string actual = Parser.Parse(expression);
-            const string expected = "(a?b:c)";
-            Assert.AreEqual(expected, actual);
+            string actual = Printer.Default.Print(
+                Parser.Parse(
+                "a ? b : c"
+            ));
+            Assert.AreEqual(expected: "(a?b:c)", actual);
         }
 
         [TestMethod]
         public void TestMethod1()
         {
-            const string expression = "a ? b : c ? d : e";
-            string actual = Parser.Parse(expression);
-            const string expected = "(a?b:(c?d:e))";
-            Assert.AreEqual(expected, actual);
+            string actual = Printer.Default.Print(
+                Parser.Parse(
+                    "a ? b : c ? d : e"
+                )
+            );
+            Assert.AreEqual(expected: "(a?b:(c?d:e))", actual);
         }
 
         [TestMethod]
         public void TestMethod2()
         {
-            const string expression = "a ? b ? c : d : e";
-            string actual = Parser.Parse(expression);
-            const string expected = "(a?(b?c:d):e)";
-            Assert.AreEqual(expected, actual);
+            string actual = Printer.Default.Print(
+                Parser.Parse(
+                "a ? b ? c : d : e"
+            ));
+            Assert.AreEqual(expected: "(a?(b?c:d):e)", actual);
         }
 
         [TestMethod]
         public void TestMethod3()
         {
-            const string expression = "a + b ? c * d : e / f";
-            string actual = Parser.Parse(expression);
-            const string expected = "((a+b)?(c*d):(e/f))";
-            Assert.AreEqual(expected, actual);
+            string actual = Printer.Default.Print(
+                Parser.Parse(
+                "a + b ? c * d : e / f"
+            ));
+            Assert.AreEqual(expected: "((a+b)?(c*d):(e/f))", actual);
         }
     }
 }

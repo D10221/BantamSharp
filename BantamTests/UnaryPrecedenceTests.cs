@@ -10,7 +10,7 @@ namespace BantamTests
         public void UnaryPrecedenceTest2()
         {
             const string expression = "a!!!"; ;
-            var x = Parser.Parse(expression);
+            var x = Printer.Default.Print(Parser.Parse(expression));
             //NOTE: the extra ()
             Assert.AreEqual("(((a!)!)!)", x);
         }
@@ -19,7 +19,7 @@ namespace BantamTests
         public void UnaryPrecedenceTest1()
         {
             const string expression = "~!-+a";
-            var actual = Parser.Parse(expression);
+            var actual = Printer.Default.Print(Parser.Parse(expression));
             //NOTE: the extra ()
             Assert.AreEqual("(~(!(-(+a))))", actual);
         }

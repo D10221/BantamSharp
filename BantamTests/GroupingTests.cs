@@ -85,9 +85,7 @@ namespace BantamTests
         {
             Assert.AreEqual(
                 expected: "((a+(b+c))+d)",
-                actual: Parser.Parse(
-                "a + (b + c) + d"
-            ));
+                actual: Printer.Default.Print(Parser.Parse("a + (b + c) + d")));
         }
 
         [TestMethod]
@@ -95,9 +93,7 @@ namespace BantamTests
         {
             Assert.AreEqual(
                 expected: "(a^(b+c))",
-                actual: Parser.Parse(
-                "a ^ (b + c)"
-            ));
+                actual: Printer.Default.Print(Parser.Parse("a ^ (b + c)")));
         }
 
         [TestMethod]
@@ -106,9 +102,7 @@ namespace BantamTests
             const string expected = "((!a)!)";
             Assert.AreEqual(
                 expected,
-                actual: Parser.Parse(
-                "(!a)!"
-            ));
+                actual: Printer.Default.Print(Parser.Parse("(!a)!")));
         }
         [TestMethod]
         public void GroupingTest4()
@@ -116,9 +110,7 @@ namespace BantamTests
             const string expected = "a";
             Assert.AreEqual(
                 expected,
-                actual: Parser.Parse(
-                "a"
-            ));
+                actual: Printer.Default.Print(Parser.Parse("a")));
         }
     }
 }

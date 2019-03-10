@@ -10,48 +10,42 @@ namespace BantamTests
         [TestMethod]
         public void TestMethod1()
         {
-            const string expression = "a()";
-            var parsed = Parser.Parse(expression);
+            var parsed = Printer.Default.Print(Parser.Parse("a()"));
             Assert.AreEqual("a()", parsed);
         }
 
         [TestMethod]
         public void TestMethod2()
         {
-            const string expression = "a(b)";
-            var parsed = Parser.Parse(expression);
+            var parsed = Printer.Default.Print(Parser.Parse("a(b)"));
             Assert.AreEqual("a(b)", parsed);
         }
 
         [TestMethod]
         public void TestMethod3()
         {
-            const string expression = "a(b, c)";
-            var parsed = Parser.Parse(expression);
+            var parsed = Printer.Default.Print(Parser.Parse(text: "a(b, c)"));
             Assert.AreEqual("a(b,c)", parsed);
         }
 
         [TestMethod]
         public void TestMethod4()
         {
-            const string expression = "a(b)(c)";
-            var parsed = Parser.Parse(expression);
-            Assert.AreEqual(expression, parsed);
+            var parsed = Printer.Default.Print(Parser.Parse(text: "a(b)(c)"));
+            Assert.AreEqual("a(b)(c)", parsed);
         }
 
         [TestMethod]
         public void TestMethod5()
         {
-            const string expression = "a(b) + c(d)";
-            var parsed = Parser.Parse(expression);
+            var parsed = Printer.Default.Print(Parser.Parse("a(b) + c(d)"));
             Assert.AreEqual("(a(b)+c(d))", parsed);
         }
 
         [TestMethod]
         public void TestMethod6()
         {
-            const string expression = "a(b ? c : d, e + f)";
-            var parsed = Parser.Parse(expression);
+            var parsed = Printer.Default.Print(Parser.Parse("a(b ? c : d, e + f)"));
             Assert.AreEqual("a((b?c:d),(e+f))", parsed);
         }
     }

@@ -10,74 +10,76 @@ namespace BantamTests
         [TestMethod]
         public void TestMethod()
         {
-            const string expression = "a+(b+c)";
-
-            string actual = Parser.Parse(expression);
-
-            const string expected = "(a+(b+c))";
-
-            Assert.AreEqual(expected, new Regex("\\s").Replace(actual.Trim(), ""));
+            string actual = Printer.Default.Print(
+                Parser.Parse(
+                "a+(b+c)"
+            ));
+            Assert.AreEqual(
+                expected: "(a+(b+c))",
+                new Regex("\\s").Replace(actual.Trim(), ""));
         }
 
         // Unary and binary predecence.
         [TestMethod]
         public void TestMethod1()
         {
-            const string expression = "-a * b";
-            string actual = Parser.Parse(expression);
-
-            const string expected = "((-a)*b)";
-            Assert.AreEqual(expected, actual); //Fails           
+            string actual = Printer.Default.Print(
+                Parser.Parse(
+                "-a * b"
+            ));
+            Assert.AreEqual(expected: "((-a)*b)", actual); //Fails           
         }
 
         [TestMethod]
         public void TestMethod2()
         {
-            const string expression = "!a + b";
-            string actual = Parser.Parse(expression);
-
-            const string expected = "((!a)+b)";
-            Assert.AreEqual(expected, actual); //Fails     
+            string actual = Printer.Default.Print(
+                Parser.Parse(
+                "!a + b"
+            ));
+            Assert.AreEqual(expected: "((!a)+b)", actual); //Fails     
         }
 
         [TestMethod]
         public void TestMethod3()
         {
-            const string expression = "~a ^ b";
-            string actual = Parser.Parse(expression);
-
-            const string expected = "((~a)^b)";
-            Assert.AreEqual(expected, actual); //Fails     
+            string actual = Printer.Default.Print(
+                Parser.Parse(
+                "~a ^ b"
+            ));
+            Assert.AreEqual(expected: "((~a)^b)", actual); //Fails     
         }
-
 
         [TestMethod]
         public void TestMethod4()
         {
-            const string expression = "-a!";
-            string actual = Parser.Parse(expression);
-            const string expected = "(-(a!))";
-            Assert.AreEqual(expected, actual); //Fails   
+            string actual = Printer.Default.Print(
+                Parser.Parse(
+                "-a!"
+            ));
+            Assert.AreEqual(expected: "(-(a!))", actual); //Fails   
         }
 
         [TestMethod]
         public void TestMethod5()
         {
-            const string expression = "!a!";
-            string actual = Parser.Parse(expression);
-            const string expected = "(!(a!))";
-            Assert.AreEqual(expected, actual); //Fails   
-        }        
+            string actual = Printer.Default.Print(
+                Parser.Parse(
+                "!a!"
+            ));
+            Assert.AreEqual(expected: "(!(a!))", actual); //Fails   
+        }
 
         // Binary(int) Precedence.
         //test("a = b + c * d ^ e - f / g", "(a = ((b + (c * (d ^ e))) - (f / g)))");
         [TestMethod]
         public void BinaryPrecedenceTest()
         {
-            const string expression = "(a = ((b + (c * (d ^ e))) - (f / g)))";
-            var actual = Parser.Parse(expression);
-            const string expected = "(a=((b+(c*(d^e)))-(f/g)))";
-            Assert.AreEqual(expected, actual); //Fails               
+            var actual = Printer.Default.Print(
+                Parser.Parse(
+                "(a = ((b + (c * (d ^ e))) - (f / g)))"
+            ));
+            Assert.AreEqual(expected: "(a=((b+(c*(d^e)))-(f/g)))", actual); //Fails               
         }
     }
 }

@@ -10,47 +10,53 @@ namespace BantamTests
         [TestMethod]
         public void TestMethod1()
         {
-            const string expression = "a = b = c";
-            string actual = Parser.Parse(expression);
-            const string expected = "(a=(b=c))";
-            Assert.AreEqual(expected, actual);
+            string actual = Printer.Default.Print(
+                Parser.Parse(
+                    "a = b = c"
+            ));
+            Assert.AreEqual(
+                expected: "(a=(b=c))",
+                actual);
         }
 
         [TestMethod]
         public void TestMethod2()
         {
-            const string expression = "a + b - c";
-            string actual = Parser.Parse(expression);
-            const string expected = "((a+b)-c)";
-            Assert.AreEqual(expected, actual);
+            string actual = Printer.Default.Print(
+                Parser.Parse(
+                    "a + b - c"
+            ));
+            Assert.AreEqual(expected: "((a+b)-c)", actual);
         }
 
         [TestMethod]
         public void TestMethod3()
         {
             // BinaryAssociativity.
-            // _expectationses.AddExpectation("a ^ b ^ c", "(a ^ (b ^ c))");
-            const string expression = "a * b / c";
-            string actual = Parser.Parse(expression);
-            const string expected = "((a*b)/c)";
-            Assert.AreEqual(expected, actual); //Fails           
+            // _expectationses.AddExpectation("a ^ b ^ c", "(a ^ (b ^ c))");            
+            var e = Printer.Default.Print(
+                Parser.Parse(
+                    "a * b / c"
+            ));
+            Assert.AreEqual(expected: "((a*b)/c)", e); //Fails           
         }
 
         [TestMethod]
         public void TestMethod4()
         {
-            const string expression = "a ^ b ^ c";
-            var actual = Parser.Parse(expression);
-            const string expected = "(a^(b^c))";
-            Assert.AreEqual(expected, actual); //Fails           
+            var actual = Printer.Default.Print(
+                Parser.Parse(
+                    "a ^ b ^ c"
+            ));
+            Assert.AreEqual(expected: "(a^(b^c))", actual); //Fails           
         }
         [TestMethod]
         public void TestMethod5()
         {
-            const string expression = "a == b && b == c ";
-            string actual = Parser.Parse(expression);
-            const string expected = "((a==b)&&(b==c))";
-            Assert.AreEqual(expected, actual); //Fails   
+            var e = Parser.Parse(
+                    "a == b && b == c "
+            );
+            Assert.AreEqual(expected: "((a==b)&&(b==c))", e); //Fails   
         }
     }
 }

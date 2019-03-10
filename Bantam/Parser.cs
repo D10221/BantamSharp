@@ -15,8 +15,8 @@ namespace Bantam
                 { TokenType.COLON, ":"},
                 { TokenType.COMMA, ","},
                 { TokenType.EQUALS, "=="},
-                { TokenType.NOT_EQUAL, "!="},
                 { TokenType.MINUS, "-"},
+                { TokenType.NOT_EQUAL, "!="},
                 { TokenType.OR , "||"},
                 { TokenType.PAREN_LEFT, "("},
                 { TokenType.PARENT_RIGHT, ")"},
@@ -44,18 +44,25 @@ namespace Bantam
                 new BinaryOperatorParselet(TokenType.SLASH, (int)Precedence.PRODUCT, InfixType.Left),
                 new BinaryOperatorParselet(TokenType.CARET, (int)Precedence.EXPONENT, InfixType.Right)
                 };
-        public static string Parse(string text)
+        public static ISimpleExpression Parse(string text)
         {
             var tokenizer = Tokenizer.From(Punctuators);
             var tokenFactory = TokenFactory.From(Punctuators.Reverse());
             var tokens = tokenizer.Tokenize(text, tokenFactory);
             var lexer = new Lexer<TokenType>(tokens);
             var parser = new SimpleParser.Parser<TokenType>(lexer, Parselets);
-            var expression = parser.ParseExpression();
+            return parser.ParseExpression();
+        }
+
+    }
+    public class Printer
+    {
+        public static Printer Default = new Printer();
+        public string Print(ISimpleExpression expression)
+        {
             var builder = new Builder();
             expression.Print(builder);
-            var actual = builder.ToString();
-            return actual;
+            return builder.ToString();
         }
     }
 }
