@@ -5,8 +5,14 @@ namespace Bantam
 {
     public class AssignParselet : IParselet<TokenType>
     {
-        public TokenType TokenType { get; set; }
-        public int Precedence { get; } = (int)Bantam.Precedence.ASSIGNMENT;
+        public AssignParselet(TokenType tokenType, int precedence)
+        {
+            Precedence = precedence;
+            TokenType = tokenType;
+        }
+
+        public TokenType TokenType { get; }
+        public int Precedence { get; }
 
         public ParseletType ParseletType { get; } = ParseletType.Infix;
         public ISimpleExpression Left { get; set; }
@@ -17,7 +23,7 @@ namespace Bantam
             //Why -1
             Right = parser.ParseExpression(Precedence - 1);
             Left = left;
-            if (left as NameExpression == null) throw new ParseException("The left-hand side of an assignment must be a name.");
+            if (left as NameExpression == null) throw new ParseException($"Expected {TokenType.NAME} but found {left.Token}.");
             return new AssignExpression(left, Right);
         }
     }

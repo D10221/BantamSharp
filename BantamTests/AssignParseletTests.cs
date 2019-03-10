@@ -1,6 +1,7 @@
 ﻿using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
+using System;
 using System.Collections.Generic;
 
 namespace BantamTests
@@ -40,17 +41,45 @@ namespace BantamTests
         }
 
         [TestMethod]
-        public void TestMethod1()
+        public void Test1()
         {
-            var parselet = new AssignParselet();
+            var parselet = new AssignParselet(TokenType.ASSIGN, (int)Precedence.ASSIGNMENT);
             var token = Token.From(TokenType.ASSIGN, "=");
             var parser = new FakeParser(new NameExpression("a"));
             var left = new NameExpression("A");
-            var p = parselet.Parse(parser, token, left);
+            var expression = parselet.Parse(parser, token, left);
             var builder = new Builder();
-            p.Print(builder);
+            expression.Print(builder);
             var x = builder.ToString();
             Assert.AreEqual("(A=a)", x);
+        }
+        [TestMethod]
+        public void Test2()
+        {
+            Exception ex = null;
+            try
+            {
+                var parselet = new AssignParselet(TokenType.ASSIGN, (int)Precedence.ASSIGNMENT);
+                var token = Token.From(TokenType.ASSIGN, "=");
+                var expression = parselet.Parse(
+                    new FakeParser(new NameExpression("a")),
+                    token,
+                    new WrongExpression());
+            }
+            catch (System.Exception e)
+            {
+                ex = e;
+            }
+            Assert.IsInstanceOfType(ex, typeof(ParseException));
+        }
+        class WrongExpression : ISimpleExpression
+        {
+            public object Token => null;
+
+            public void Print(IBuilder builder)
+            {
+                throw new System.NotImplementedException();
+            }
         }
     }
 }

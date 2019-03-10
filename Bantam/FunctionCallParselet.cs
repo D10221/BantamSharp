@@ -9,8 +9,14 @@ namespace Bantam
     /// </summary>
     public class FunctionCallParselet : IParselet<TokenType>
     {
-        public TokenType TokenType { get; set; }
-        public int Precedence { get; } = (int)Bantam.Precedence.CALL;
+        public FunctionCallParselet(TokenType tokenType, int precedence)
+        {
+            TokenType = tokenType;
+            Precedence = precedence;
+        }
+
+        public TokenType TokenType { get; }
+        public int Precedence { get; }
         public ParseletType ParseletType { get; } = ParseletType.Infix;
 
         public ISimpleExpression Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression left)
@@ -19,14 +25,14 @@ namespace Bantam
             var args = new List<ISimpleExpression>();
 
             // There may be no arguments at all.
-            if (parser.IsMatch(TokenType.RIGHT_PAREN))
+            if (parser.IsMatch(TokenType.PARENT_RIGHT))
                 return new FunctionCallExpression(left, args);
             do
             {
                 args.Add(parser.ParseExpression(/*Precedence.ZERO*/));
             } while (parser.IsMatch(TokenType.COMMA));
 
-            parser.Consume(TokenType.RIGHT_PAREN);
+            parser.Consume(TokenType.PARENT_RIGHT);
 
             return new FunctionCallExpression(left, args);
         }

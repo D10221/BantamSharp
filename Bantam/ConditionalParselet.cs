@@ -8,6 +8,12 @@ namespace Bantam
     /// </summary>
     public class ConditionalParselet : IParselet<TokenType>
     {
+        public ConditionalParselet(TokenType tokenType, int precedence)
+        {
+            TokenType = tokenType;
+            Precedence = precedence;
+        }
+
         public TokenType TokenType { get; set; }
         public ParseletType ParseletType { get; } = ParseletType.Infix;
         public ISimpleExpression Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression left)
@@ -20,6 +26,6 @@ namespace Bantam
             return new ConditionalExpression(left, thenArm, elseArm);
         }
 
-        public int Precedence { get; } = (int)Bantam.Precedence.CONDITIONAL;
+        public int Precedence { get; }
     }
 }

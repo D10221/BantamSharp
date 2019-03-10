@@ -9,7 +9,12 @@ namespace Bantam
     /// </summary>
     public class NameParselet : IParselet<TokenType>
     {
-        public TokenType TokenType { get; set; }
+        public NameParselet(TokenType tokenType)
+        {
+            TokenType = tokenType;
+        }
+
+        public TokenType TokenType { get; }
         public ParseletType ParseletType { get; } = ParseletType.Prefix;
 
         public int Precedence { get; }

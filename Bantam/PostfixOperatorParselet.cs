@@ -9,12 +9,13 @@ namespace Bantam
     /// </summary>
     public class PostfixOperatorParselet : IParselet<TokenType>
     {
-        public TokenType TokenType { get; set; }
+        public TokenType TokenType { get; }
         public ParseletType ParseletType { get; } = ParseletType.Infix;
         public int Precedence { get; }
 
-        public PostfixOperatorParselet(int precedence)
+        public PostfixOperatorParselet(TokenType tokenType, int precedence)
         {
+            TokenType = tokenType;
             Precedence = precedence;
         }
 

@@ -10,23 +10,24 @@ namespace Bantam
     /// </summary>
     public class GroupParselet : IParselet<TokenType>
     {
-        public TokenType TokenType { get; set; }
+        public TokenType TokenType { get;}
 
         public ParseletType ParseletType { get; } = ParseletType.Prefix;
 
         public int Precedence { get; }
 
-        private readonly TokenType _right;
+        public TokenType Right { get; }
 
-        public GroupParselet(TokenType right)
+        public GroupParselet(TokenType tokenType, TokenType right)
         {
-            _right = right;
+            TokenType = tokenType;
+            Right = right;
         }
 
         public ISimpleExpression Parse(IParser parser, IToken<TokenType> token, ISimpleExpression _)
         {
             var expression = parser.ParseExpression();
-            parser.Consume(expected: _right);
+            parser.Consume(expected: Right);
             return expression;
         }
     }

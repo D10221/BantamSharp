@@ -14,12 +14,13 @@ namespace Bantam
         public TokenType TokenType { get; set; }
         public ParseletType ParseletType { get; } = ParseletType.Infix;
 
-        private readonly bool _isRight;
+        public bool IsRight { get; }
 
-        public BinaryOperatorParselet(int precedence, InfixType infixType)
+        public BinaryOperatorParselet(TokenType tokenType, int precedence, InfixType infixType)
         {
+            TokenType = tokenType;
             Precedence = precedence;
-            _isRight = infixType == InfixType.Right;
+            IsRight = infixType == InfixType.Right;
         }
 
         public ISimpleExpression Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression left)
@@ -28,7 +29,7 @@ namespace Bantam
             // lower precedence when parsing the right-hand side. This will let a
             // parselet with the same precedence appear on the right, which will then
             // take *this* parselet's result as its left-hand argument.
-            var right = parser.ParseExpression(Precedence - (_isRight ? 1 : 0));
+            var right = parser.ParseExpression(Precedence - (IsRight ? 1 : 0));
             return new BinaryOperatorExpression(token, left, right);
         }
     }
