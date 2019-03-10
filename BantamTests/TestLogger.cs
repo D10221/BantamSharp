@@ -1,3 +1,6 @@
+/**
+ * see: https://github.com/Microsoft/vstest/issues/799
+ */
 namespace BantamTests
 {
     ///<summary>
