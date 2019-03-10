@@ -20,8 +20,8 @@ namespace SimpleParser
         private IParselet<TTokenType> GetParselet(TTokenType tokenType, ParseletType parseletType)
         {
             return _parselets.FirstOrDefault(x => x.ParseletType == parseletType && x.TokenType.Equals(tokenType));
-        }        
-       
+        }
+
         private IToken<TTokenType> LookAhead()
         {
             while (!_tokens.Any())
@@ -60,7 +60,10 @@ namespace SimpleParser
                 if (!atoken.IsEmpty)
                 {
                     var p = GetParselet(atoken.TokenType, ParseletType.Infix);
-                    if (p != null) { left = p.Parse(this, atoken, left); }
+                    if (p != null)
+                    {
+                        left = p.Parse(this, atoken, left);
+                    }
                 }
             }
             return left;
