@@ -379,3 +379,5 @@ FakesAssemblies/
 **/.vs/*
 tools/
 **/.vscode/*
+*.zip
+*.tgz
