@@ -10,7 +10,7 @@ namespace BantamTests
         [TestMethod]
         public void PrefixExpressionTest()
         {
-            var exression = new PrefixExpression(Token.From(TokenType.NONE, "-"), new NameExpression("A"));
+            var exression = new PrefixExpression(Token.From(TokenType.NONE, "-"), NameExpression.From("A"));
             var builder = new Builder();
             exression.Print(builder);
             var actual = builder.ToString();

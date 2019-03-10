@@ -45,8 +45,8 @@ namespace BantamTests
         {
             var parselet = new AssignParselet(TokenType.ASSIGN, (int)Precedence.ASSIGNMENT);
             var token = Token.From(TokenType.ASSIGN, "=");
-            var parser = new FakeParser(new NameExpression("a"));
-            var left = new NameExpression("A");
+            var parser = new FakeParser(NameExpression.From("a"));
+            var left = NameExpression.From("A");
             var expression = parselet.Parse(parser, token, left);
             var builder = new Builder();
             expression.Print(builder);
@@ -62,7 +62,7 @@ namespace BantamTests
                 var parselet = new AssignParselet(TokenType.ASSIGN, (int)Precedence.ASSIGNMENT);
                 var token = Token.From(TokenType.ASSIGN, "=");
                 var expression = parselet.Parse(
-                    new FakeParser(new NameExpression("a")),
+                    new FakeParser(NameExpression.From("a")),
                     token,
                     new WrongExpression());
             }

@@ -10,7 +10,7 @@ namespace BantamTests
         [TestMethod]
         public void NameExpressionTest()
         {
-            var expresion = new NameExpression("aa");
+            var expresion = NameExpression.From("aa");
             var _builder = new Builder();
             expresion.Print(_builder);
             var actual = _builder.ToString();
@@ -21,7 +21,7 @@ namespace BantamTests
         [TestMethod]
         public void NameExpressionTest1()
         {
-            var expresion = new NameExpression("a");
+            var expresion = NameExpression.From("a");
             var _builder = new Builder();
             expresion.Print(_builder);
             var actual = _builder.ToString();
@@ -31,7 +31,7 @@ namespace BantamTests
         [TestMethod]
         public void NameExpressionTest2()
         {
-            var expresion = new NameExpression("");
+            var expresion = NameExpression.From("");
             var _builder = new Builder();
             expresion.Print(_builder);
             var actual = _builder.ToString();
@@ -41,7 +41,7 @@ namespace BantamTests
         [TestMethod]
         public void NameExpressionTest3()
         {
-            var expresion = new NameExpression("whatever you want to put here\n");
+            var expresion = NameExpression.From("whatever you want to put here\n");
             var _builder = new Builder();
             expresion.Print(_builder);
             var actual = _builder.ToString();

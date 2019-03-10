@@ -7,6 +7,12 @@ namespace Bantam
     /// </summary>
     public class NameExpression : ISimpleExpression
     {
+        public static NameExpression From(string token)
+        {
+            return new NameExpression(
+                SimpleParser.Token.From(TokenType.NAME, token)
+            );
+        }
         public object Token { get; }
 
         public NameExpression(IToken<TokenType> token)
@@ -14,10 +20,6 @@ namespace Bantam
             Token = token;
         }
 
-        public NameExpression(string token)
-        {
-            this.Token = SimpleParser.Token.From(TokenType.NAME, token);
-        }
 
         public void Print(IBuilder builder)
         {

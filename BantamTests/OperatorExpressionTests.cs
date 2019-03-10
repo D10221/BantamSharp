@@ -11,8 +11,8 @@ namespace BantamTests
         [TestMethod]
         public void OperatorExpressionTest()
         {
-            var left = new NameExpression("x");
-            var right = new NameExpression("y");
+            var left =  NameExpression.From("x");
+            var right = NameExpression.From("y");
             var expression = new BinaryOperatorExpression(Token.From(TokenType.NONE, "+"), left, right);
             IBuilder builder = new Builder();
             expression.Print(builder);
@@ -26,8 +26,8 @@ namespace BantamTests
             Exception ex = null;
             try
             {
-                var left = new NameExpression("x");
-                var right = new NameExpression("y");
+                var left = NameExpression.From("x");
+                var right = NameExpression.From("y");
                 var expression = new BinaryOperatorExpression(null, left, right);
                 //Just to stop the compiler warning becasue is not used 
                 Assert.IsNotNull(expression);
