@@ -10,11 +10,11 @@ namespace BantamTests
     [TestClass]
     public class GroupingTests
     {
-        class Parser : IParser<TokenType>
+        class NotParser : IParser<TokenType>
         {
             private ISimpleExpression _expression;
 
-            public Parser(ISimpleExpression expression)
+            public NotParser(ISimpleExpression expression)
             {
                 _expression = expression;
             }
@@ -42,12 +42,12 @@ namespace BantamTests
             }
         }
         [TestMethod]
-        public void TestMethod1()
+        public void GroupParseletTest1()
         {
             var builder = new Builder();
             new GroupParselet(TokenType.PAREN_LEFT, TokenType.PARENT_RIGHT)
                 .Parse(
-                    new Parser(NameExpression.From("a")),
+                    new NotParser(NameExpression.From("a")),
                     Token.From(TokenType.PAREN_LEFT, "("),
                     null
                 ).Print(builder);
@@ -58,7 +58,7 @@ namespace BantamTests
         }
         [TestMethod]
 
-        public void TestMethod2()
+        public void GroupParseletTest2()
         {
             Exception ex = null;
             try
@@ -66,7 +66,7 @@ namespace BantamTests
                 var builder = new Builder();
                 new GroupParselet(TokenType.PAREN_LEFT, TokenType.PARENT_RIGHT)
                     .Parse(
-                        new Parser(NameExpression.From("a")),
+                        new NotParser(NameExpression.From("a")),
                         Token.From(TokenType.NAME, "x"),
                         null
                     );
@@ -75,9 +75,50 @@ namespace BantamTests
             catch (System.Exception e)
             {
                 ex = e;
-            }            
+            }
             Assert.IsInstanceOfType(ex, typeof(ParseException));
-            //Assert.AreEqual(ex.Message, "?");
+            TestLogger.Log($"{nameof(GroupParseletTest2)}: Expected message? '{ex.Message}'");
+        }
+
+        [TestMethod]
+        public void GroupingTest1()
+        {
+            Assert.AreEqual(
+                expected: "((a+(b+c))+d)",
+                actual: Parser.Parse(
+                "a + (b + c) + d"
+            ));
+        }
+
+        [TestMethod]
+        public void GroupingTest2()
+        {
+            Assert.AreEqual(
+                expected: "(a^(b+c))",
+                actual: Parser.Parse(
+                "a ^ (b + c)"
+            ));
+        }
+
+        [TestMethod]
+        public void GroupingTest3()
+        {
+            const string expected = "((!a)!)";
+            Assert.AreEqual(
+                expected,
+                actual: Parser.Parse(
+                "(!a)!"
+            ));
+        }
+        [TestMethod]
+        public void GroupingTest4()
+        {
+            const string expected = "a";
+            Assert.AreEqual(
+                expected,
+                actual: Parser.Parse(
+                "a"
+            ));
         }
     }
 }
