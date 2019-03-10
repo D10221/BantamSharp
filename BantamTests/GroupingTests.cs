@@ -1,36 +1,83 @@
-﻿using Bantam;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SimpleParser;
 
 namespace BantamTests
 {
     [TestClass]
     public class GroupingTests
     {
+        class Parser : IParser<TokenType>
+        {
+            private ISimpleExpression _expression;
+
+            public Parser(ISimpleExpression expression)
+            {
+                _expression = expression;
+            }
+
+            public IEnumerable<IToken<TokenType>> Tokens => throw new System.NotImplementedException();
+
+            public IToken<TokenType> Consume(TokenType expected)
+            {
+                return (IToken<TokenType>)_expression.Token;
+            }
+
+            public IToken<TokenType> Consume()
+            {
+                return (IToken<TokenType>)_expression.Token;
+            }
+
+            public bool IsMatch(TokenType expected)
+            {
+                return expected == ((IToken<TokenType>)_expression.Token).TokenType;
+            }
+
+            public ISimpleExpression ParseExpression(int precedence = 0)
+            {
+                return _expression;
+            }
+        }
         [TestMethod]
         public void TestMethod1()
         {
-            const string expression = "a + (b + c) + d";
-            string actual = Parser.Parse(expression);
-            const string expected = "((a+(b+c))+d)";
-            Assert.AreEqual(expected, actual);
+            var builder = new Builder();
+            new GroupParselet(TokenType.PAREN_LEFT, TokenType.PARENT_RIGHT)
+                .Parse(
+                    new Parser(NameExpression.From("a")),
+                    Token.From(TokenType.PAREN_LEFT, "("),
+                    null
+                ).Print(builder);
+            Assert.AreEqual(
+                "a",
+                builder.ToString()
+            );
         }
-
         [TestMethod]
+
         public void TestMethod2()
         {
-            const string expression = "a ^ (b + c)";
-            string actual = Parser.Parse(expression);
-            const string expected = "(a^(b+c))";
-            Assert.AreEqual(expected, actual);
-        }
+            Exception ex = null;
+            try
+            {
+                var builder = new Builder();
+                new GroupParselet(TokenType.PAREN_LEFT, TokenType.PARENT_RIGHT)
+                    .Parse(
+                        new Parser(NameExpression.From("a")),
+                        Token.From(TokenType.NAME, "x"),
+                        null
+                    );
 
-        [TestMethod]
-        public void TestMethod3()
-        {
-            const string expression = "(!a)!";
-            string actual = Parser.Parse(expression);
-            const string expected = "((!a)!)";
-            Assert.AreEqual(expected, actual);
+            }
+            catch (System.Exception e)
+            {
+                ex = e;
+            }            
+            Assert.IsInstanceOfType(ex, typeof(ParseException));
+            //Assert.AreEqual(ex.Message, "?");
         }
     }
 }

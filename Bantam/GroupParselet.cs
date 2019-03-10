@@ -1,4 +1,5 @@
-﻿using SimpleParser;
+﻿using System;
+using SimpleParser;
 
 
 using IParser = SimpleParser.IParser<Bantam.TokenType>;
@@ -10,7 +11,7 @@ namespace Bantam
     /// </summary>
     public class GroupParselet : IParselet<TokenType>
     {
-        public TokenType TokenType { get;}
+        public TokenType TokenType { get; }
 
         public ParseletType ParseletType { get; } = ParseletType.Prefix;
 
@@ -26,6 +27,10 @@ namespace Bantam
 
         public ISimpleExpression Parse(IParser parser, IToken<TokenType> token, ISimpleExpression _)
         {
+            if (token?.TokenType != TokenType)
+            {
+                throw new ParseException($"Expected: '{TokenType}' but got {token.TokenType}");
+            }
             var expression = parser.ParseExpression();
             parser.Consume(expected: Right);
             return expression;
