@@ -2,7 +2,6 @@ namespace SimpleParser
 {
     public interface ITokenFactory<TokenType>
     {
-        IToken<TokenType> GetPunctuator(string x);
-        IToken<TokenType> GetName(string x);
+        IToken<TokenType> GetToken(string x);
     }
 }

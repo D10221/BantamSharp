@@ -67,7 +67,7 @@ namespace BantamTests
             string actual = Parser.Parse(expression);
             const string expected = "(!(a!))";
             Assert.AreEqual(expected, actual); //Fails   
-        }
+        }        
 
         // Binary(int) Precedence.
         //test("a = b + c * d ^ e - f / g", "(a = ((b + (c * (d ^ e))) - (f / g)))");

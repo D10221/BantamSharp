@@ -29,17 +29,12 @@ namespace SimpleParser
         {
             return x =>
             {
-                var token = factory.GetPunctuator(x);
-                if (!token.IsEmpty)
+                var token = factory.GetToken(x);
+                if (token == null || token.IsEmpty)
                 {
-                    return token;
+                    throw new ParseException($"Invalid Token:'{x}'");
                 }
-                token = factory.GetName(x);
-                if (!token.IsEmpty)
-                {
-                    return token;
-                }
-                throw new TokenizerException($"Invalid Token:'{x}'");
+                return token;
             };
         }
 
@@ -54,6 +49,8 @@ namespace SimpleParser
         {
             var results = new List<string>();
             var token = string.Empty; ;
+            // TODO: can't split chars! 
+            // TODO: Solve = == != ! = 
             foreach (var c in input.Trim())
             {
                 var isBlank = char.IsWhiteSpace(c) || char.MinValue.Equals(c);

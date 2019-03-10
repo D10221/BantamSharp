@@ -12,9 +12,9 @@ namespace BantamTests
         public void NextTest()
         {
             var lexer = Lexer.From(
-                Tokenizer.From(Parser.punctuators).Tokenize(
+                Tokenizer.From(Parser.Punctuators).Tokenize(
                     "a + b - abc",
-                    TokenFactory.From(Parser.punctuators.Reverse()
+                    TokenFactory.From(Parser.Punctuators.Reverse()
                     )));
 
             var a = lexer.Next();
@@ -35,7 +35,7 @@ namespace BantamTests
         public void Test2()
         {
             const string text = "((-a) * b)";
-            var lexer = Lexer.From(Tokenizer.From(Parser.punctuators).Tokenize(text, TokenFactory.From(Parser.punctuators.Reverse())));
+            var lexer = Lexer.From(Tokenizer.From(Parser.Punctuators).Tokenize(text, TokenFactory.From(Parser.Punctuators.Reverse())));
             var splitted = text.ToCharArray().Where(c => !char.IsWhiteSpace(c)).ToArray();
             foreach (var c in splitted)
             {
@@ -48,7 +48,7 @@ namespace BantamTests
         {
             var text = "a+b";
             var lexer = Lexer.From(
-                tokens: Tokenizer.From(Parser.punctuators).Tokenize(text, tokenFactory: TokenFactory.From(Parser.punctuators.Reverse())));
+                tokens: Tokenizer.From(Parser.Punctuators).Tokenize(text, tokenFactory: TokenFactory.From(Parser.Punctuators.Reverse())));
             Assert.AreEqual("a+b", lexer.ToString());
         }
     }

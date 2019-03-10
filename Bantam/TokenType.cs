@@ -3,22 +3,27 @@ namespace Bantam
 {
     public enum TokenType
     {
-        NONE,
-        LEFT_PAREN,
-        RIGHT_PAREN,
-        COMMA,
+        NONE = 0,
+        AND,
         ASSIGN,
-        PLUS,
-        MINUS,
         ASTERISK,
-        SLASH,
-        CARET,
-        TILDE,
         BANG,
-        QUESTION,
+        CARET,
         COLON,
-        NAME,
         EOF,
+        EQUALS,
+        NOT_EQUAL,
+        COMMA,
+        MINUS,
+        NAME,
+        NUMBER,
+        OR,
+        PAREN_LEFT,
+        PARENT_RIGHT,
+        PLUS,
+        QUESTION,
+        SLASH,
+        TILDE,
     }
     //
 }

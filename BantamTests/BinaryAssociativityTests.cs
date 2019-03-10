@@ -44,5 +44,13 @@ namespace BantamTests
             const string expected = "(a^(b^c))";
             Assert.AreEqual(expected, actual); //Fails           
         }
+        [TestMethod]
+        public void TestMethod5()
+        {
+            const string expression = "a == b && b == c ";
+            string actual = Parser.Parse(expression);
+            const string expected = "((a==b)&&(b==c))";
+            Assert.AreEqual(expected, actual); //Fails   
+        }
     }
 }
