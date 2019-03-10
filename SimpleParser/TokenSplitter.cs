@@ -106,9 +106,9 @@ namespace SimpleParser
             return result;
         }
 
-        private char PeekAt(string input, int v)
+        private char PeekAt(string input, int index)
         {
-            return (input?.Length ?? 0) > 0 ? input[v] : default(char);
+            return (input?.Length ?? 0) > index ? input[index] : default(char);
         }
     }
 }

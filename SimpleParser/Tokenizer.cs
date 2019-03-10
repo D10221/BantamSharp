@@ -10,7 +10,7 @@ namespace SimpleParser
     {
         public static Tokenizer<T> From<T>(IDictionary<T, string> punctuators)
         {
-            return new Tokenizer<T>(punctuators);
+            return new Tokenizer<T>(punctuators, null);
         }
     }
     /// <summary>
@@ -19,10 +19,14 @@ namespace SimpleParser
     public class Tokenizer<TokenType>
     {
         private readonly IDictionary<string, TokenType> _punctuators;
+        private readonly ITokenSplitter _tokenSplitter;
 
-        public Tokenizer(IDictionary<TokenType, string> tokenTypes)
+        public Tokenizer(IDictionary<TokenType, string> tokenTypes, TokenSplitter tokenSplitter)
         {
             _punctuators = tokenTypes.ToDictionary(x => x.Value, x => x.Key);
+            _tokenSplitter = tokenSplitter ?? new TokenSplitter(
+                delimiters: _punctuators.Select(x => x.Key)
+            );
         }
 
         Func<string, IToken<TokenType>> ToToken(ITokenFactory<TokenType> factory)
@@ -41,49 +45,8 @@ namespace SimpleParser
         public IEnumerable<IToken<TokenType>> Tokenize(string text, ITokenFactory<TokenType> tokenFactory)
         {
             var toToken = ToToken(tokenFactory);
-            var delimiters = _punctuators.Select(x => x.Key).ToArray();
-            return Split(text, delimiters).Select(toToken).ToArray();
+            return _tokenSplitter.Split(text).Select(toToken).ToArray();
         }
 
-        public static IEnumerable<string> Split(string input, params object[] delimiters)
-        {
-            var results = new List<string>();
-            var token = string.Empty; ;
-            // TODO: can't split chars! 
-            // TODO: Solve = == != ! = 
-            foreach (var c in input.Trim())
-            {
-                var isBlank = char.IsWhiteSpace(c) || char.MinValue.Equals(c);
-                var found = delimiters.FirstOrDefault(x =>
-                {
-                    return x.ToString().Equals(c.ToString());
-                })?.ToString();
-                if (found == null)
-                {
-                    if (!isBlank)
-                    {
-                        token += c;
-                    }
-                }
-                var isFound = found != null;
-                if (isBlank || isFound)
-                {
-                    if (!string.IsNullOrWhiteSpace(token))
-                    {
-                        results.Add(token);
-                    }
-                    if (isFound)
-                    {
-                        results.Add(found);
-                    }
-                    token = string.Empty;
-                }
-            }
-            if (!string.IsNullOrWhiteSpace(token))
-            {
-                results.Add(token);
-            }
-            return results;
-        }
     }
 }
