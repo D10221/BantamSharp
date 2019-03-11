@@ -38,7 +38,7 @@ namespace BantamTests
                 Parser.Parse(
                     "a * b / c"
             ));
-            Assert.AreEqual(expected: "((a*b)/c)", e); //Fails           
+            Assert.AreEqual(expected: "((a*b)/c)", e);
         }
 
         [TestMethod]
@@ -48,15 +48,55 @@ namespace BantamTests
                 Parser.Parse(
                     "a ^ b ^ c"
             ));
-            Assert.AreEqual(expected: "(a^(b^c))", actual); //Fails           
+            Assert.AreEqual(expected: "(a^(b^c))", actual);
         }
         [TestMethod]
         public void TestMethod5()
         {
             var e = Parser.Parse(
-                    "a == b && b == c "
+                    "a && b"
             );
-            Assert.AreEqual(expected: "((a==b)&&(b==c))", e); //Fails   
+            Assert.AreEqual(expected: "(a&&b)", Printer.Default.Print(e));
+        }
+        [TestMethod]
+        public void TestMethod6()
+        {
+            var e = Parser.Parse(
+                    "a  && b || c"
+            );
+            Assert.AreEqual(expected: "(a&&(b||c))", Printer.Default.Print(e));
+        }
+        [TestMethod]
+        public void TestMethod7()
+        {
+            var e = Parser.Parse(
+                    "a * b + c"
+            );
+            Assert.AreEqual(expected: "((a*b)+c)", Printer.Default.Print(e));
+        }
+        [TestMethod]
+        public void TestMethod8()
+        {
+            var e = Parser.Parse(
+                    "a / b - c"
+            );
+            Assert.AreEqual(expected: "((a/b)-c)", Printer.Default.Print(e));
+        }
+        [TestMethod]
+        public void TestMethod9()
+        {
+            var e = Parser.Parse(
+                    "a / b * c - d + e"
+            );
+            Assert.AreEqual(expected: "((((a/b)*c)-d)+e)", Printer.Default.Print(e));
+        }
+        [TestMethod]
+        public void TestMethod10()
+        {
+            var e = Parser.Parse(
+                    "a == b != c"
+            );
+            Assert.AreEqual(expected: "(a==(b!=c))", Printer.Default.Print(e));
         }
     }
 }

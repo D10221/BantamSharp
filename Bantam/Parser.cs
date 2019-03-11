@@ -8,6 +8,7 @@ namespace Bantam
         public static Dictionary<TokenType, string> Punctuators = new Dictionary<TokenType, string>
             {
                 { TokenType.AND , "&&"},
+                // { TokenType.AT , "@"},
                 { TokenType.ASSIGN, "="},
                 { TokenType.ASTERISK, "*"},
                 { TokenType.BANG, "!"},
@@ -24,12 +25,15 @@ namespace Bantam
                 { TokenType.QUESTION, "?"},
                 { TokenType.SLASH, "/"},
                 { TokenType.TILDE, "~"},
-                //{ TokenType.NAME, default(char)},
-                //{ TokenType.EOF, default(char)}
+                // { TokenType.NAME, string.Empty},
+                // { TokenType.NUMBER, string.Empty},
+                // { TokenType.EOF, string.Empty}
             };
+            
         public static IList<IParselet<TokenType>> Parselets = new List<IParselet<TokenType>>{
                 new NameParselet(TokenType.NAME),
                 new GroupParselet(TokenType.PAREN_LEFT, TokenType.PARENT_RIGHT),
+                // new PrefixOperatorParselet(TokenType.AT, (int)Precedence.PREFIX),
                 new PrefixOperatorParselet(TokenType.PLUS, (int)Precedence.PREFIX),
                 new PrefixOperatorParselet(TokenType.MINUS, (int)Precedence.PREFIX),
                 new PrefixOperatorParselet(TokenType.TILDE, (int)Precedence.PREFIX),
@@ -42,8 +46,13 @@ namespace Bantam
                 new BinaryOperatorParselet(TokenType.MINUS, (int)Precedence.SUM, InfixType.Left),
                 new BinaryOperatorParselet(TokenType.ASTERISK, (int)Precedence.PRODUCT, InfixType.Left),
                 new BinaryOperatorParselet(TokenType.SLASH, (int)Precedence.PRODUCT, InfixType.Left),
-                new BinaryOperatorParselet(TokenType.CARET, (int)Precedence.EXPONENT, InfixType.Right)
+                new BinaryOperatorParselet(TokenType.CARET, (int)Precedence.EXPONENT, InfixType.Right),
+                new BinaryOperatorParselet(TokenType.EQUALS, (int)Precedence.EQUALS, InfixType.Right),
+                new BinaryOperatorParselet(TokenType.NOT_EQUAL, (int)Precedence.NOT_EQUAL, InfixType.Right),
+                new BinaryOperatorParselet(TokenType.AND, (int)Precedence.AND, InfixType.Right),
+                new BinaryOperatorParselet(TokenType.OR, (int)Precedence.OR, InfixType.Right),
                 };
+
         public static ISimpleExpression Parse(string text)
         {
             var tokenizer = Tokenizer.From(Punctuators);
@@ -54,15 +63,5 @@ namespace Bantam
             return parser.ParseExpression();
         }
 
-    }
-    public class Printer
-    {
-        public static Printer Default = new Printer();
-        public string Print(ISimpleExpression expression)
-        {
-            var builder = new Builder();
-            expression.Print(builder);
-            return builder.ToString();
-        }
     }
 }
