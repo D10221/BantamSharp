@@ -1,4 +1,5 @@
 ﻿using SimpleParser;
+using System;
 using System.Collections.Generic;
 
 namespace Bantam
@@ -6,7 +7,7 @@ namespace Bantam
     /// <summary>
     /// Non Language specific implementation
     /// </summary>
-    public static class Parser
+    public static class ParserFactory
     {
         /// <summary>
         /// misc. operators
@@ -35,7 +36,7 @@ namespace Bantam
                 // { TokenType.NUMBER, string.Empty},
                 // { TokenType.EOF, string.Empty}
             };
-           
+
         /// <summary>
         /// Parsers
         /// </summary>
@@ -64,14 +65,20 @@ namespace Bantam
         /// <summary>
         /// Returns Expression
         /// </summary>        
-        public static ISimpleExpression<TokenType> Parse(string text)
+        public static Func<string, ISimpleExpression<TokenType>> Create()
         {
             var tokenizer = Tokenizer.From(Punctuators);
             var tokenFactory = TokenFactory.From(Punctuators.Reverse());
-            var tokens = tokenizer.Tokenize(text, tokenFactory);
-            var lexer = new Lexer<TokenType>(tokens);
-            var parser = new SimpleParser.Parser<TokenType>(lexer, Parselets);
-            return parser.ParseExpression();
+            /**
+             *
+             */
+            return text =>
+            {
+                var tokens = tokenizer.Tokenize(text, tokenFactory);
+                var lexer = new Lexer<TokenType>(tokens);
+                var parser = new SimpleParser.Parser<TokenType>(lexer, Parselets);
+                return parser.ParseExpression();
+            };
         }
 
     }

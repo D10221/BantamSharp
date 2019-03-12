@@ -10,7 +10,7 @@ namespace BantamTests
         [TestMethod]
         public void Test1()
         {
-            var e = Parser.Parse("");
+            var e = ParserFactory.Create()("");
             Assert.AreEqual("",
                 actual: Printer.Default.Print(e)
                 );
@@ -18,7 +18,7 @@ namespace BantamTests
         [TestMethod]
         public void Test2()
         {
-            var e = Parser.Parse("");
+            var e = ParserFactory.Create()("");
             Assert.IsInstanceOfType(e,
                 typeof(EmptyExpression<TokenType>)
                 );
@@ -26,7 +26,7 @@ namespace BantamTests
          [TestMethod]
         public void Test3()
         {
-            var e = (EmptyExpression<TokenType>)Parser.Parse("");
+            var e = (EmptyExpression<TokenType>)ParserFactory.Create()("");
             Assert.AreEqual(
                 TokenType.NONE,
                 actual: e.Token.TokenType

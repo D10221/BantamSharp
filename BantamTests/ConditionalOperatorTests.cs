@@ -10,9 +10,7 @@ namespace BantamTests
         public void TestMethod0()
         {
             string actual = Printer.Default.Print(
-                Parser.Parse(
-                "a ? b : c"
-            ));
+                ParserFactory.Create()("a ? b : c"));
             Assert.AreEqual(expected: "(a?b:c)", actual);
         }
 
@@ -20,9 +18,7 @@ namespace BantamTests
         public void TestMethod1()
         {
             string actual = Printer.Default.Print(
-                Parser.Parse(
-                    "a ? b : c ? d : e"
-                )
+                ParserFactory.Create()("a ? b : c ? d : e")
             );
             Assert.AreEqual(expected: "(a?b:(c?d:e))", actual);
         }
@@ -31,9 +27,7 @@ namespace BantamTests
         public void TestMethod2()
         {
             string actual = Printer.Default.Print(
-                Parser.Parse(
-                "a ? b ? c : d : e"
-            ));
+                ParserFactory.Create()("a ? b ? c : d : e"));
             Assert.AreEqual(expected: "(a?(b?c:d):e)", actual);
         }
 
@@ -41,9 +35,7 @@ namespace BantamTests
         public void TestMethod3()
         {
             string actual = Printer.Default.Print(
-                Parser.Parse(
-                "a + b ? c * d : e / f"
-            ));
+                ParserFactory.Create()("a + b ? c * d : e / f"));
             Assert.AreEqual(expected: "((a+b)?(c*d):(e/f))", actual);
         }
     }

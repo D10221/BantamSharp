@@ -14,12 +14,13 @@ namespace BantamTests
         [TestMethod]
         public void DoesntWork1()
         {
+            var parse = ParserFactory.Create();
             Exception ex = null;
             try
             {
                 // '\' is not known token 
                 // tokenizer/tokenfactory: exception
-                var e = Parser.Parse("A \\");
+                var e = parse("A \\");
                 Assert.AreEqual("",
                     actual: Printer.Default.Print(e)
                     );

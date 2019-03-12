@@ -19,7 +19,7 @@ namespace BantamTests
         [TestMethod]
         public void Test2()
         {
-            var e = Parser.Parse("@a");
+            var e = ParserFactory.Create()("@a");
             var prefix = e as PrefixExpression;
             var token = prefix?.Token as Token<TokenType>;
             Assert.AreEqual(
