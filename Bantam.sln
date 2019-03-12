@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bantam", "Bantam\Bantam.csproj", "{53F609F1-ED5E-40B2-BBE5-C41341B158B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bantam", "Bantam\Bantam.csproj", "{53F609F1-ED5E-40B2-BBE5-C41341B158B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BantamTests", "BantamTests\BantamTests.csproj", "{3C1A7C30-1493-4525-8D66-5F43C1B24C8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BantamTests", "BantamTests\BantamTests.csproj", "{3C1A7C30-1493-4525-8D66-5F43C1B24C8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleParser", "SimpleParser\SimpleParser.csproj", "{B3F8D821-5C5C-49C3-8250-1EE1A7F79F62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleParser", "SimpleParser\SimpleParser.csproj", "{B3F8D821-5C5C-49C3-8250-1EE1A7F79F62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,16 +27,11 @@ Global
 		{B3F8D821-5C5C-49C3-8250-1EE1A7F79F62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3F8D821-5C5C-49C3-8250-1EE1A7F79F62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3F8D821-5C5C-49C3-8250-1EE1A7F79F62}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A7762061-D174-454C-9216-4AA342835D84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7762061-D174-454C-9216-4AA342835D84}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7762061-D174-454C-9216-4AA342835D84}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7762061-D174-454C-9216-4AA342835D84}.Release|Any CPU.Build.0 = Release|Any CPU
-		{03ED4C9D-D955-4B14-8102-10EEC5D93872}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{03ED4C9D-D955-4B14-8102-10EEC5D93872}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{03ED4C9D-D955-4B14-8102-10EEC5D93872}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{03ED4C9D-D955-4B14-8102-10EEC5D93872}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4E1B1BBD-AEC8-4309-8796-2C6066A35C73}
 	EndGlobalSection
 EndGlobal

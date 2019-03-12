@@ -5,7 +5,7 @@ namespace Bantam
     {
         NONE = 0,
         AND,
-        // AT,
+        AT,
         ASSIGN,
         ASTERISK,
         BANG,

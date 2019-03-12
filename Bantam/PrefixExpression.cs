@@ -17,14 +17,21 @@ namespace Bantam
             Token = token;
             Right = right;
         }
+        
+        bool UseEnclosure
+        {
+            get
+            {
+                return !(this.Token as IToken<TokenType>)?.TokenType.Equals(TokenType.AT) ?? false;
+            }
+        }
 
         public void Print(IBuilder builder)
         {
-            builder
-                .Append("(");
+            if (UseEnclosure) builder.Append("(");
             builder.Append(Token);
             Right.Print(builder);
-            builder.Append(")");
+            if (UseEnclosure) builder.Append(")");
         }
     }
 }

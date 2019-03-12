@@ -1,6 +1,5 @@
 ﻿using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace BantamTests
 {
@@ -10,13 +9,10 @@ namespace BantamTests
         [TestMethod]
         public void TestMethod1()
         {
-            string actual = Printer.Default.Print(
-                Parser.Parse(
-                    "a = b = c"
-            ));
+            var e = Parser.Parse("a = b = c");
             Assert.AreEqual(
                 expected: "(a=(b=c))",
-                actual);
+                actual: Printer.Default.Print(e));
         }
 
         [TestMethod]

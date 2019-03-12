@@ -16,27 +16,29 @@ namespace BantamTests
             var actual = builder.ToString();
             Assert.AreEqual("(-A)", actual);
         }
-        // [TestMethod]
-        // public void Test2()
-        // {
-        //     var e = Parser.Parse("@a");
-        //     var prefix = (PrefixExpression)e;
-        //     var token = (Token<TokenType>)prefix.Token;
-        //     Assert.AreEqual(
-        //         TokenType.AT,
-        //         actual: token.TokenType
-        //     );
-        //     Assert.AreEqual("a", ((Token<TokenType>)prefix.Right.Token).Value);
-        //     Assert.AreEqual(
-        //         "@",
-        //         actual: token.Value
-        //     );
-        //     Assert.AreEqual("(@a)", actual: Printer.Default.Print(e));
-        // }
-        // [TestMethod]
-        // public void Test3(){
-        //     var e = Parser.Parse("@a=+b");
-        //      Assert.AreEqual("(@a)=+b", actual: Printer.Default.Print(e));
-        // }
+        [TestMethod]
+        public void Test2()
+        {
+            var e = Parser.Parse("@a");
+            var prefix = e as PrefixExpression;
+            var token = prefix?.Token as Token<TokenType>;
+            Assert.AreEqual(
+                TokenType.AT,
+                actual: token?.TokenType
+            );
+            Assert.AreEqual("a", (prefix.Right.Token as Token<TokenType>)?.Value);
+            Assert.AreEqual(
+                "@",
+                actual: token?.Value
+            );
+            Assert.AreEqual("@a", actual: Printer.Default.Print(e));
+        }
+        
+        //[TestMethod]
+        //public void Test3(){
+        //    // Parse this expression ? 
+        //    var e = Parser.Parse("set @a=+b");
+        //     Assert.AreEqual("set(@a,(+b))", actual: Printer.Default.Print(e));
+        //}
     }
 }

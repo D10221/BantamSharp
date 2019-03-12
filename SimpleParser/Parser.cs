@@ -53,8 +53,8 @@ namespace SimpleParser
             var token = Consume();
 
             var prefix = GetParselet(token.TokenType, ParseletType.Prefix);
-            var left = prefix?.Parse(this, token, null); //Expression
-            while (precedence < GetPrecedence())
+            var left = prefix?.Parse(this, token, null); 
+            while (precedence < GetPrecedence()) //Get Next Precedence
             {
                 var atoken = Consume();
                 if (!atoken.IsEmpty)
@@ -66,7 +66,7 @@ namespace SimpleParser
                     }
                 }
             }
-            return left;
+            return left ?? new EmptyExpression<TTokenType>();
         }
 
         public bool IsMatch(TTokenType expected)

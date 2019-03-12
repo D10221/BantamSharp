@@ -3,12 +3,18 @@ using System.Collections.Generic;
 
 namespace Bantam
 {
+    /// <summary>
+    /// Non Language specific implementation
+    /// </summary>
     public static class Parser
     {
+        /// <summary>
+        /// misc. operators
+        /// </summary>
         public static Dictionary<TokenType, string> Punctuators = new Dictionary<TokenType, string>
             {
                 { TokenType.AND , "&&"},
-                // { TokenType.AT , "@"},
+                { TokenType.AT , "@"},
                 { TokenType.ASSIGN, "="},
                 { TokenType.ASTERISK, "*"},
                 { TokenType.BANG, "!"},
@@ -29,19 +35,22 @@ namespace Bantam
                 // { TokenType.NUMBER, string.Empty},
                 // { TokenType.EOF, string.Empty}
             };
-            
+           
+        /// <summary>
+        /// Parsers
+        /// </summary>
         public static IList<IParselet<TokenType>> Parselets = new List<IParselet<TokenType>>{
                 new NameParselet(TokenType.NAME),
                 new GroupParselet(TokenType.PAREN_LEFT, TokenType.PARENT_RIGHT),
-                // new PrefixOperatorParselet(TokenType.AT, (int)Precedence.PREFIX),
+                new PrefixOperatorParselet(TokenType.AT, (int)Precedence.PREFIX),
                 new PrefixOperatorParselet(TokenType.PLUS, (int)Precedence.PREFIX),
                 new PrefixOperatorParselet(TokenType.MINUS, (int)Precedence.PREFIX),
                 new PrefixOperatorParselet(TokenType.TILDE, (int)Precedence.PREFIX),
                 new PrefixOperatorParselet(TokenType.BANG, (int)Precedence.PREFIX),
                 new PostfixOperatorParselet(TokenType.BANG, (int)Precedence.POSTFIX),
-                new AssignParselet(TokenType.ASSIGN, (int)Bantam.Precedence.ASSIGNMENT),
-                new ConditionalParselet(TokenType.QUESTION, (int)Bantam.Precedence.CONDITIONAL) ,
-                new FunctionCallParselet(TokenType.PAREN_LEFT, (int)Bantam.Precedence.CALL) ,
+                new AssignParselet(TokenType.ASSIGN, (int)Precedence.ASSIGNMENT),
+                new ConditionalParselet(TokenType.QUESTION, (int)Precedence.CONDITIONAL) ,
+                new FunctionCallParselet(TokenType.PAREN_LEFT, (int)Precedence.CALL) ,
                 new BinaryOperatorParselet(TokenType.PLUS, (int)Precedence.SUM, InfixType.Left),
                 new BinaryOperatorParselet(TokenType.MINUS, (int)Precedence.SUM, InfixType.Left),
                 new BinaryOperatorParselet(TokenType.ASTERISK, (int)Precedence.PRODUCT, InfixType.Left),
@@ -52,7 +61,9 @@ namespace Bantam
                 new BinaryOperatorParselet(TokenType.AND, (int)Precedence.AND, InfixType.Right),
                 new BinaryOperatorParselet(TokenType.OR, (int)Precedence.OR, InfixType.Right),
                 };
-
+        /// <summary>
+        /// Returns Expression
+        /// </summary>        
         public static ISimpleExpression Parse(string text)
         {
             var tokenizer = Tokenizer.From(Punctuators);
