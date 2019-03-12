@@ -6,16 +6,16 @@ namespace SimpleParser
 {
     public class TokenSplitter : ITokenSplitter
     {
-        string[] _delimiters;
-        TokenSplitterOptions options;
+        private readonly string[] _delimiters;
+        private readonly TokenSplitterOptions _options;
 
         public TokenSplitter(IEnumerable<string> delimiters, TokenSplitterOptions options = TokenSplitterOptions.None)
         {
             if(delimiters == null){
                 throw new Exception($"param:'{nameof(delimiters)}' can't be null");
             }
-            this._delimiters = delimiters as string[] ?? delimiters.ToArray();
-            this.options = options;
+            _delimiters = delimiters as string[] ?? delimiters.ToArray();
+            _options = options;
         }
 
         public IEnumerable<string> Split(string input)
@@ -50,7 +50,7 @@ namespace SimpleParser
                             result.Add(xname);
                             xname = string.Empty;
                         }
-                        if (this.options.HasFlag(TokenSplitterOptions.IncludeEmpty))
+                        if (_options.HasFlag(TokenSplitterOptions.IncludeEmpty))
                         {
                             result.Add(string.Empty);
                         }
@@ -111,7 +111,7 @@ namespace SimpleParser
 
         private char PeekAt(string input, int index)
         {
-            return (input?.Length ?? 0) > index ? input[index] : default(char);
+            return (input?.Length ?? 0) > index ? input[index] : default;
         }
     }
 }
