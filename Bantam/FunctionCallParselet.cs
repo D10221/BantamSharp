@@ -19,10 +19,10 @@ namespace Bantam
         public int Precedence { get; }
         public ParseletType ParseletType { get; } = ParseletType.Infix;
 
-        public ISimpleExpression Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression left)
+        public ISimpleExpression<TokenType> Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression<TokenType> left)
         {
             // Parse the comma-separated arguments until we hit, ")".
-            var args = new List<ISimpleExpression>();
+            var args = new List<ISimpleExpression<TokenType>>();
 
             // There may be no arguments at all.
             if (parser.IsMatch(TokenType.PARENT_RIGHT))

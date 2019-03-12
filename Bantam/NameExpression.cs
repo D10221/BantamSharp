@@ -5,7 +5,7 @@ namespace Bantam
     /// <summary>
     /// A simple variable name expression like "abc".
     /// </summary>
-    public class NameExpression : ISimpleExpression
+    public class NameExpression : ISimpleExpression<TokenType>
     {
         public static NameExpression From(string token)
         {
@@ -13,7 +13,7 @@ namespace Bantam
                 SimpleParser.Token.From(TokenType.NAME, token)
             );
         }
-        public object Token { get; }
+        public IToken<TokenType> Token { get; }
 
         public NameExpression(IToken<TokenType> token)
         {

@@ -25,7 +25,7 @@ namespace Bantam
             Right = right;
         }
 
-        public ISimpleExpression Parse(IParser parser, IToken<TokenType> token, ISimpleExpression _)
+        public ISimpleExpression<TokenType> Parse(IParser parser, IToken<TokenType> token, ISimpleExpression<TokenType> _)
         {
             if (token?.TokenType != TokenType)
             {

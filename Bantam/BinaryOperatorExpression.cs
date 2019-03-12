@@ -5,16 +5,16 @@ namespace Bantam
     /// <summary>
     ///     A binary arithmetic expression like "a + b" or "c ^ d"
     /// </summary>
-    public class BinaryOperatorExpression : ISimpleExpression
+    public class BinaryOperatorExpression : ISimpleExpression<TokenType>
     {
-        public object Token { get; }
-        public ISimpleExpression Left { get; }
-        public ISimpleExpression Right { get; }
+        public IToken<TokenType> Token { get; }
+        public ISimpleExpression<TokenType> Left { get; }
+        public ISimpleExpression<TokenType> Right { get; }
 
         public BinaryOperatorExpression(
             IToken<TokenType> token,
-            ISimpleExpression left,
-            ISimpleExpression right
+            ISimpleExpression<TokenType> left,
+            ISimpleExpression<TokenType> right
             )
         {
             Left = left;

@@ -12,9 +12,9 @@ namespace BantamTests
     {
         class NotParser : IParser<TokenType>
         {
-            private ISimpleExpression _expression;
+            private ISimpleExpression<TokenType> _expression;
 
-            public NotParser(ISimpleExpression expression)
+            public NotParser(ISimpleExpression<TokenType> expression)
             {
                 _expression = expression;
             }
@@ -36,7 +36,7 @@ namespace BantamTests
                 return expected == ((IToken<TokenType>)_expression.Token).TokenType;
             }
 
-            public ISimpleExpression ParseExpression(int precedence = 0)
+            public ISimpleExpression<TokenType> ParseExpression(int precedence = 0)
             {
                 return _expression;
             }

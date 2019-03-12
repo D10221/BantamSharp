@@ -19,7 +19,7 @@ namespace BantamTests
             }
             public IEnumerable<IToken<TokenType>> Tokens { get; } = new List<IToken<TokenType>>();
 
-            public ISimpleExpression ParseExpression(int precedence)
+            public ISimpleExpression<TokenType> ParseExpression(int precedence)
             {
                 return _expression;
             }
@@ -72,9 +72,9 @@ namespace BantamTests
             }
             Assert.IsInstanceOfType(ex, typeof(ParseException));
         }
-        class WrongExpression : ISimpleExpression
-        {
-            public object Token => null;
+        class WrongExpression : ISimpleExpression<TokenType>
+        {            
+            public IToken<TokenType> Token {get;} = SimpleParser.Token.Empty(TokenType.NONE);
 
             public void Print(IBuilder builder)
             {

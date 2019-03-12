@@ -6,15 +6,15 @@ namespace Bantam
     /// <summary>
     ///     A ternary conditional expression like "a ? b : c".
     /// </summary>
-    public class ConditionalExpression : ISimpleExpression
+    public class ConditionalExpression : ISimpleExpression<TokenType> 
     {
-        public object Token { get; }
-        public ISimpleExpression Condition { get; }
-        public ISimpleExpression Then { get; }
-        public ISimpleExpression Else { get; }
+        public IToken<TokenType> Token { get; }
+        public ISimpleExpression<TokenType> Condition { get; }
+        public ISimpleExpression<TokenType> Then { get; }
+        public ISimpleExpression<TokenType> Else { get; }
 
         public ConditionalExpression(
-           ISimpleExpression condition, ISimpleExpression then, ISimpleExpression @else)
+           ISimpleExpression<TokenType> condition, ISimpleExpression<TokenType> then, ISimpleExpression<TokenType> @else)
         {
             Condition = condition;
             Then = then;

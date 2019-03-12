@@ -48,7 +48,7 @@ namespace SimpleParser
 
         public IEnumerable<IToken<TTokenType>> Tokens => _tokens;
 
-        public ISimpleExpression ParseExpression(int precedence = 0)
+        public ISimpleExpression<TTokenType> ParseExpression(int precedence = 0)
         {
             var token = Consume();
 

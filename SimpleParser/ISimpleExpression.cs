@@ -4,9 +4,9 @@ namespace SimpleParser
     /// <summary>
     /// Interface for all expression AST node classes.
     /// </summary>
-    public interface ISimpleExpression
+    public interface ISimpleExpression<TokenType>
     {
-        object Token { get; }
+        IToken<TokenType> Token { get; }
         /// <summary>
         ///   Build, the expression 
         /// </summary>

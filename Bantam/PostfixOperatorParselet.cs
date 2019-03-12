@@ -19,7 +19,7 @@ namespace Bantam
             Precedence = precedence;
         }
 
-        public ISimpleExpression Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression left)
+        public ISimpleExpression<TokenType> Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression<TokenType> left)
         {
             return new PostfixExpression(token, left);
         }

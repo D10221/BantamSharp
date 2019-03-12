@@ -22,7 +22,7 @@ namespace BantamTests
         public void AssignExpressionTest2()
         {
             var token = Token.From(TokenType.NONE, "b");
-            ISimpleExpression right = new FunctionCallExpression(new NameExpression(token), null);
+            ISimpleExpression<TokenType> right = new FunctionCallExpression(new NameExpression(token), null);
             var expresison = new AssignExpression(NameExpression.From("a"), right);
             var builder = new Builder();
             expresison.Print(builder);

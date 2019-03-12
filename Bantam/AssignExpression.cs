@@ -5,13 +5,13 @@ namespace Bantam
     /// <summary>
     /// An assignment expression like "a = b"
     /// </summary>
-    public class AssignExpression : ISimpleExpression
+    public class AssignExpression : ISimpleExpression<TokenType>
     {
-        public object Token { get; }
-        public ISimpleExpression Left { get; }
-        public ISimpleExpression Right { get; }
+        public IToken<TokenType> Token { get; }
+        public ISimpleExpression<TokenType> Left { get; }
+        public ISimpleExpression<TokenType> Right { get; }
 
-        public AssignExpression(ISimpleExpression left, ISimpleExpression right)
+        public AssignExpression(ISimpleExpression<TokenType> left, ISimpleExpression<TokenType> right)
         {
             Left = left;
             Token = ((NameExpression)left).Token;

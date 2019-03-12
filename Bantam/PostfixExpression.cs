@@ -5,13 +5,13 @@ namespace Bantam
     /// <summary>
     ///     A postfix unary arithmetic expression like "a!".
     /// </summary>
-    public class PostfixExpression : ISimpleExpression
+    public class PostfixExpression : ISimpleExpression<TokenType> 
     {
-        public object Token { get; }
+        public IToken<TokenType> Token { get; }
 
-        public ISimpleExpression Left { get; }
+        public ISimpleExpression<TokenType> Left { get; }
 
-        public PostfixExpression(IToken<TokenType> token, ISimpleExpression left)
+        public PostfixExpression(IToken<TokenType> token, ISimpleExpression<TokenType> left)
         {
             Token = token;
             Left = left;

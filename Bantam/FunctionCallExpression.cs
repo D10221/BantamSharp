@@ -7,19 +7,19 @@ namespace Bantam
     /// <summary>
     /// A function call like "a(b, c, d) OR a(x)(z)".
     /// </summary>
-    public class FunctionCallExpression : ISimpleExpression
+    public class FunctionCallExpression : ISimpleExpression<TokenType> 
     {
-        public object Token { get; }
+        public IToken<TokenType> Token { get; }
         /// <summary>
         /// Function 
         /// </summary>
-        public ISimpleExpression Left { get; }
-        public IEnumerable<ISimpleExpression> Right { get; }
+        public ISimpleExpression<TokenType> Left { get; }
+        public IEnumerable<ISimpleExpression<TokenType>> Right { get; }
 
-        public FunctionCallExpression(ISimpleExpression left, List<ISimpleExpression> right)
+        public FunctionCallExpression(ISimpleExpression<TokenType> left, List<ISimpleExpression<TokenType>> right)
         {
             Left = left;
-            Right = right ?? new List<ISimpleExpression>();
+            Right = right ?? new List<ISimpleExpression<TokenType>>();
         }
 
         public void Print(IBuilder builder)

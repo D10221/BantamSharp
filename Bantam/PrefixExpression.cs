@@ -5,14 +5,14 @@ namespace Bantam
     /// <summary>
     /// A prefix unary arithmetic expression like "!a" or "-b".
     /// </summary>
-    public class PrefixExpression : ISimpleExpression
+    public class PrefixExpression : ISimpleExpression<TokenType> 
     {
-        public object Token { get; }
-        public ISimpleExpression Right { get; }
+        public IToken<TokenType> Token { get; }
+        public ISimpleExpression<TokenType> Right { get; }
 
         public PrefixExpression(
             IToken<TokenType> token,
-            ISimpleExpression right)
+            ISimpleExpression<TokenType> right)
         {
             Token = token;
             Right = right;

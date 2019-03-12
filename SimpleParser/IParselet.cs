@@ -6,6 +6,6 @@ namespace SimpleParser
         int Precedence { get; }
         ParseletType ParseletType { get; }
         TTokenType TokenType { get; }
-        ISimpleExpression Parse(IParser<TTokenType> parser, IToken<TTokenType> token, ISimpleExpression left);
+        ISimpleExpression<TTokenType> Parse(IParser<TTokenType> parser, IToken<TTokenType> token, ISimpleExpression<TTokenType> left);
     }
 }

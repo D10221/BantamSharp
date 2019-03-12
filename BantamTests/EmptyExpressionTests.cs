@@ -29,7 +29,7 @@ namespace BantamTests
             var e = (EmptyExpression<TokenType>)Parser.Parse("");
             Assert.AreEqual(
                 TokenType.NONE,
-                actual: (e.Token as IToken<TokenType>).TokenType
+                actual: e.Token.TokenType
                 );
         }
     }

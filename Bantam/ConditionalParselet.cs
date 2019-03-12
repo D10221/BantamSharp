@@ -16,7 +16,7 @@ namespace Bantam
 
         public TokenType TokenType { get; set; }
         public ParseletType ParseletType { get; } = ParseletType.Infix;
-        public ISimpleExpression Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression left)
+        public ISimpleExpression<TokenType> Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression<TokenType> left)
         {
             var thenArm = parser.ParseExpression(/*Precedence.ZERO*/);
             parser.Consume(TokenType.COLON);

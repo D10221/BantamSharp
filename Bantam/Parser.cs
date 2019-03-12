@@ -64,7 +64,7 @@ namespace Bantam
         /// <summary>
         /// Returns Expression
         /// </summary>        
-        public static ISimpleExpression Parse(string text)
+        public static ISimpleExpression<TokenType> Parse(string text)
         {
             var tokenizer = Tokenizer.From(Punctuators);
             var tokenFactory = TokenFactory.From(Punctuators.Reverse());
