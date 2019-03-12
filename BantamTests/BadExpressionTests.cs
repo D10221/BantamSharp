@@ -32,5 +32,15 @@ namespace BantamTests
             }
             Assert.IsInstanceOfType(ex, typeof(ParseException));
         }
+        [TestMethod]
+        public void DoesntWork2()
+        {
+            var parse = ParserFactory.Create();
+            // Parser doesnt find 'NEXT' 'B' ...'C'
+            // Parser can't parse NAME NAME ....                                                
+            var e = parse(@"A B C");
+            var actual = Printer.Default.Print(e);
+            Assert.AreEqual("A", actual);
+        }        
     }
 }

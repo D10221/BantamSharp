@@ -28,7 +28,7 @@ namespace Bantam
 
         public override string ToString()
         {
-            return $"NameExpression:\"{Token}\"";
+            return $"{nameof(NameExpression)}:\"{Token}\"";
         }
     }
 }

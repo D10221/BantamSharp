@@ -17,6 +17,7 @@ namespace Bantam
         OR, 
         EQUALS, 
         NOT_EQUAL,
+        LIKE,
         GREATER_EQUALS_THAN,
         GREATER_THAN,
         LESS_EQUALS_THAN,

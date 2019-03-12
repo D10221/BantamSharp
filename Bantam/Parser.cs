@@ -32,6 +32,11 @@ namespace Bantam
                 { TokenType.QUESTION, "?"},
                 { TokenType.SLASH, "/"},
                 { TokenType.TILDE, "~"},
+                { TokenType.LIKE, " LIKE "},  
+                // { TokenType.LITERAL, string.Empty },
+                // { TokenType.DOUBLE_QUOTE, "\"" },
+                //{ TokenType.SINGLE_QUOTE, "'" },
+                //{ TokenType.BACKTICK, "`" },
                 // { TokenType.NAME, string.Empty},
                 // { TokenType.NUMBER, string.Empty},
                 // { TokenType.EOF, string.Empty}
@@ -42,6 +47,7 @@ namespace Bantam
         /// </summary>
         public static IList<IParselet<TokenType>> Parselets = new List<IParselet<TokenType>>{
                 new NameParselet(TokenType.NAME),
+                new LiteralParselet(TokenType.LITERAL),
                 new GroupParselet(TokenType.PAREN_LEFT, TokenType.PARENT_RIGHT),
                 new PrefixOperatorParselet(TokenType.AT, (int)Precedence.PREFIX),
                 new PrefixOperatorParselet(TokenType.PLUS, (int)Precedence.PREFIX),
@@ -57,10 +63,11 @@ namespace Bantam
                 new BinaryOperatorParselet(TokenType.ASTERISK, (int)Precedence.PRODUCT, InfixType.Left),
                 new BinaryOperatorParselet(TokenType.SLASH, (int)Precedence.PRODUCT, InfixType.Left),
                 new BinaryOperatorParselet(TokenType.CARET, (int)Precedence.EXPONENT, InfixType.Right),
-                new BinaryOperatorParselet(TokenType.EQUALS, (int)Precedence.EQUALS, InfixType.Right),
-                new BinaryOperatorParselet(TokenType.NOT_EQUAL, (int)Precedence.NOT_EQUAL, InfixType.Right),
-                new BinaryOperatorParselet(TokenType.AND, (int)Precedence.AND, InfixType.Right),
-                new BinaryOperatorParselet(TokenType.OR, (int)Precedence.OR, InfixType.Right),
+                new BinaryOperatorParselet(TokenType.EQUALS, (int)Precedence.EQUALS, InfixType.Left),
+                new BinaryOperatorParselet(TokenType.NOT_EQUAL, (int)Precedence.NOT_EQUAL, InfixType.Left),
+                new BinaryOperatorParselet(TokenType.AND, (int)Precedence.AND, InfixType.Left),
+                new BinaryOperatorParselet(TokenType.OR, (int)Precedence.OR, InfixType.Left),
+                new BinaryOperatorParselet(TokenType.LIKE, (int)Precedence.LIKE, InfixType.Left),
                 };
         /// <summary>
         /// Returns Expression

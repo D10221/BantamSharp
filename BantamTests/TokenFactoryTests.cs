@@ -79,7 +79,7 @@ namespace BantamTests
                 "@", // expression ? 
                 "!", "~", ">", "<", ",",
                 "", ";", "'", "\"", "`",
-                "\"\"", "''", "@x", "[x]", "1X", // expression ?                
+                 "@x", "[x]", "1X", // expression ?                                 
                 })
             {
                 var token = factory.GetToken(x);
@@ -103,5 +103,20 @@ namespace BantamTests
             }
 
         }
+        [TestMethod]
+        public void TestLiterals()
+        {
+            var factory = TokenFactory.From(null);
+            foreach (var x in new[]{
+                "\"\"", "''", // literal
+            })
+            {
+                var token = factory.GetToken(x);
+                Assert.IsTrue(!token.IsEmpty, $"Token:'{token.TokenType}:{token}' is Empty");
+                Assert.AreEqual(token.TokenType, TokenType.LITERAL);
+                Assert.AreEqual(token.Value, x);
+            }
+
+        }        
     }
 }

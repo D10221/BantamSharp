@@ -11,10 +11,15 @@ namespace SimpleParser
 
         public TokenSplitter(IEnumerable<string> delimiters, TokenSplitterOptions options = TokenSplitterOptions.None)
         {
-            if(delimiters == null){
+            if (delimiters == null)
+            {
                 throw new Exception($"param:'{nameof(delimiters)}' can't be null");
             }
             _delimiters = delimiters as string[] ?? delimiters.ToArray();
+
+            if (_delimiters.Any(x => string.Equals(x, string.Empty))){
+                throw new Exception("Empty string isn not a valid delimiter"); ;
+            }
             _options = options;
         }
 
@@ -25,7 +30,6 @@ namespace SimpleParser
             for (int inputIndex = 0; inputIndex < input.Length;)
             {
                 var inputChar = input[inputIndex];
-
                 var match = GetMatch(
                     Slice(input, inputIndex),
                     inputChar
@@ -81,14 +85,16 @@ namespace SimpleParser
             foreach (var symbol in _delimiters)
             {
                 var found = Find(c, symbol, sub);
-                if (found.Length > ret.Length)
+                if (string.Equals(symbol, found))
                 {
                     ret = found;
                 }
             }
             return ret;
         }
-
+        /// <summary>
+        /// Find longest macth
+        /// </summary>        
         private string Find(char c, string symbol, string sub)
         {
             var result = string.Empty;

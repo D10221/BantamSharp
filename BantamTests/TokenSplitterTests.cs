@@ -17,7 +17,7 @@ namespace TokenSplitterTests
         {
             var input = "a=b==c";
             var actual = Join(new TokenSplitter(
-                new[] { "=", "==", "" }
+                new[] { "=", "==" }
             ).Split(input));
             Assert.AreEqual("a;=;b;==;c", actual);
         }

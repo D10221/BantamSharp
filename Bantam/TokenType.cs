@@ -9,12 +9,15 @@ namespace Bantam
         ASSIGN,
         ASTERISK,
         BANG,
+        BACKTICK,
         CARET,
         COLON,
+        DOUBLE_QUOTE,
         EOF,
         EQUALS,
         NOT_EQUAL,
         COMMA,
+        LIKE,
         MINUS,
         NAME,
         NUMBER,
@@ -23,8 +26,10 @@ namespace Bantam
         PARENT_RIGHT,
         PLUS,
         QUESTION,
+        SINGLE_QUOTE,
         SLASH,
         TILDE,
+        LITERAL, // Quotes, single double backtick
     }
     //
 }

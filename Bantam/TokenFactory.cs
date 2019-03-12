@@ -15,18 +15,18 @@ namespace Bantam
 
         public TokenFactory(IDictionary<string, TokenType> punctuators)
         {
-            if (punctuators == null) throw new Exception("punctuators: Can't be null");
-            _punctuators = punctuators;
+            _punctuators = punctuators ?? throw new Exception("punctuators: Can't be null");
         }
 
         public IToken<TokenType> GetToken(string input)
         {
-            // if(input == null) throw new Exception($"input can't be null");
             return GetPunctuator(input) ??
                  GetName(input) ??
                  GetNumber(input) ??
+                 GetLiteral(input) ??
                  Token.Empty(default(TokenType), input);
         }
+
         private IToken<TokenType> GetPunctuator(string c)
         {
             if (c == null || !_punctuators.TryGetValue(c, out var t))
@@ -35,6 +35,7 @@ namespace Bantam
             }
             return Token.From(t, c?.ToString());
         }
+        
         Regex _nameRegex = new Regex(@"^[a-zA-Z_][a-zA-Z_0123456789]*$");
         private IToken<TokenType> GetName(string input)
         {
@@ -46,6 +47,13 @@ namespace Bantam
         private IToken<TokenType> GetNumber(string input)
         {
             return input != null && _numberRegex.IsMatch(input) ? Token.From(TokenType.NUMBER, input) : null;
+        }
+        Regex _literalRegex = new Regex("^('|\"|`).*('|\"|`)$");
+        private IToken<TokenType> GetLiteral(string input)
+        {
+            return input!= null && _literalRegex.IsMatch(input) 
+                    ? Token.From(TokenType.LITERAL, input)
+                    : null;
         }
 
     }
