@@ -18,7 +18,7 @@ namespace BantamTests
             try
             {
                 // '\' is not known token 
-                // tokenizer/tokenfactory: expection
+                // tokenizer/tokenfactory: exception
                 var e = Parser.Parse("A \\");
                 Assert.AreEqual("",
                     actual: Printer.Default.Print(e)
