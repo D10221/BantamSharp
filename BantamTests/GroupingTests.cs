@@ -23,17 +23,17 @@ namespace BantamTests
 
             public IToken<TokenType> Consume(TokenType expected)
             {
-                return (IToken<TokenType>)_expression.Token;
+                return _expression.Token;
             }
 
             public IToken<TokenType> Consume()
             {
-                return (IToken<TokenType>)_expression.Token;
+                return _expression.Token;
             }
 
             public bool IsMatch(TokenType expected)
             {
-                return expected == ((IToken<TokenType>)_expression.Token).TokenType;
+                return expected == _expression.Token.TokenType;
             }
 
             public ISimpleExpression<TokenType> ParseExpression(int precedence = 0)
