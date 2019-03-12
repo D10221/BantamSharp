@@ -11,6 +11,9 @@ namespace SimpleParser
 
         public TokenSplitter(IEnumerable<string> delimiters, TokenSplitterOptions options = TokenSplitterOptions.None)
         {
+            if(delimiters == null){
+                throw new Exception($"param:'{nameof(delimiters)}' can't be null");
+            }
             this._delimiters = delimiters as string[] ?? delimiters.ToArray();
             this.options = options;
         }
