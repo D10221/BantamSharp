@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace SimpleParser
 {
@@ -9,7 +10,7 @@ namespace SimpleParser
         private readonly string[] _delimiters;
         private readonly TokenSplitterOptions _options;
 
-        public TokenSplitter(IEnumerable<string> delimiters, TokenSplitterOptions options = TokenSplitterOptions.None)
+        public TokenSplitter(IEnumerable<string> delimiters, TokenSplitterOptions options = TokenSplitterOptions.None | TokenSplitterOptions.IgnoreCase)
         {
             if (delimiters == null)
             {
@@ -17,7 +18,8 @@ namespace SimpleParser
             }
             _delimiters = delimiters as string[] ?? delimiters.ToArray();
 
-            if (_delimiters.Any(x => string.Equals(x, string.Empty))){
+            if (_delimiters.Any(x => string.Equals(x, string.Empty)))
+            {
                 throw new Exception("Empty string isn not a valid delimiter"); ;
             }
             _options = options;
@@ -34,15 +36,15 @@ namespace SimpleParser
                     Slice(input, inputIndex),
                     inputChar
                 );
-                if (match.Length > 0)
+                if (match.Item2 > 0) // match.Item2 == Length
                 {
                     if (!string.IsNullOrWhiteSpace(xname))
                     {
                         result.Add(xname);
                         xname = string.Empty;
                     }
-                    inputIndex += match.Length;
-                    result.Add(match);
+                    inputIndex += match.Item2; // skip match consummed chars length
+                    result.Add(match.Item1);
                     continue;
                 }
                 else
@@ -77,21 +79,39 @@ namespace SimpleParser
         {
             return input.Substring(start, input.Length - start);
         }
-
-        private string GetMatch(string sub, char c)
+        Regex _wordRegex = new Regex("^\\w+$");
+        ///<summary>
+        /// return match & consummed chars
+        ///</summary>
+        private Tuple<string, int> GetMatch(string sub, char c)
         {
-            var ret = string.Empty;
+            var match = string.Empty;
+            var matchLength = 0;
 
             foreach (var symbol in _delimiters)
             {
-                var found = Find(c, symbol, sub);
-                if (string.Equals(symbol, found))
+                var toFind = _wordRegex.IsMatch(symbol) ? $" {symbol} " : symbol;
+                var found = Find(c, toFind, sub);
+                if (AreEquals(toFind, found))
                 {
-                    ret = found;
+                    match = symbol;
+                    matchLength = toFind.Length;
                 }
             }
-            return ret;
+            return Tuple.Create(match, matchLength);
         }
+
+        private bool AreEquals(string toFind, string found)
+        {
+            return string.Equals(
+                toFind,
+                found,
+                _options.HasFlag(
+                    TokenSplitterOptions.IgnoreCase)
+                        ? StringComparison.OrdinalIgnoreCase
+                        : StringComparison.Ordinal);
+        }
+
         /// <summary>
         /// Find longest macth
         /// </summary>        
@@ -102,7 +122,7 @@ namespace SimpleParser
             {
                 char symbolChar = symbol[symbolLength];
                 var next = symbolLength == 0 ? c : PeekAt(sub, symbolLength);
-                var ok = symbolChar.Equals(next);
+                var ok = AreEqual(symbolChar, next);
                 if (ok)
                 {
                     result += next;
@@ -113,6 +133,13 @@ namespace SimpleParser
                 }
             }
             return result;
+        }
+
+        private bool AreEqual(char a, char b)
+        {
+            if (_options.HasFlag(TokenSplitterOptions.IgnoreCase))
+                return char.ToUpperInvariant(a).Equals(char.ToUpperInvariant(b));
+            return char.Equals(a, b);
         }
 
         private char PeekAt(string input, int index)

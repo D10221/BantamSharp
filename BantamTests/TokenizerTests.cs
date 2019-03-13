@@ -16,6 +16,7 @@ namespace BantamTests
             Assign,
             Equals,
             Number,
+            LIKE,
             Name
         }
         class TokenFactory : ITokenFactory<TokenType>
@@ -77,5 +78,42 @@ namespace BantamTests
               tokens[2].TokenType
           );
         }
+        
+        [TestMethod]
+        public void Test2()
+        {
+            var punctuators = new Dictionary<TokenType, string>{
+
+                {TokenType.LIKE, "LIKE"},                
+            };
+
+            var tokenizer = Tokenizer.From(punctuators);
+
+            var factory = new TokenFactory(punctuators.Reverse());
+
+            var tokens = tokenizer
+                // case insensitive
+                .Tokenize("a like 2", factory)
+                .ToArray();
+
+            Assert.AreEqual(tokens.Count(), 3);
+            Assert.AreEqual(
+                TokenType.Name,
+                tokens[0].TokenType
+            );
+            Assert.AreEqual(
+                TokenType.LIKE,
+                tokens[1].TokenType
+            );
+            // picks up symbol repr. case insesitive
+            Assert.AreEqual(
+                tokens[1].ToString(),
+                "LIKE"
+            );
+            Assert.AreEqual(
+              TokenType.Number,
+              tokens[2].TokenType, $"Bad Token:'{tokens[2]}'"
+          );
+        }        
     }
 }

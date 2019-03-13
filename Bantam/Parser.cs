@@ -32,7 +32,7 @@ namespace Bantam
                 { TokenType.QUESTION, "?"},
                 { TokenType.SLASH, "/"},
                 { TokenType.TILDE, "~"},
-                { TokenType.LIKE, " LIKE "},  
+                { TokenType.LIKE, "LIKE"},  
                 // { TokenType.LITERAL, string.Empty },
                 // { TokenType.DOUBLE_QUOTE, "\"" },
                 //{ TokenType.SINGLE_QUOTE, "'" },
