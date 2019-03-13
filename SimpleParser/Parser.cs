@@ -49,12 +49,12 @@ namespace SimpleParser
 
         public IEnumerable<IToken<TTokenType>> Tokens => _parsed;
 
-        public ISimpleExpression<TTokenType> ParseExpression(int precedence = 0 , object caller = null)
+        public ISimpleExpression<TTokenType> ParseExpression(int precedence = 0, object caller = null)
         {
             var token = Consume();
 
             var prefix = GetParselet(token.TokenType, ParseletType.Prefix);
-            var left = prefix?.Parse(this, token, null); 
+            var left = prefix?.Parse(this, token, null);
             while (precedence < GetPrecedence()) //Get Next Precedence
             {
                 var atoken = Consume();
@@ -63,15 +63,19 @@ namespace SimpleParser
                     var p = GetParselet(atoken.TokenType, ParseletType.Infix);
                     if (p != null)
                     {
-                        left = p.Parse(this, atoken, left);                        
+                        left = p.Parse(this, atoken, left);
                     }
                 }
             }
             var diff = _lexer.Tokens.Count() - this._parsed.Count();
             // TODO: 
-            if (caller as IParselet<TTokenType> == null && diff > 0 )
+            if (caller as IParselet<TTokenType> == null && diff > 0)
             {
                 throw new ParseException($"Bad expresion:'{_lexer.ToString()}'");
+            }
+            if (left == null && !token.IsEmpty)
+            {
+                throw new ParseException($"Invalid Token: '${token}'");
             }
             return left ?? new EmptyExpression<TTokenType>();
         }

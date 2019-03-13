@@ -1,7 +1,6 @@
 ﻿using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
-using System;
 
 namespace BantamTests
 {
@@ -14,23 +13,23 @@ namespace BantamTests
         [TestMethod]
         public void DoesntWork1()
         {
-            var parse = ParserFactory.Create();
-            Exception ex = null;
-            try
+            Assert.ThrowsException<ParseException>(() =>
             {
                 // '\' is not known token 
                 // tokenizer/tokenfactory: exception
-                var e = parse("A \\");
-                Assert.AreEqual("",
-                    actual: Printer.Default.Print(e)
-                    );
-
-            }
-            catch (Exception e)
+                var parse = ParserFactory.Create();
+                parse("A \\");
+            });
+        }
+        [TestMethod]
+        public void DoesntWork2()
+        {
+            Assert.ThrowsException<ParseException>(() =>
             {
-                ex = e;
-            }
-            Assert.IsInstanceOfType(ex, typeof(ParseException));
-        }       
+                // Parselet Throws
+                var parse = ParserFactory.Create();
+                parse("=");
+            });
+        }
     }
 }

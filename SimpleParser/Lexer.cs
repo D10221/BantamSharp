@@ -32,7 +32,7 @@ namespace SimpleParser
 
         public override string ToString()
         {
-            return Tokens.Select(a => a.ToString()).Aggregate((a, b) => a + b);
+            return Tokens.Select(a => $"'{a.Value}'<{a.TokenType}>").Aggregate((a, b) => a + ";" + b);
         }
     }
 }
