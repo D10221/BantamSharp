@@ -31,7 +31,7 @@ namespace Bantam
             {
                 throw new ParseException($"Expected: '{TokenType}' but got {token.TokenType}");
             }
-            var expression = parser.ParseExpression();
+            var expression = parser.ParseExpression((int) Bantam.Precedence.ZERO, this);
             parser.Consume(expected: Right);
             return expression;
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
@@ -36,7 +35,7 @@ namespace BantamTests
                 return expected == _expression.Token.TokenType;
             }
 
-            public ISimpleExpression<TokenType> ParseExpression(int precedence = 0)
+            public ISimpleExpression<TokenType> ParseExpression(int precedence = 0, object caller = null)
             {
                 return _expression;
             }
@@ -56,8 +55,8 @@ namespace BantamTests
                 builder.ToString()
             );
         }
-        [TestMethod]
 
+        [TestMethod]
         public void GroupParseletTest2()
         {
             Exception ex = null;

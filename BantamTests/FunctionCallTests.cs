@@ -10,14 +10,18 @@ namespace BantamTests
         [TestMethod]
         public void TestMethod1()
         {
-            var parsed = Printer.Default.Print(ParserFactory.Create()("a()"));
+            var parser = ParserFactory.Create();
+            var e = parser("a()");
+            var parsed = Printer.Default.Print(e);
             Assert.AreEqual("a()", parsed);
         }
 
         [TestMethod]
         public void TestMethod2()
         {
-            var parsed = Printer.Default.Print(ParserFactory.Create()("a(b)"));
+            var parse = ParserFactory.Create();
+            var e = parse("a(b)");
+            var parsed = Printer.Default.Print(e);
             Assert.AreEqual("a(b)", parsed);
         }
 

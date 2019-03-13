@@ -19,7 +19,7 @@ namespace BantamTests
             }
             public IEnumerable<IToken<TokenType>> Tokens { get; } = new List<IToken<TokenType>>();
 
-            public ISimpleExpression<TokenType> ParseExpression(int precedence)
+            public ISimpleExpression<TokenType> ParseExpression(int precedence = 0 , object caller = null)
             {
                 return _expression;
             }

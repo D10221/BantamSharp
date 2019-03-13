@@ -7,6 +7,7 @@ namespace SimpleParser
     {
         private readonly ILexer<TTokenType> _lexer;
         private readonly IList<IToken<TTokenType>> _tokens = new List<IToken<TTokenType>>();
+        private readonly IList<IToken<TTokenType>> _parsed = new List<IToken<TTokenType>>();
         private readonly IEnumerable<IParselet<TTokenType>> _parselets;
 
         public Parser(
@@ -46,9 +47,9 @@ namespace SimpleParser
 
         #region IParser
 
-        public IEnumerable<IToken<TTokenType>> Tokens => _tokens;
+        public IEnumerable<IToken<TTokenType>> Tokens => _parsed;
 
-        public ISimpleExpression<TTokenType> ParseExpression(int precedence = 0)
+        public ISimpleExpression<TTokenType> ParseExpression(int precedence = 0 , object caller = null)
         {
             var token = Consume();
 
@@ -62,9 +63,15 @@ namespace SimpleParser
                     var p = GetParselet(atoken.TokenType, ParseletType.Infix);
                     if (p != null)
                     {
-                        left = p.Parse(this, atoken, left);
+                        left = p.Parse(this, atoken, left);                        
                     }
                 }
+            }
+            var diff = _lexer.Tokens.Count() - this._parsed.Count();
+            // TODO: 
+            if (caller as IParselet<TTokenType> == null && diff > 0 )
+            {
+                throw new ParseException($"Bad expresion:'{_lexer.ToString()}'");
             }
             return left ?? new EmptyExpression<TTokenType>();
         }
@@ -96,6 +103,7 @@ namespace SimpleParser
             // Make sure we've read the token.
             LookAhead();
             var token = _tokens.First();
+            _parsed.Add(token);
             _tokens.RemoveAt(0);
             return token;
         }

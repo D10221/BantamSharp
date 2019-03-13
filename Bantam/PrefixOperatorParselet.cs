@@ -25,7 +25,7 @@ namespace Bantam
             // lower precedence when parsing the right-hand side. This will let a
             // parselet with the same precedence appear on the right, which will then
             // take *this* parselet's result as its left-hand argument.
-            var right = parser.ParseExpression(Precedence);
+            var right = parser.ParseExpression(Precedence, this);
             return new PrefixExpression(token, right);
         }
     }

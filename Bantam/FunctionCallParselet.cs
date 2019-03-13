@@ -29,7 +29,7 @@ namespace Bantam
                 return new FunctionCallExpression(left, args);
             do
             {
-                args.Add(parser.ParseExpression(/*Precedence.ZERO*/));
+                args.Add(parser.ParseExpression((int) Bantam.Precedence.ZERO, this));
             } while (parser.IsMatch(TokenType.COMMA));
 
             parser.Consume(TokenType.PARENT_RIGHT);
