@@ -24,11 +24,22 @@ namespace BantamTests
         [TestMethod]
         public void DoesntWork2()
         {
-            Assert.ThrowsException<ParseException>(() =>
+            Assert.ThrowsException<ParseletException>(() =>
             {
-                // Parselet Throws
+                // Parselet Throws?
                 var parse = ParserFactory.Create();
                 parse("=");
+            });
+        }
+         [TestMethod]
+        public void DoesntWork3()
+        {
+            // Group Or Function 
+            Assert.ThrowsException<ParseException>(() =>
+            {
+                // Parselet Throws?
+                var parse = ParserFactory.Create();
+                parse("()");
             });
         }
     }

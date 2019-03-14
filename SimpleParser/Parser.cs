@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace SimpleParser
@@ -51,33 +52,44 @@ namespace SimpleParser
 
         public ISimpleExpression<TTokenType> ParseExpression(int precedence = 0, object caller = null)
         {
-            var token = Consume();
-
-            var prefix = GetParselet(token.TokenType, ParseletType.Prefix);
-            var left = prefix?.Parse(this, token, null);
-            while (precedence < GetPrecedence()) //Get Next Precedence
+            try
             {
-                var atoken = Consume();
-                if (!atoken.IsEmpty)
+                var token = Consume();
+
+                var parselet =
+                        GetParselet(token.TokenType, ParseletType.Prefix)
+                        ?? GetParselet(token.TokenType, ParseletType.Infix);
+                if (parselet == null && !token.IsEmpty && caller as IParselet<TTokenType> == null)
                 {
-                    var p = GetParselet(atoken.TokenType, ParseletType.Infix);
-                    if (p != null)
+                    throw new ParseException($"Missing parser for Token: '{token}'");
+                }
+                var left = parselet?.Parse(this, token, null);
+                while (precedence < GetPrecedence()) //Get Next Precedence
+                {
+                    var atoken = Consume();
+                    if (!atoken.IsEmpty)
                     {
-                        left = p.Parse(this, atoken, left);
+                        var p = GetParselet(atoken.TokenType, ParseletType.Infix);
+                        if (p != null)
+                        {
+                            left = p.Parse(this, atoken, left);
+                        }
                     }
                 }
+                var diff = _lexer.Tokens.Count() - this._parsed.Count();
+                // TODO: 
+                if (caller as IParselet<TTokenType> == null && diff > 0)
+                {
+                    throw new ParseException($"Bad expresion:'{_lexer.ToString()}'");
+                }
+                return left ?? new EmptyExpression<TTokenType>();
+
             }
-            var diff = _lexer.Tokens.Count() - this._parsed.Count();
-            // TODO: 
-            if (caller as IParselet<TTokenType> == null && diff > 0)
+            catch (System.Exception ex)
             {
-                throw new ParseException($"Bad expresion:'{_lexer.ToString()}'");
+                Debug.Write(ex);
+                throw;
             }
-            if (left == null && !token.IsEmpty)
-            {
-                throw new ParseException($"Invalid Token: '${token}'");
-            }
-            return left ?? new EmptyExpression<TTokenType>();
         }
 
         public bool IsMatch(TTokenType expected)
@@ -97,7 +109,7 @@ namespace SimpleParser
             var token = LookAhead();
             if (!Equals(token.TokenType, expected))
             {
-                throw new ParseException("Expected token {0} and found {1}", expected, token.TokenType);
+                throw new ParseException( $"Expected token {expected} and found {token.TokenType}");
             }
             return Consume();
         }

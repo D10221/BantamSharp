@@ -32,6 +32,10 @@ namespace Bantam
                 throw new ParseException($"Expected: '{TokenType}' but got {token.TokenType}");
             }
             var expression = parser.ParseExpression((int) Bantam.Precedence.ZERO, this);
+            if(expression == null || expression is EmptyExpression<TokenType>)
+            {
+                throw new ParseException($"GroupExpression can't be empty");
+            }
             parser.Consume(expected: Right);
             return expression;
         }

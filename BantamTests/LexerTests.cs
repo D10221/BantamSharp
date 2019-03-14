@@ -49,7 +49,7 @@ namespace BantamTests
             var text = "a+b";
             var lexer = Lexer.From(
                 tokens: Tokenizer.From(ParserFactory.Punctuators).Tokenize(text, tokenFactory: TokenFactory.From(ParserFactory.Punctuators.Reverse())));
-            Assert.AreEqual("a+b", lexer.ToString());
+            Assert.AreEqual("'a';'+';'b'", lexer.ToString());
         }
     }
 }

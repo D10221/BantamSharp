@@ -1,7 +1,6 @@
 ﻿using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
-using System;
 using System.Collections.Generic;
 
 namespace BantamTests
@@ -19,7 +18,7 @@ namespace BantamTests
             }
             public IEnumerable<IToken<TokenType>> Tokens { get; } = new List<IToken<TokenType>>();
 
-            public ISimpleExpression<TokenType> ParseExpression(int precedence = 0 , object caller = null)
+            public ISimpleExpression<TokenType> ParseExpression(int precedence = 0, object caller = null)
             {
                 return _expression;
             }
@@ -56,25 +55,19 @@ namespace BantamTests
         [TestMethod]
         public void Test2()
         {
-            Exception ex = null;
-            try
+            Assert.ThrowsException<ParseletException>(() =>
             {
                 var parselet = new AssignParselet(TokenType.ASSIGN, (int)Precedence.ASSIGNMENT);
                 var token = Token.From(TokenType.ASSIGN, "=");
-                var expression = parselet.Parse(
+                parselet.Parse(
                     new FakeParser(NameExpression.From("a")),
                     token,
                     new WrongExpression());
-            }
-            catch (System.Exception e)
-            {
-                ex = e;
-            }
-            Assert.IsInstanceOfType(ex, typeof(ParseException));
+            });
         }
         class WrongExpression : ISimpleExpression<TokenType>
-        {            
-            public IToken<TokenType> Token {get;} = SimpleParser.Token.Empty(TokenType.NONE);
+        {
+            public IToken<TokenType> Token { get; } = SimpleParser.Token.Empty(TokenType.NONE);
 
             public void Print(IBuilder builder)
             {

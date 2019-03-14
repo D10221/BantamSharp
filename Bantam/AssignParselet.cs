@@ -23,7 +23,7 @@ namespace Bantam
             //Why -1
             Right = parser.ParseExpression(Precedence - 1, this);
             Left = left;
-            if (left as NameExpression == null) throw new ParseException($"Expected {TokenType.NAME} but found {left.Token}.");
+            if (left as NameExpression == null) throw new ParseletException($"Expected {TokenType.NAME} but found {left?.Token}.", this);
             return new AssignExpression(left, Right);
         }
     }
