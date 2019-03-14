@@ -27,20 +27,20 @@ namespace BantamTests
                 _punctuators = punctuators;
             }
 
-            public IToken<TokenType> GetToken(string x)
+            public IToken<TokenType> GetToken(ITokenSource x)
             {
                 foreach (var kv in _punctuators)
                 {
-                    if (x == kv.Key)
+                    if (x.Value == kv.Key)
                     {
                         return Token.From(kv.Value, x);
                     }
                 }
-                if (new Regex("^[a-zA-z_]+$").IsMatch(x))
+                if (new Regex("^[a-zA-z_]+$").IsMatch(x.Value))
                 {
                     return Token.From(TokenType.Name, x);
                 }
-                if (new Regex("^\\d+$").IsMatch(x))
+                if (new Regex("^\\d+$").IsMatch(x.Value))
                 {
                     return Token.From(TokenType.Number, x);
                 }

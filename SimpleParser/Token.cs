@@ -3,6 +3,10 @@ namespace SimpleParser
 {
     public class Token
     {
+        public static IToken<T> From<T>(T tokenType, ITokenSource source)
+        {
+            return new Token<T>(tokenType, source);
+        }
         public static IToken<T> From<T>(T tokenType, string text)
         {
             return new Token<T>(tokenType, text);

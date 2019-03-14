@@ -18,7 +18,7 @@ namespace Bantam
             _punctuators = punctuators ?? throw new Exception("punctuators: Can't be null");
         }
 
-        public IToken<TokenType> GetToken(string input)
+        public IToken<TokenType> GetToken(ITokenSource input)
         {
             return GetPunctuator(input) ??
                  GetName(input) ??
@@ -27,31 +27,31 @@ namespace Bantam
                  Token.Empty(default(TokenType), input);
         }
 
-        private IToken<TokenType> GetPunctuator(string c)
+        private IToken<TokenType> GetPunctuator(ITokenSource source)
         {
-            if (c == null || !_punctuators.TryGetValue(c, out var t))
+            if (source == null || source.Value == null || !_punctuators.TryGetValue(source.Value, out var t))
             {
                 return null;
             }
-            return Token.From(t, c?.ToString());
+            return Token.From(t, source);
         }
         
         Regex _nameRegex = new Regex(@"^[a-zA-Z_][a-zA-Z_0123456789]*$");
-        private IToken<TokenType> GetName(string input)
+        private IToken<TokenType> GetName(ITokenSource source)
         {
-            return input != null && _nameRegex.IsMatch(input)
-                ? Token.From(TokenType.NAME, input)
+            return source != null && _nameRegex.IsMatch(source.Value)
+                ? Token.From(TokenType.NAME, source)
                 : null;
         }
         Regex _numberRegex = new Regex(@"^\d+(\.)?(\d+)?$");
-        private IToken<TokenType> GetNumber(string input)
+        private IToken<TokenType> GetNumber(ITokenSource input)
         {
-            return input != null && _numberRegex.IsMatch(input) ? Token.From(TokenType.NUMBER, input) : null;
+            return input != null && _numberRegex.IsMatch(input.Value) ? Token.From(TokenType.NUMBER, input) : null;
         }
         Regex _literalRegex = new Regex("^('|\"|`).*('|\"|`)$");
-        private IToken<TokenType> GetLiteral(string input)
+        private IToken<TokenType> GetLiteral(ITokenSource input)
         {
-            return input!= null && _literalRegex.IsMatch(input) 
+            return input!= null && _literalRegex.IsMatch(input.Value) 
                     ? Token.From(TokenType.LITERAL, input)
                     : null;
         }

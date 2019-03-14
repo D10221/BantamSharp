@@ -10,67 +10,89 @@ namespace SimpleParser
         private readonly string[] _delimiters;
         private readonly TokenSplitterOptions _options;
 
+        public string[] EOL { get; } = new[] { "\n", "\n\r", "\r\n", "\r" };
+
         public TokenSplitter(IEnumerable<string> delimiters, TokenSplitterOptions options = TokenSplitterOptions.None | TokenSplitterOptions.IgnoreCase)
         {
             if (delimiters == null)
             {
-                throw new Exception($"param:'{nameof(delimiters)}' can't be null");
+                throw new ArgumentException($"param:'{nameof(delimiters)}' can't be null");
             }
-            _delimiters = delimiters as string[] ?? delimiters.ToArray();
+            _delimiters = (delimiters as string[] ?? delimiters.ToArray());
 
             if (_delimiters.Any(x => string.Equals(x, string.Empty)))
             {
-                throw new Exception("Empty string isn not a valid delimiter"); ;
+                throw new ArgumentException("Empty string is not a valid delimiter"); ;
             }
             _options = options;
         }
 
-        public IEnumerable<string> Split(string input)
+
+        public IEnumerable<ITokenSource> Split(string input)
         {
-            var result = new List<string>();
-            var xname = string.Empty;
-            for (int inputIndex = 0; inputIndex < input.Length;)
+            var result = new List<ITokenSource>();
+
+            string[] array = input.Split(EOL, StringSplitOptions.None);
+            for (int lineIndex = 0; lineIndex < array.Length; lineIndex++)
             {
-                var inputChar = input[inputIndex];
-                var match = GetMatch(
-                    Slice(input, inputIndex),
-                    inputChar
-                );
-                if (match.Item2 > 0) // match.Item2 == Length
+                string line = array[lineIndex];
+                var xname = string.Empty;
+                int columnIndex = 0;
+                for (; columnIndex < line.Length;)
                 {
-                    if (!string.IsNullOrWhiteSpace(xname))
-                    {
-                        result.Add(xname);
-                        xname = string.Empty;
-                    }
-                    inputIndex += match.Item2; // skip match consummed chars length
-                    result.Add(match.Item1);
-                    continue;
-                }
-                else
-                {
-                    if (char.IsWhiteSpace(inputChar) || inputChar == char.MinValue)
+                    var inputChar = line[columnIndex];
+                    var match = GetMatch(
+                        Slice(line, columnIndex),
+                        inputChar
+                    );
+                    if (match.Item2 > 0) // match.Item2 == Length
                     {
                         if (!string.IsNullOrWhiteSpace(xname))
                         {
-                            result.Add(xname);
+                            result.Add(
+                                TokenSource.From(xname, lineIndex, columnIndex)
+                            );
                             xname = string.Empty;
                         }
-                        if (_options.HasFlag(TokenSplitterOptions.IncludeEmpty))
-                        {
-                            result.Add(string.Empty);
-                        }
-
-                        ++inputIndex;
+                        columnIndex += match.Item2; // skip match consummed chars length
+                        result.Add(TokenSource.From(
+                            match.Item1,
+                            lineIndex,
+                            columnIndex
+                        ));
                         continue;
                     }
-                    xname += inputChar;
-                    ++inputIndex;
+                    else
+                    {
+                        if (char.IsWhiteSpace(inputChar) || inputChar == char.MinValue)
+                        {
+                            if (!string.IsNullOrWhiteSpace(xname))
+                            {
+                                result.Add(
+                                    TokenSource.From(xname, lineIndex, columnIndex)
+                                );
+                                xname = string.Empty;
+                            }
+                            if (_options.HasFlag(TokenSplitterOptions.IncludeEmpty))
+                            {
+                                result.Add(
+                                    TokenSource.From(string.Empty, lineIndex, columnIndex)
+                                );
+                            }
+
+                            ++columnIndex;
+                            continue;
+                        }
+                        xname += inputChar;
+                        ++columnIndex;
+                    }
                 }
-            }
-            if (!string.IsNullOrWhiteSpace(xname))
-            {
-                result.Add(xname);
+                if (!string.IsNullOrWhiteSpace(xname))
+                {
+                    result.Add(
+                        TokenSource.From(xname, lineIndex, columnIndex)
+                            );
+                }
             }
             return result;
         }

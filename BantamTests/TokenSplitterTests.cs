@@ -8,9 +8,9 @@ namespace TokenSplitterTests
     [TestClass]
     public class TokenSplitterTests
     {
-        static string Join(IEnumerable<string> input)
+        static string Join(IEnumerable<ITokenSource> input)
         {
-            return input.Aggregate((a, b) => a + ";" + b);
+            return input.Select(x => x.Value).Aggregate((a, b) => a + ";" + b);
         }
         [TestMethod]
         public void TestMethod1()
@@ -77,6 +77,38 @@ namespace TokenSplitterTests
                 delimiters, TokenSplitterOptions.IncludeEmpty
             ).Split(input));
             Assert.AreEqual("x;=;a;=;b;==;c;;&&;;z;!=;;y", actual);
+        }
+
+        [TestMethod]
+        public void LineDelimiters()
+        {
+            var input = "\na\rb\n\rc\r\n";
+            string[] demiliters = new string[0];
+            var tokens = new TokenSplitter(demiliters)
+                .Split(input)
+                .ToArray();
+            Assert.AreEqual(
+                "\n", tokens[0], "Expected \\n"
+            );
+            Assert.AreEqual(
+               "a", tokens[1]
+           );
+            Assert.AreEqual(
+                "\r", tokens[2], "expected: \\r"
+            );
+            Assert.AreEqual(
+                "b", tokens[3]
+            );
+            Assert.AreEqual(
+                "\n\r", tokens[4]
+ 
+            );
+            Assert.AreEqual(
+                "c", tokens[5]
+            );
+            Assert.AreEqual(
+                "\r\n", tokens[6]
+            );
         }
     }
 }

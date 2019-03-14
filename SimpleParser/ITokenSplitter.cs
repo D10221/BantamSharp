@@ -4,6 +4,6 @@ namespace SimpleParser
 {
     public interface ITokenSplitter
     {
-        IEnumerable<string> Split(string input);
+        IEnumerable<ITokenSource> Split(string input);
     }
 }

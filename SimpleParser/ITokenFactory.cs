@@ -2,6 +2,6 @@ namespace SimpleParser
 {
     public interface ITokenFactory<TokenType>
     {
-        IToken<TokenType> GetToken(string x);
+        IToken<TokenType> GetToken(ITokenSource x);
     }
 }

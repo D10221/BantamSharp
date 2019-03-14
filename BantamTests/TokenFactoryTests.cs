@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
@@ -16,7 +17,7 @@ namespace BantamTests
         {
             var punctuators = new Dictionary<string, TokenType>();
             var factory = new TokenFactory(punctuators);
-            var token = factory.GetToken("");
+            var token = factory.GetToken(TokenSource.From("", 0, 0));
             Assert.IsTrue(token.IsEmpty);
         }
         public void Test11()
@@ -37,7 +38,7 @@ namespace BantamTests
         {
             var punctuators = new Dictionary<string, TokenType>();
             var factory = new TokenFactory(punctuators);
-            var token = factory.GetToken("");
+            var token = factory.GetToken(TokenSource.From("", 0, 0));
             Assert.IsTrue(token.IsEmpty);
         }
         [TestMethod]
@@ -62,7 +63,7 @@ namespace BantamTests
             foreach (var x in new[] {
                 "a", "b", "A",
                 "_" , "__", "X1"
-                })
+                }.Select((x, i) => TokenSource.From(x, 0, i)))
             {
                 var token = factory.GetToken(x);
                 Assert.AreEqual(token.TokenType, TokenType.NAME, $"Tone:'{token}' is not {TokenType.NAME}");
@@ -80,7 +81,7 @@ namespace BantamTests
                 "!", "~", ">", "<", ",",
                 "", ";", "'", "\"", "`",
                  "@x", "[x]", "1X", // expression ?                                 
-                })
+                }.Select((x, i) => TokenSource.From(x, 0, i)))
             {
                 var token = factory.GetToken(x);
                 Assert.IsTrue(token.IsEmpty, $"Token:'{token.TokenType}:{token}' Not Empty");
@@ -92,9 +93,7 @@ namespace BantamTests
         public void TestNumbers()
         {
             var factory = TokenFactory.From(null);
-            foreach (var x in new[]{
-                "1", "11", "0", "0.0"
-            })
+            foreach (var x in new[] { "1", "11", "0", "0.0" }.Select((x, i) => TokenSource.From(x, 0, i)))
             {
                 var token = factory.GetToken(x);
                 Assert.IsTrue(!token.IsEmpty, $"Token:'{token.TokenType}:{token}' is Empty");
@@ -109,7 +108,7 @@ namespace BantamTests
             var factory = TokenFactory.From(null);
             foreach (var x in new[]{
                 "\"\"", "''", // literal
-            })
+            }.Select((x, i) => TokenSource.From(x, 0, i)))
             {
                 var token = factory.GetToken(x);
                 Assert.IsTrue(!token.IsEmpty, $"Token:'{token.TokenType}:{token}' is Empty");
@@ -117,6 +116,6 @@ namespace BantamTests
                 Assert.AreEqual(token.Value, x);
             }
 
-        }        
+        }
     }
 }

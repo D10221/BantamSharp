@@ -29,7 +29,7 @@ namespace SimpleParser
             );
         }
 
-        Func<string, IToken<TokenType>> ToToken(ITokenFactory<TokenType> factory)
+        Func<ITokenSource, IToken<TokenType>> ToToken(ITokenFactory<TokenType> factory)
         {
             return x =>
             {
