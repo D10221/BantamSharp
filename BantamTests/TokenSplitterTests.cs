@@ -88,26 +88,27 @@ namespace TokenSplitterTests
                 .Split(input)
                 .ToArray();
             Assert.AreEqual(
-                "\n", tokens[0], "Expected \\n"
+                "\n", tokens[0]?.ToString(), "Expected \\n"
             );
             Assert.AreEqual(
-               "a", tokens[1]
+               "a", tokens[1]?.ToString()
            );
             Assert.AreEqual(
-                "\r", tokens[2], "expected: \\r"
+                "\r", tokens[2]?.ToString(), 
+                "expected: \\r"
             );
             Assert.AreEqual(
-                "b", tokens[3]
+                "b", tokens[3]?.ToString()
             );
             Assert.AreEqual(
-                "\n\r", tokens[4]
+                "\n\r", tokens[4]?.ToString()
  
             );
             Assert.AreEqual(
-                "c", tokens[5]
+                "c", tokens[5]?.ToString()
             );
             Assert.AreEqual(
-                "\r\n", tokens[6]
+                "\r\n", tokens[6]?.ToString()
             );
         }
     }

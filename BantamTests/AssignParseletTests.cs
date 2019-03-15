@@ -48,7 +48,7 @@ namespace BantamTests
             var left = NameExpression.From("A");
             var expression = parselet.Parse(parser, token, left);
             var builder = new Builder();
-            expression.Print(builder);
+            expression.Visit(builder);
             var x = builder.ToString();
             Assert.AreEqual("(A=a)", x);
         }
@@ -69,7 +69,7 @@ namespace BantamTests
         {
             public IToken<TokenType> Token { get; } = SimpleParser.Token.Empty(TokenType.NONE);
 
-            public void Print(IBuilder builder)
+            public void Visit(IExpressionVisitor<TokenType> builder)
             {
                 throw new System.NotImplementedException();
             }

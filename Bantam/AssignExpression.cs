@@ -18,14 +18,9 @@ namespace Bantam
             Right = right ?? throw new ParseException($"Missing right side expression from {Left}");
         }
 
-        public void Print(IBuilder builder)
+        public void Visit(IExpressionVisitor<TokenType> visitor)
         {
-            builder
-                .Append("(");
-            builder.Append(Token);
-            builder.Append("=");
-            Right.Print(builder);
-            builder.Append(")");
+           visitor.Visit(this);
         }
     }
 }

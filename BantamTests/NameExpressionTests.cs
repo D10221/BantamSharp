@@ -12,7 +12,7 @@ namespace BantamTests
         {
             var expresion = NameExpression.From("aa");
             var _builder = new Builder();
-            expresion.Print(_builder);
+            expresion.Visit(_builder);
             var actual = _builder.ToString();
             Assert.AreEqual("aa", actual);
         }
@@ -23,7 +23,7 @@ namespace BantamTests
         {
             var expresion = NameExpression.From("a");
             var _builder = new Builder();
-            expresion.Print(_builder);
+            expresion.Visit(_builder);
             var actual = _builder.ToString();
             Assert.AreEqual("a", actual);
         }
@@ -33,7 +33,7 @@ namespace BantamTests
         {
             var expresion = NameExpression.From("");
             var _builder = new Builder();
-            expresion.Print(_builder);
+            expresion.Visit(_builder);
             var actual = _builder.ToString();
             Assert.AreEqual("", actual);
         }
@@ -43,7 +43,7 @@ namespace BantamTests
         {
             var expresion = NameExpression.From("whatever you want to put here\n");
             var _builder = new Builder();
-            expresion.Print(_builder);
+            expresion.Visit(_builder);
             var actual = _builder.ToString();
             Assert.AreEqual("whatever you want to put here\n", actual);
         }

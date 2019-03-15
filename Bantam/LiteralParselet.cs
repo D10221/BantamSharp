@@ -20,31 +20,31 @@ namespace Bantam
             return new LiteralExpression(token);
         }
 
-        public class LiteralExpression : ISimpleExpression<TokenType>
+    }
+    public class LiteralExpression : ISimpleExpression<TokenType>
+    {
+        public static LiteralExpression From(string token)
         {
-            public static LiteralExpression From(string token)
-            {
-                return new LiteralExpression(
-                    SimpleParser.Token.From(TokenType.NAME, token)
-                );
-            }
-            public IToken<TokenType> Token { get; }
+            return new LiteralExpression(
+                SimpleParser.Token.From(TokenType.NAME, token)
+            );
+        }
+        public IToken<TokenType> Token { get; }
 
-            public LiteralExpression(IToken<TokenType> token)
-            {
-                Token = token;
-            }
+        public LiteralExpression(IToken<TokenType> token)
+        {
+            Token = token;
+        }
 
 
-            public void Print(IBuilder builder)
-            {
-                builder.Append(Token);
-            }
+        public void Visit(IExpressionVisitor<TokenType> visitor)
+        {
+            visitor.Visit(this);
+        }
 
-            public override string ToString()
-            {
-                return $"{nameof(LiteralExpression)}:\"{Token}\"";
-            }
+        public override string ToString()
+        {
+            return $"{nameof(LiteralExpression)}:\"{Token}\"";
         }
     }
 }

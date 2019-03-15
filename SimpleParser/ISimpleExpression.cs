@@ -10,8 +10,8 @@ namespace SimpleParser
         /// <summary>
         ///   Build, the expression 
         /// </summary>
-        /// <param name="builder"></param>
-        void Print(IBuilder builder);
+        /// <param name="visitor"></param>
+        void Visit(IExpressionVisitor<TokenType> visitor);
     }
 }
 

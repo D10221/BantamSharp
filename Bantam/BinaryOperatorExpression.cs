@@ -21,13 +21,9 @@ namespace Bantam
             Right = right;
             Token = token ?? throw new ParseException("Invalid punctuator");
         }
-        public void Print(IBuilder builder)
+        public void Visit(IExpressionVisitor<TokenType> visitor)
         {
-            builder.Append("(");
-            Left.Print(builder);
-            builder.Append(Token);
-            Right.Print(builder);
-            builder.Append(")");
+            visitor.Visit(this);
         }
     }
 }

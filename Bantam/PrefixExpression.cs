@@ -16,22 +16,11 @@ namespace Bantam
         {
             Token = token;
             Right = right;
-        }
-        
-        bool UseEnclosure
-        {
-            get
-            {
-                return !(this.Token as IToken<TokenType>)?.TokenType.Equals(TokenType.AT) ?? false;
-            }
-        }
+        }        
 
-        public void Print(IBuilder builder)
+        public void Visit(IExpressionVisitor<TokenType> visitor)
         {
-            if (UseEnclosure) builder.Append("(");
-            builder.Append(Token);
-            Right.Print(builder);
-            if (UseEnclosure) builder.Append(")");
+           visitor.Visit(this);
         }
     }
 }

@@ -49,7 +49,7 @@ namespace BantamTests
                     new NotParser(NameExpression.From("a")),
                     Token.From(TokenType.PAREN_LEFT, "("),
                     null
-                ).Print(builder);
+                ).Visit(builder);
             Assert.AreEqual(
                 "a",
                 builder.ToString()

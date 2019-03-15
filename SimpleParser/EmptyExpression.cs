@@ -2,12 +2,12 @@
 {
     public class EmptyExpression<T> : ISimpleExpression<T>
     {
-        public IToken<T> Token {get;} = SimpleParser.Token.Empty<T>();
-        
+        public IToken<T> Token { get; } = SimpleParser.Token.Empty<T>();
 
-        public void Print(IBuilder builder)
+
+        public void Visit(IExpressionVisitor<T> visitor)
         {
-            // return;
+            visitor.Visit(this);
         }
     }
 }

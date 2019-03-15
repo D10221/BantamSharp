@@ -14,7 +14,7 @@ namespace BantamTests
             var nameExpression = new NameExpression(Token.From(TokenType.NONE, "a"));
             var exp = new FunctionCallExpression(nameExpression, null);
             var _builder = new Builder();
-            exp.Print(_builder);
+            exp.Visit(_builder);
             string actual = _builder.ToString();
             Assert.AreEqual("a()", actual);
         }
@@ -24,7 +24,7 @@ namespace BantamTests
             var nameExpression = new NameExpression(Token.From(TokenType.NONE, ""));
             var exp = new FunctionCallExpression(nameExpression, null);
             var _builder = new Builder();
-            exp.Print(_builder);
+            exp.Visit(_builder);
             string actual = _builder.ToString();
             Assert.AreEqual("()", actual);
         }

@@ -21,15 +21,9 @@ namespace Bantam
             Else = @else;
         }
 
-        public void Print(IBuilder builder)
+        public void Visit(IExpressionVisitor<TokenType> visitor)
         {
-            builder.Append("(");
-            Condition.Print(builder);
-            builder.Append("?");
-            Then.Print(builder);
-            builder.Append(":");
-            Else.Print(builder);
-            builder.Append(")");
+            visitor.Visit(this);
         }
     }
 }

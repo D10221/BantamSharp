@@ -12,7 +12,7 @@ namespace BantamTests
         {
             var exression = new PrefixExpression(Token.From(TokenType.NONE, "-"), NameExpression.From("A"));
             var builder = new Builder();
-            exression.Print(builder);
+            exression.Visit(builder);
             var actual = builder.ToString();
             Assert.AreEqual("(-A)", actual);
         }
@@ -26,12 +26,13 @@ namespace BantamTests
                 TokenType.AT,
                 actual: token?.TokenType
             );
-            Assert.AreEqual("a", (prefix.Right.Token as Token<TokenType>)?.Value);
+            Assert.AreEqual("a", (prefix.Right.Token as Token<TokenType>)?.Value?.ToString());
             Assert.AreEqual(
                 "@",
-                actual: token?.Value
+                actual: token?.Value?.ToString()
             );
-            Assert.AreEqual("@a", actual: Printer.Default.Print(e));
+            var actual = Printer.Default.Print(e);
+            Assert.AreEqual("(@a)", actual);
         }
         
         //[TestMethod]

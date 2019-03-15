@@ -22,19 +22,9 @@ namespace Bantam
             Right = right ?? new List<ISimpleExpression<TokenType>>();
         }
 
-        public void Print(IBuilder builder)
+        public void Visit(IExpressionVisitor<TokenType> visitor)
         {
-            Left?.Print(builder);
-            builder.Append("(");
-            int count = Right.Count();
-            // var i = 0; i < count; i++
-            var i = 0;
-            foreach (var arg in Right)
-            {
-                arg.Print(builder);
-                if (++i < count) builder.Append(",");
-            }
-            builder.Append(")");
+            visitor.Visit(this);
         }
     }
 }

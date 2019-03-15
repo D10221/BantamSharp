@@ -17,12 +17,9 @@ namespace Bantam
             Left = left;
         }
 
-        public void Print(IBuilder builder)
+        public void Visit(IExpressionVisitor<TokenType> visitor)
         {
-            builder.Append("(");
-            Left.Print(builder);
-            builder.Append(Token);
-            builder.Append(")");
+            visitor.Visit(this);
         }
     }
 }

@@ -21,9 +21,9 @@ namespace Bantam
         }
 
 
-        public void Print(IBuilder builder)
+        public void Visit(IExpressionVisitor<TokenType> visitor)
         {
-            builder.Append(Token);
+            visitor.Visit(this);
         }
 
         public override string ToString()

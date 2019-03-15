@@ -16,7 +16,7 @@ namespace BantamTests
             ISimpleExpression<TokenType> @else = new NameExpression(Token.From(TokenType.NONE, "z"));
             var expresion = new ConditionalExpression(condition, then, @else);
             var _builder = new Builder();
-            expresion.Print(_builder);
+            expresion.Visit(_builder);
             var actual = _builder.ToString();
             Assert.AreEqual("(x?y:z)", actual);
         }

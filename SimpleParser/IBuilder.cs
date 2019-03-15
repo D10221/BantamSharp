@@ -1,8 +1,8 @@
 ﻿
 namespace SimpleParser
 {
-    public interface IBuilder
+    public interface IExpressionVisitor<T>
     {
-        void Append(object cs);
+        void Visit(ISimpleExpression<T> expression);
     }
 }
