@@ -48,7 +48,7 @@ namespace BantamTests
             var left = NameExpression.From("A");
             var expression = parselet.Parse(parser, token, left);
             var builder = new Builder();
-            expression.Visit(builder);
+            builder.Visit(expression);
             var x = builder.ToString();
             Assert.AreEqual("(A=a)", x);
         }

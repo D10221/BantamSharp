@@ -8,7 +8,7 @@ namespace Bantam
         public string Print(ISimpleExpression<TokenType> expression)
         {
             var builder = new Builder();
-            expression.Visit(builder);
+            builder.Visit(expression);
             return builder.ToString();
         }
     }

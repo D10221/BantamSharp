@@ -6,12 +6,7 @@ namespace SimpleParser
     /// </summary>
     public interface ISimpleExpression<TokenType>
     {
-        IToken<TokenType> Token { get; }
-        /// <summary>
-        ///   Build, the expression 
-        /// </summary>
-        /// <param name="visitor"></param>
-        void Visit(IExpressionVisitor<TokenType> visitor);
+        IToken<TokenType> Token { get; }        
     }
 }
 

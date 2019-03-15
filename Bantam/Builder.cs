@@ -36,27 +36,27 @@ namespace Bantam
                         _builder.Append("(");
                         _builder.Append(e.Token);
                         _builder.Append("=");
-                        e.Right.Visit(this);
+                        Visit(e.Right);
                         _builder.Append(")");
                         break;
                     }
                 case BinaryOperatorExpression e:
                     {
                         _builder.Append("(");
-                        e.Left.Visit(this);
+                        Visit(e.Left);
                         _builder.Append(e.Token);
-                        e.Right.Visit(this);
+                        Visit(e.Right);
                         _builder.Append(")");
                         break;
                     }
                 case ConditionalExpression e:
                     {
                         _builder.Append("(");
-                        e.Condition.Visit(this);
+                        Visit(e.Condition);
                         _builder.Append("?");
-                        e.Then.Visit(this);
+                        Visit(e.Then);
                         _builder.Append(":");
-                        e.Else.Visit(this);
+                        Visit(e.Else);
                         _builder.Append(")");
                         break;
                     }
@@ -66,14 +66,14 @@ namespace Bantam
                     }
                 case FunctionCallExpression e:
                     {
-                        e.Left?.Visit(this);
+                        Visit(e.Left);
                         _builder.Append("(");
                         int count = e.Right.Count();
                         // var i = 0; i < count; i++
                         var i = 0;
                         foreach (var arg in e.Right)
                         {
-                            arg.Visit(this);
+                            Visit(arg);
                             if (++i < count) _builder.Append(",");
                         }
                         _builder.Append(")");
@@ -87,7 +87,7 @@ namespace Bantam
                 case PostfixExpression e:
                     {
                         _builder.Append("(");
-                        e.Left.Visit(this);
+                        Visit(e.Left);
                         _builder.Append(e.Token);
                         _builder.Append(")");
                         break;
@@ -96,7 +96,7 @@ namespace Bantam
                     {
                         _builder.Append("(");
                         _builder.Append(e.Token);
-                        e.Right.Visit(this);
+                        Visit(e.Right);
                         _builder.Append(")");
                         break;
                     }

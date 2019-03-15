@@ -44,12 +44,14 @@ namespace BantamTests
         public void GroupParseletTest1()
         {
             var builder = new Builder();
-            new GroupParselet(TokenType.PAREN_LEFT, TokenType.PARENT_RIGHT)
+            builder.Visit(
+                new GroupParselet(TokenType.PAREN_LEFT, TokenType.PARENT_RIGHT)
                 .Parse(
                     new NotParser(NameExpression.From("a")),
                     Token.From(TokenType.PAREN_LEFT, "("),
                     null
-                ).Visit(builder);
+                )
+            );
             Assert.AreEqual(
                 "a",
                 builder.ToString()
