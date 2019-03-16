@@ -43,7 +43,7 @@ namespace BantamTests
         [TestMethod]
         public void GroupParseletTest1()
         {
-            var builder = new Builder();
+            var builder = new Printer();
             builder.Visit(
                 new GroupParselet(TokenType.PAREN_LEFT, TokenType.PARENT_RIGHT)
                 .Parse(
@@ -64,7 +64,7 @@ namespace BantamTests
             Exception ex = null;
             try
             {
-                var builder = new Builder();
+                var builder = new Printer();
                 new GroupParselet(TokenType.PAREN_LEFT, TokenType.PARENT_RIGHT)
                     .Parse(
                         new NotParser(NameExpression.From("a")),
@@ -86,7 +86,7 @@ namespace BantamTests
         {
             Assert.AreEqual(
                 expected: "((a+(b+c))+d)",
-                actual: Printer.Default.Print(ParserFactory.Create()("a + (b + c) + d")));
+                actual: Printer.Create().Print(ParserFactory.Create()("a + (b + c) + d")));
         }
 
         [TestMethod]
@@ -94,7 +94,7 @@ namespace BantamTests
         {
             Assert.AreEqual(
                 expected: "(a^(b+c))",
-                actual: Printer.Default.Print(ParserFactory.Create()("a ^ (b + c)")));
+                actual: Printer.Create().Print(ParserFactory.Create()("a ^ (b + c)")));
         }
 
         [TestMethod]
@@ -103,7 +103,7 @@ namespace BantamTests
             const string expected = "((!a)!)";
             Assert.AreEqual(
                 expected,
-                actual: Printer.Default.Print(ParserFactory.Create()("(!a)!")));
+                actual: Printer.Create().Print(ParserFactory.Create()("(!a)!")));
         }
         [TestMethod]
         public void GroupingTest4()
@@ -111,7 +111,7 @@ namespace BantamTests
             const string expected = "a";
             Assert.AreEqual(
                 expected,
-                actual: Printer.Default.Print(ParserFactory.Create()("a")));
+                actual: Printer.Create().Print(ParserFactory.Create()("a")));
         }
     }
 }

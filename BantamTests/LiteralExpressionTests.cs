@@ -14,7 +14,7 @@ namespace BantamTests
             var parse = ParserFactory.Create();
             // WARNING: Literal is Ambiguos, because of ("|'|`)                
             var e = parse(@"A LIKE ""%x%x""");
-            var actual = Printer.Default.Print(e);
+            var actual = Printer.Create().Print(e);
             Assert.AreEqual(@"(ALIKE""%x%x"")", actual);
         }
     }

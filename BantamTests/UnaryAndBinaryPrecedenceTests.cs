@@ -10,7 +10,7 @@ namespace BantamTests
         [TestMethod]
         public void TestMethod()
         {
-            string actual = Printer.Default.Print(
+            string actual = Printer.Create().Print(
                 ParserFactory.Create()("a+(b+c)"));
             Assert.AreEqual(
                 expected: "(a+(b+c))",
@@ -21,7 +21,7 @@ namespace BantamTests
         [TestMethod]
         public void TestMethod1()
         {
-            string actual = Printer.Default.Print(
+            string actual = Printer.Create().Print(
                 ParserFactory.Create()("-a * b"));
             Assert.AreEqual(expected: "((-a)*b)", actual); //Fails           
         }
@@ -29,7 +29,7 @@ namespace BantamTests
         [TestMethod]
         public void TestMethod2()
         {
-            string actual = Printer.Default.Print(
+            string actual = Printer.Create().Print(
                 ParserFactory.Create()("!a + b"));
             Assert.AreEqual(expected: "((!a)+b)", actual); //Fails     
         }
@@ -37,7 +37,7 @@ namespace BantamTests
         [TestMethod]
         public void TestMethod3()
         {
-            string actual = Printer.Default.Print(
+            string actual = Printer.Create().Print(
                 ParserFactory.Create()("~a ^ b"));
             Assert.AreEqual(expected: "((~a)^b)", actual); //Fails     
         }
@@ -45,7 +45,7 @@ namespace BantamTests
         [TestMethod]
         public void TestMethod4()
         {
-            string actual = Printer.Default.Print(
+            string actual = Printer.Create().Print(
                 ParserFactory.Create()("-a!"));
             Assert.AreEqual(expected: "(-(a!))", actual); //Fails   
         }
@@ -53,7 +53,7 @@ namespace BantamTests
         [TestMethod]
         public void TestMethod5()
         {
-            string actual = Printer.Default.Print(
+            string actual = Printer.Create().Print(
                 ParserFactory.Create()("!a!"));
             Assert.AreEqual(expected: "(!(a!))", actual); //Fails   
         }
@@ -63,7 +63,7 @@ namespace BantamTests
         [TestMethod]
         public void BinaryPrecedenceTest()
         {
-            var actual = Printer.Default.Print(
+            var actual = Printer.Create().Print(
                 ParserFactory.Create()("(a = ((b + (c * (d ^ e))) - (f / g)))"));
             Assert.AreEqual(expected: "(a=((b+(c*(d^e)))-(f/g)))", actual); //Fails               
         }

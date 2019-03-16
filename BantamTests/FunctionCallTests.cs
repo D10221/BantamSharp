@@ -12,7 +12,7 @@ namespace BantamTests
         {
             var parser = ParserFactory.Create();
             var e = parser("a()");
-            var parsed = Printer.Default.Print(e);
+            var parsed = Printer.Create().Print(e);
             Assert.AreEqual("a()", parsed);
         }
 
@@ -21,35 +21,35 @@ namespace BantamTests
         {
             var parse = ParserFactory.Create();
             var e = parse("a(b)");
-            var parsed = Printer.Default.Print(e);
+            var parsed = Printer.Create().Print(e);
             Assert.AreEqual("a(b)", parsed);
         }
 
         [TestMethod]
         public void TestMethod3()
         {
-            var parsed = Printer.Default.Print(ParserFactory.Create()("a(b, c)"));
+            var parsed = Printer.Create().Print(ParserFactory.Create()("a(b, c)"));
             Assert.AreEqual("a(b,c)", parsed);
         }
 
         [TestMethod]
         public void TestMethod4()
         {
-            var parsed = Printer.Default.Print(ParserFactory.Create()("a(b)(c)"));
+            var parsed = Printer.Create().Print(ParserFactory.Create()("a(b)(c)"));
             Assert.AreEqual("a(b)(c)", parsed);
         }
 
         [TestMethod]
         public void TestMethod5()
         {
-            var parsed = Printer.Default.Print(ParserFactory.Create()("a(b) + c(d)"));
+            var parsed = Printer.Create().Print(ParserFactory.Create()("a(b) + c(d)"));
             Assert.AreEqual("(a(b)+c(d))", parsed);
         }
 
         [TestMethod]
         public void TestMethod6()
         {
-            var parsed = Printer.Default.Print(ParserFactory.Create()("a(b ? c : d, e + f)"));
+            var parsed = Printer.Create().Print(ParserFactory.Create()("a(b ? c : d, e + f)"));
             Assert.AreEqual("a((b?c:d),(e+f))", parsed);
         }
     }

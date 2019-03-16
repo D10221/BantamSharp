@@ -11,7 +11,7 @@ namespace BantamTests
         public void Test1()
         {
             var e = new PrefixExpression(Token.From(TokenType.NONE, "-"), NameExpression.From("A"));
-            var b = new Builder();
+            var b = new Printer();
             b.Visit(e);
             var actual = b.ToString();
             Assert.AreEqual("(-A)", actual);
@@ -31,7 +31,7 @@ namespace BantamTests
                 "@",
                 actual: token?.Value?.ToString()
             );
-            var actual = Printer.Default.Print(e);
+            var actual = Printer.Create().Print(e);
             Assert.AreEqual("(@a)", actual);
         }
         
@@ -39,7 +39,7 @@ namespace BantamTests
         //public void Test3(){
         //    // Parse this expression ? 
         //    var e = Parser.Parse("set @a=+b");
-        //     Assert.AreEqual("set(@a,(+b))", actual: Printer.Default.Print(e));
+        //     Assert.AreEqual("set(@a,(+b))", actual: Printer.Default().Print(e));
         //}
     }
 }

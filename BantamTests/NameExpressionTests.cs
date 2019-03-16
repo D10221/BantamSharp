@@ -11,7 +11,7 @@ namespace BantamTests
         public void NameExpressionTest()
         {
             var e = NameExpression.From("aa");
-            var b = new Builder();
+            var b = new Printer();
             b.Visit(e);
             var actual = b.ToString();
             Assert.AreEqual("aa", actual);
@@ -22,7 +22,7 @@ namespace BantamTests
         public void NameExpressionTest1()
         {
             var e = NameExpression.From("a");
-            var b = new Builder();
+            var b = new Printer();
             b.Visit(e);
             var actual = b.ToString();
             Assert.AreEqual("a", actual);
@@ -32,7 +32,7 @@ namespace BantamTests
         public void NameExpressionTest2()
         {
             var e = NameExpression.From("");
-            var b = new Builder();
+            var b = new Printer();
             b.Visit(e);
             var actual = b.ToString();
             Assert.AreEqual("", actual);
@@ -42,7 +42,7 @@ namespace BantamTests
         public void NameExpressionTest3()
         {
             var e = NameExpression.From("whatever you want to put here\n");
-            var b = new Builder();
+            var b = new Printer();
             b.Visit(e);
             var actual = b.ToString();
             Assert.AreEqual("whatever you want to put here\n", actual);

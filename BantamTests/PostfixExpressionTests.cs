@@ -11,7 +11,7 @@ namespace BantamTests
         public void Test1()
         {
             var e = new PostfixExpression(Token.From(TokenType.NONE, "?"), NameExpression.From("A"));
-            var b = new Builder();
+            var b = new Printer();
             b.Visit(e);
             var actual = b.ToString();
             var expected = "(A?)";

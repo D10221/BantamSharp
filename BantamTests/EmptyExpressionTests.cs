@@ -12,7 +12,7 @@ namespace BantamTests
         {
             var e = ParserFactory.Create()("");
             Assert.AreEqual("",
-                actual: Printer.Default.Print(e)
+                actual: Printer.Create().Print(e)
                 );
         }
         [TestMethod]
