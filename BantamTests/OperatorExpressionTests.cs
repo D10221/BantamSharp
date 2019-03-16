@@ -15,7 +15,7 @@ namespace BantamTests
             var right = NameExpression.From("y");
             var expression = new BinaryOperatorExpression(Token.From(TokenType.NONE, "+"), left, right);
             var builder = new Builder();
-            expression.Visit(builder);
+            builder.Visit(expression);
             var actual = builder.ToString();
             Assert.AreEqual("(x+y)", actual);
         }

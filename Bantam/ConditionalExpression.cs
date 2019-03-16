@@ -21,9 +21,5 @@ namespace Bantam
             Else = @else;
         }
 
-        public void Visit(IExpressionVisitor<TokenType> visitor)
-        {
-            visitor.Visit(this);
-        }
     }
 }

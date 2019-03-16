@@ -36,12 +36,6 @@ namespace Bantam
             Token = token;
         }
 
-
-        public void Visit(IExpressionVisitor<TokenType> visitor)
-        {
-            visitor.Visit(this);
-        }
-
         public override string ToString()
         {
             return $"{nameof(LiteralExpression)}:\"{Token}\"";

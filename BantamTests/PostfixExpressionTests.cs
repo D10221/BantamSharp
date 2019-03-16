@@ -10,10 +10,10 @@ namespace BantamTests
         [TestMethod]
         public void Test1()
         {
-            var expression = new PostfixExpression(Token.From(TokenType.NONE, "?"), NameExpression.From("A"));
-            var builder = new Builder();
-            expression.Visit(builder);
-            var actual = builder.ToString();
+            var e = new PostfixExpression(Token.From(TokenType.NONE, "?"), NameExpression.From("A"));
+            var b = new Builder();
+            b.Visit(e);
+            var actual = b.ToString();
             var expected = "(A?)";
             Assert.AreEqual(expected, actual);
         }

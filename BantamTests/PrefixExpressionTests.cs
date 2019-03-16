@@ -10,10 +10,10 @@ namespace BantamTests
         [TestMethod]
         public void Test1()
         {
-            var exression = new PrefixExpression(Token.From(TokenType.NONE, "-"), NameExpression.From("A"));
-            var builder = new Builder();
-            exression.Visit(builder);
-            var actual = builder.ToString();
+            var e = new PrefixExpression(Token.From(TokenType.NONE, "-"), NameExpression.From("A"));
+            var b = new Builder();
+            b.Visit(e);
+            var actual = b.ToString();
             Assert.AreEqual("(-A)", actual);
         }
         [TestMethod]

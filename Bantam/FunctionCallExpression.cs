@@ -21,10 +21,5 @@ namespace Bantam
             Left = left;
             Right = right ?? new List<ISimpleExpression<TokenType>>();
         }
-
-        public void Visit(IExpressionVisitor<TokenType> visitor)
-        {
-            visitor.Visit(this);
-        }
     }
 }

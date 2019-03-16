@@ -20,10 +20,6 @@ namespace Bantam
             Left = left;
             Right = right;
             Token = token ?? throw new ParseException("Invalid punctuator");
-        }
-        public void Visit(IExpressionVisitor<TokenType> visitor)
-        {
-            visitor.Visit(this);
-        }
+        }       
     }
 }

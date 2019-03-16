@@ -12,20 +12,20 @@ namespace BantamTests
         public void TestMethod1()
         {
             var nameExpression = new NameExpression(Token.From(TokenType.NONE, "a"));
-            var exp = new FunctionCallExpression(nameExpression, null);
-            var _builder = new Builder();
-            exp.Visit(_builder);
-            string actual = _builder.ToString();
+            var e = new FunctionCallExpression(nameExpression, null);
+            var b = new Builder();
+            b.Visit(e);
+            string actual = b.ToString();
             Assert.AreEqual("a()", actual);
         }
         [TestMethod]
         public void TestMethod2()
         {
             var nameExpression = new NameExpression(Token.From(TokenType.NONE, ""));
-            var exp = new FunctionCallExpression(nameExpression, null);
-            var _builder = new Builder();
-            exp.Visit(_builder);
-            string actual = _builder.ToString();
+            var e = new FunctionCallExpression(nameExpression, null);
+            var b = new Builder();
+            b.Visit(e);
+            string actual = b.ToString();
             Assert.AreEqual("()", actual);
         }
     }

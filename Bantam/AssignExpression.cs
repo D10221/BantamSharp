@@ -17,10 +17,5 @@ namespace Bantam
             Token = ((NameExpression)left).Token;
             Right = right ?? throw new ParseException($"Missing right side expression from {Left}");
         }
-
-        public void Visit(IExpressionVisitor<TokenType> visitor)
-        {
-           visitor.Visit(this);
-        }
     }
 }

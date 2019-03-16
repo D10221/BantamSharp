@@ -10,10 +10,10 @@ namespace BantamTests
         [TestMethod]
         public void NameExpressionTest()
         {
-            var expresion = NameExpression.From("aa");
-            var _builder = new Builder();
-            expresion.Visit(_builder);
-            var actual = _builder.ToString();
+            var e = NameExpression.From("aa");
+            var b = new Builder();
+            b.Visit(e);
+            var actual = b.ToString();
             Assert.AreEqual("aa", actual);
         }
 
@@ -21,30 +21,30 @@ namespace BantamTests
         [TestMethod]
         public void NameExpressionTest1()
         {
-            var expresion = NameExpression.From("a");
-            var _builder = new Builder();
-            expresion.Visit(_builder);
-            var actual = _builder.ToString();
+            var e = NameExpression.From("a");
+            var b = new Builder();
+            b.Visit(e);
+            var actual = b.ToString();
             Assert.AreEqual("a", actual);
         }
 
         [TestMethod]
         public void NameExpressionTest2()
         {
-            var expresion = NameExpression.From("");
-            var _builder = new Builder();
-            expresion.Visit(_builder);
-            var actual = _builder.ToString();
+            var e = NameExpression.From("");
+            var b = new Builder();
+            b.Visit(e);
+            var actual = b.ToString();
             Assert.AreEqual("", actual);
         }
 
         [TestMethod]
         public void NameExpressionTest3()
         {
-            var expresion = NameExpression.From("whatever you want to put here\n");
-            var _builder = new Builder();
-            expresion.Visit(_builder);
-            var actual = _builder.ToString();
+            var e = NameExpression.From("whatever you want to put here\n");
+            var b = new Builder();
+            b.Visit(e);
+            var actual = b.ToString();
             Assert.AreEqual("whatever you want to put here\n", actual);
         }
     }

@@ -12,9 +12,9 @@ namespace BantamTests
         public void AssignExpressionTest()
         {
             var e = new AssignExpression(NameExpression.From("a"), NameExpression.From("b"));
-            var builder = new Builder();
-            e.Visit(builder);
-            var actual = builder.ToString();
+            var b = new Builder();
+            b.Visit(e);
+            var actual = b.ToString();
             Assert.AreEqual("(a=b)", actual);
         }
 
@@ -23,10 +23,10 @@ namespace BantamTests
         {
             var token = Token.From(TokenType.NONE, "b");
             ISimpleExpression<TokenType> right = new FunctionCallExpression(new NameExpression(token), null);
-            var expresison = new AssignExpression(NameExpression.From("a"), right);
-            var builder = new Builder();
-            expresison.Visit(builder);
-            var actual = builder.ToString();
+            var e = new AssignExpression(NameExpression.From("a"), right);
+            var b = new Builder();
+            b.Visit(e);
+            var actual = b.ToString();
             Assert.AreEqual("(a=b())", actual);
         }
     }

@@ -17,10 +17,5 @@ namespace Bantam
             Token = token;
             Right = right;
         }        
-
-        public void Visit(IExpressionVisitor<TokenType> visitor)
-        {
-           visitor.Visit(this);
-        }
     }
 }

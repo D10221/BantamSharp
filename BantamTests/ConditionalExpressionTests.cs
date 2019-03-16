@@ -14,10 +14,10 @@ namespace BantamTests
             ISimpleExpression<TokenType> condition = new NameExpression(Token.From(TokenType.NONE, "x"));
             ISimpleExpression<TokenType> then = new NameExpression(Token.From(TokenType.NONE, "y"));
             ISimpleExpression<TokenType> @else = new NameExpression(Token.From(TokenType.NONE, "z"));
-            var expresion = new ConditionalExpression(condition, then, @else);
-            var _builder = new Builder();
-            expresion.Visit(_builder);
-            var actual = _builder.ToString();
+            var e = new ConditionalExpression(condition, then, @else);
+            var b = new Builder();
+            b.Visit(e);
+            var actual = b.ToString();
             Assert.AreEqual("(x?y:z)", actual);
         }
     }
