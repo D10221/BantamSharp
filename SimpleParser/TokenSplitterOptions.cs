@@ -4,6 +4,6 @@ namespace SimpleParser
     {
         None = 0,
         IncludeEmpty = 2,
-        IgnoreCase = 4
+        IgnoreCase = 4,        
     }
 }

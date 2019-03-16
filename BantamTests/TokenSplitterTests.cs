@@ -82,34 +82,40 @@ namespace TokenSplitterTests
         [TestMethod]
         public void LineDelimiters()
         {
-            var input = "\na\rb\n\rc\r\n";
+            var input = "\na\rb\n\rc d";
             string[] demiliters = new string[0];
             var tokens = new TokenSplitter(demiliters)
                 .Split(input)
                 .ToArray();
-            Assert.AreEqual(
-                "\n", tokens[0]?.ToString(), "Expected \\n"
-            );
-            Assert.AreEqual(
-               "a", tokens[1]?.ToString()
-           );
-            Assert.AreEqual(
-                "\r", tokens[2]?.ToString(), 
-                "expected: \\r"
-            );
-            Assert.AreEqual(
-                "b", tokens[3]?.ToString()
-            );
-            Assert.AreEqual(
-                "\n\r", tokens[4]?.ToString()
- 
-            );
-            Assert.AreEqual(
-                "c", tokens[5]?.ToString()
-            );
-            Assert.AreEqual(
-                "\r\n", tokens[6]?.ToString()
-            );
+            // ...
+            {
+                ITokenSource x = tokens[0];
+                Assert.AreEqual("a", x.Value);
+                Assert.AreEqual(1, x.Line);
+                Assert.AreEqual(0, x.Column);
+            }
+            // ....
+            {
+                ITokenSource x = tokens[1];
+                Assert.AreEqual("b", x.Value);
+                Assert.AreEqual(2, x.Line);
+                Assert.AreEqual(0, x.Column);
+            }
+            // ....
+            {
+                ITokenSource x = tokens[2];
+                Assert.AreEqual("c", x.Value);
+                Assert.AreEqual(3, x.Line);
+                Assert.AreEqual(0, x.Column, $"Expected {x} column to be {0} but got ${x.Column}");
+            }
+            // ....
+            {
+                ITokenSource x = tokens[3];
+                Assert.AreEqual("d", x.Value);
+                Assert.AreEqual(3, x.Line);
+                Assert.AreEqual(2, x.Column);
+            }
+
         }
     }
 }
