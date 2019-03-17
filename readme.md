@@ -13,6 +13,13 @@ Abut Pratt's parser's background
 
 [Pratt Parsers: Expression Parsing Made Easy](https://news.ycombinator.com/item?id=2344837)
 
-Build & test:
+Build:
+
+    # ./build
+
+Test:
 
     # ./test
+
+Format Code (Windows):  
+Download format tool from  [dotnet/codeformatter](https://github.com/dotnet/codeformatter/releases)
