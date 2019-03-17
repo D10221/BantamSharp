@@ -41,7 +41,6 @@ namespace Bantam
                 // { TokenType.NUMBER, string.Empty},
                 // { TokenType.EOF, string.Empty}
             };
-
         /// <summary>
         /// Parsers
         /// </summary>
