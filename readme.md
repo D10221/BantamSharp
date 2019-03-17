@@ -1,5 +1,6 @@
-BantamSharp:
-	  C# Clone ,port or maybe more like a cover if was a song, of the Java project  [Bantam](https://github.com/munificent/bantam)  that I discovered   reading it's blog [post](http://journal.stuffwithstuff.com/2011/03/19/pratt-parsers-expression-parsing-made-easy/)
+# BantamSharp
+
+C# Clone|port|re-implementation|version, of the Java project  [Bantam](https://github.com/munificent/bantam)  that I discovered   reading it's blog [post](http://journal.stuffwithstuff.com/2011/03/19/pratt-parsers-expression-parsing-made-easy/)
 A simple Pratt's parser implementation.
 
 Abut Pratt's parser's background
@@ -14,4 +15,4 @@ Abut Pratt's parser's background
 
 Build & test:
 
-	# ./test
+    # ./test
