@@ -25,15 +25,28 @@ namespace Bantam
             var args = new List<ISimpleExpression<TokenType>>();
 
             // There may be no arguments at all.
-            if (parser.IsMatch(TokenType.PARENT_RIGHT))
+            var next = parser.LookAhead();
+            if (next.TokenType == TokenType.PARENT_RIGHT)
+            {
+                parser.Consume();
                 return new FunctionCallExpression(left, args);
+            }
             do
             {
-                args.Add(parser.ParseExpression((int) Bantam.Precedence.ZERO, this));
-            } while (parser.IsMatch(TokenType.COMMA));
+                var e = parser.Parse((int)Bantam.Precedence.ZERO);
+                args.Add(e);                
+                next = parser.LookAhead();
+                if(next.TokenType == TokenType.COMMA){
+                    parser.Consume();
+                }
+    
+            } while (next.TokenType == TokenType.COMMA);
 
-            parser.Consume(TokenType.PARENT_RIGHT);
-
+            if (next.TokenType != TokenType.PARENT_RIGHT)
+            {
+                throw new ParseException($"Expected {TokenType.PARENT_RIGHT}");
+            }            
+            parser.Consume();
             return new FunctionCallExpression(left, args);
         }
     }

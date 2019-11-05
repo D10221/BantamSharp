@@ -13,7 +13,6 @@ namespace Bantam
         CARET,
         COLON,
         DOUBLE_QUOTE,
-        EOF,
         EQUALS,
         NOT_EQUAL,
         COMMA,

@@ -10,21 +10,27 @@ namespace BantamTests
         [TestMethod]
         public void ThrowsParseException()
         {
+            /*
+                FAILS stops parsing 
+             */
             Assert.ThrowsException<ParseException>(() =>
             {
                 var parse = ParserFactory.Create();
                 // Parser doesnt find 'NEXT' 'B' ...'C'
                 // Parser can't parse NAME NAME ....                                                
-                var e = parse(@"A B C");                
+                var e = parse(@"A B C");
             });
         }
-         [TestMethod]
+        [TestMethod]
         public void ThrowsParseException2()
         {
+            /*
+                FAILS stops parsing 
+             */
             Assert.ThrowsException<ParseException>(() =>
             {
-                var parse = ParserFactory.Create();                                                             
-                var e = parse(@"1 B 1");                
+                var parse = ParserFactory.Create();
+                var e = parse(@"1 B 1");
             });
         }
     }

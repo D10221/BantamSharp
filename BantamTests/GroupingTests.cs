@@ -30,34 +30,17 @@ namespace BantamTests
                 return _expression.Token;
             }
 
-            public bool IsMatch(TokenType expected)
+            public IToken<TokenType> LookAhead()
             {
-                return expected == _expression.Token.TokenType;
+                return _expression.Token;
             }
 
-            public ISimpleExpression<TokenType> ParseExpression(int precedence = 0, object caller = null)
+            public ISimpleExpression<TokenType> Parse(int precedence)
             {
                 return _expression;
             }
         }
-        [TestMethod]
-        public void GroupParseletTest1()
-        {
-            var builder = new Printer();
-            builder.Visit(
-                new GroupParselet(TokenType.PAREN_LEFT, TokenType.PARENT_RIGHT)
-                .Parse(
-                    new NotParser(NameExpression.From("a")),
-                    Token.From(TokenType.PAREN_LEFT, "("),
-                    null
-                )
-            );
-            Assert.AreEqual(
-                "a",
-                builder.ToString()
-            );
-        }
-
+       
         [TestMethod]
         public void GroupParseletTest2()
         {

@@ -29,7 +29,7 @@ namespace Bantam
             // lower precedence when parsing the right-hand side. This will let a
             // parselet with the same precedence appear on the right, which will then
             // take *this* parselet's result as its left-hand argument.
-            var right = parser.ParseExpression(Precedence - (IsRight ? 1 : 0), this);
+            var right = parser.Parse(Precedence - (IsRight ? 1 : 0));
             return new BinaryOperatorExpression(token, left, right);
         }
     }

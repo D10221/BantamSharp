@@ -26,17 +26,17 @@ namespace Bantam
         }
 
         public ISimpleExpression<TokenType> Parse(IParser parser, IToken<TokenType> token, ISimpleExpression<TokenType> _)
-        {
-            if (token?.TokenType != TokenType)
-            {
-                throw new ParseException($"Expected: '{TokenType}' but got {token.TokenType}");
-            }
-            var expression = parser.ParseExpression((int) Bantam.Precedence.ZERO, this);
+        {           
+            var expression = parser.Parse((int) Bantam.Precedence.ZERO);
             if(expression == null || expression is EmptyExpression<TokenType>)
             {
                 throw new ParseException($"GroupExpression can't be empty");
             }
-            parser.Consume(expected: Right);
+            var next  = parser.LookAhead();
+            if(next.TokenType != Right){
+                throw new ParseException("!Right");
+            }
+            parser.Consume();
             return expression;
         }
     }

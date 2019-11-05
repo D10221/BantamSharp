@@ -1,5 +1,6 @@
 ﻿
 
+using System.Linq;
 using SimpleParser;
 
 namespace Bantam
@@ -19,7 +20,7 @@ namespace Bantam
         }
 
         public ISimpleExpression<TokenType> Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression<TokenType> left)
-        {
+        {               
             return new NameExpression(token);
         }
     }
