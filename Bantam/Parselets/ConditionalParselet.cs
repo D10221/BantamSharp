@@ -18,7 +18,7 @@ namespace Bantam
         public ParseletType ParseletType { get; } = ParseletType.Infix;
         public ISimpleExpression<TokenType> Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression<TokenType> left)
         {
-            var thenArm = parser.Parse((int)Bantam.Precedence.ZERO);
+            var thenArm = parser.Parse();
             var next  = parser.Consume();
             if(next.TokenType != TokenType.COLON) 
             throw new ParseException("Expected COLON");

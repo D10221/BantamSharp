@@ -1,4 +1,5 @@
-﻿using Bantam;
+﻿using System;
+using Bantam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleParser;
 
@@ -32,6 +33,11 @@ namespace BantamTests
                 var parse = ParserFactory.Create();
                 var e = parse(@"1 B 1");
             });
+        }
+        [TestMethod]
+        public void PrecedenceTest(){
+            // TODO: 
+            throw new NotImplementedException();
         }
     }
 }

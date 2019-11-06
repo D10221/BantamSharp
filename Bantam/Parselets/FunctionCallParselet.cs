@@ -33,7 +33,7 @@ namespace Bantam
             }
             do
             {
-                var e = parser.Parse((int)Bantam.Precedence.ZERO);
+                var e = parser.Parse();
                 args.Add(e);                
                 next = parser.LookAhead();
                 if(next.TokenType == TokenType.COMMA){
