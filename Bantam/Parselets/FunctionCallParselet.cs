@@ -19,25 +19,28 @@ namespace Bantam
         public int Precedence { get; }
         public ParseletType ParseletType { get; } = ParseletType.Infix;
 
-        public ISimpleExpression<TokenType> Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression<TokenType> left)
+        public ISimpleExpression<TokenType> Parse(
+            IParser<TokenType> parser, 
+            ILexer<IToken<TokenType>> lexer,
+            IToken<TokenType> token, ISimpleExpression<TokenType> left)
         {
             // Parse the comma-separated arguments until we hit, ")".
             var args = new List<ISimpleExpression<TokenType>>();
 
             // There may be no arguments at all.
-            var next = parser.LookAhead();
+            var next = lexer.LookAhead();
             if (next.TokenType == TokenType.PARENT_RIGHT)
             {
-                parser.Consume();
+                lexer.Consume();
                 return new FunctionCallExpression(left, args);
             }
             do
             {
                 var e = parser.Parse();
                 args.Add(e);                
-                next = parser.LookAhead();
+                next = lexer.LookAhead();
                 if(next.TokenType == TokenType.COMMA){
-                    parser.Consume();
+                    lexer.Consume();
                 }
     
             } while (next.TokenType == TokenType.COMMA);
@@ -46,7 +49,7 @@ namespace Bantam
             {
                 throw new ParseException($"Expected {TokenType.PARENT_RIGHT}");
             }            
-            parser.Consume();
+            lexer.Consume();
             return new FunctionCallExpression(left, args);
         }
     }

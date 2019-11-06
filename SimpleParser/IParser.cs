@@ -4,9 +4,6 @@ namespace SimpleParser
 {
     public interface IParser<TTokenType>
     {
-        ISimpleExpression<TTokenType> Parse(int precedence = 0);
-        IToken<TTokenType> Consume();
-
-         IToken<TTokenType> LookAhead();
+        ISimpleExpression<TTokenType> Parse(int precedence = 0);        
     }
 }

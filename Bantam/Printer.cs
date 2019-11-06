@@ -104,6 +104,9 @@ namespace Bantam
                         _builder.Append(")");
                         break;
                     }
+                case SimpleParser.EofExpression<TokenType> e:{
+                    break;
+                }
                 default: throw new Exception($"Unknown expression:'${expression.GetType()}'");
             }
         }

@@ -25,18 +25,21 @@ namespace Bantam
             Right = right;
         }
 
-        public ISimpleExpression<TokenType> Parse(IParser parser, IToken<TokenType> token, ISimpleExpression<TokenType> _)
+        public ISimpleExpression<TokenType> Parse(
+            IParser parser, 
+            ILexer<IToken<TokenType>> lexer,
+            IToken<TokenType> token, ISimpleExpression<TokenType> _)
         {           
             var expression = parser.Parse();
             if(expression == null || expression is EmptyExpression<TokenType>)
             {
                 throw new ParseException($"GroupExpression can't be empty");
             }
-            var next  = parser.LookAhead();
+            var next  = lexer.LookAhead();
             if(next.TokenType != Right){
                 throw new ParseException("!Right");
             }
-            parser.Consume();
+            lexer.Consume();
             return expression;
         }
     }

@@ -103,7 +103,7 @@ namespace Bantam
             return text =>
             {
                 var tokens = tokenizer.Tokenize(text, tokenFactory);
-                var lexer = new Lexer<TokenType>(tokens);
+                var lexer = new Lexer<IToken<TokenType>>(tokens);
                 var parser = new SimpleParser.Parser<TokenType>(lexer, Parselets);
                 return parser.Parse();
             };

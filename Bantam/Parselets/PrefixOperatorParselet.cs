@@ -19,7 +19,10 @@ namespace Bantam
             Precedence = precedence;
         }
 
-        public ISimpleExpression<TokenType> Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression<TokenType> left)
+        public ISimpleExpression<TokenType> Parse(
+            IParser<TokenType> parser, 
+            ILexer<IToken<TokenType>> lexer,
+            IToken<TokenType> token, ISimpleExpression<TokenType> left)
         {
             // To handle right-associative operators like "^", we allow a slightly
             // lower precedence when parsing the right-hand side. This will let a

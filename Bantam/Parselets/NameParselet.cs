@@ -19,7 +19,10 @@ namespace Bantam
             TokenType = tokenType;
         }
 
-        public ISimpleExpression<TokenType> Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression<TokenType> left)
+        public ISimpleExpression<TokenType> Parse(
+            IParser<TokenType> parser, 
+            ILexer<IToken<TokenType>> lexer,
+            IToken<TokenType> token, ISimpleExpression<TokenType> left)
         {               
             return new NameExpression(token);
         }

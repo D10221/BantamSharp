@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -5,12 +6,14 @@ namespace SimpleParser
 {
     public class Parser<TTokenType> : IParser<TTokenType>
     {
-        private readonly ILexer<TTokenType> _lexer;
-        private readonly IList<IToken<TTokenType>> _tokens = new List<IToken<TTokenType>>();
+        private readonly ILexer<IToken<TTokenType>> _lexer;        
         private readonly IEnumerable<IParselet<TTokenType>> _parselets;
+        
+        private static readonly object EOF = new { EOF = true };    
+        IParselet<TTokenType> EofParselet = new EofParselet<TTokenType>();    
 
         public Parser(
-            ILexer<TTokenType> lexer,
+            ILexer<IToken<TTokenType>> lexer,
             IEnumerable<IParselet<TTokenType>> parselets)
         {
             _lexer = lexer;
@@ -30,35 +33,27 @@ namespace SimpleParser
             var token = LookAhead();
             return GetPrecedence(token.TokenType);
         }
-        public IToken<TTokenType> LookAhead()
-        {
-            while (!_tokens.Any())
-            {
-                var token = _lexer.Next();
-                _tokens.Add(token);
-            }
-            return _tokens.First();
-        }
 
-        public IToken<TTokenType> Consume()
+        private IToken<TTokenType> LookAhead()
         {
-            LookAhead();
-            var token = _tokens.First();
-            _tokens.RemoveAt(0);
-            return token;
+            return _lexer.LookAhead() ?? Token.Empty<TTokenType>(default, EOF);
         }
 
         #region IParser
+        private IToken<TTokenType> Consume()
+        {
+            return _lexer.Consume() ?? Token.Empty<TTokenType>(default, EOF);
+        }
 
         public ISimpleExpression<TTokenType> Parse(int precedence = 0)
         {
             var token = Consume();
 
-            var parselet =
-                    GetParselet(token.TokenType, ParseletType.Prefix)
+            var parselet = (token.Value == EOF ? EofParselet:  null )
+                    ?? GetParselet(token.TokenType, ParseletType.Prefix)
                     ?? GetParselet(token.TokenType, ParseletType.Infix);
 
-            var left = parselet?.Parse(this, token, null);
+            var left = parselet?.Parse(this, _lexer,  token, null);
 
             while (precedence < NextPrecedence()) //Get Next Precedence
             {
@@ -68,12 +63,13 @@ namespace SimpleParser
                     var p = GetParselet(atoken.TokenType, ParseletType.Infix);
                     if (p != null)
                     {
-                        left = p.Parse(this, atoken, left);
+                        left = p.Parse(this,_lexer, atoken, left);
                     }
                 }
             }
             return left ?? new EmptyExpression<TTokenType>();
-        }       
+        }
+
         #endregion
     }
 }

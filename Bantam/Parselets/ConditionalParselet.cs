@@ -16,10 +16,14 @@ namespace Bantam
 
         public TokenType TokenType { get; set; }
         public ParseletType ParseletType { get; } = ParseletType.Infix;
-        public ISimpleExpression<TokenType> Parse(IParser<TokenType> parser, IToken<TokenType> token, ISimpleExpression<TokenType> left)
+        public ISimpleExpression<TokenType> Parse(
+            IParser<TokenType> parser, 
+            ILexer<IToken<TokenType>> lexer,
+            IToken<TokenType> token, 
+            ISimpleExpression<TokenType> left)
         {
             var thenArm = parser.Parse();
-            var next  = parser.Consume();
+            var next  = lexer.Consume();
             if(next.TokenType != TokenType.COLON) 
             throw new ParseException("Expected COLON");
             //WHy  precedence -1 

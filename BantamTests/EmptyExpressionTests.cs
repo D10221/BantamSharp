@@ -20,13 +20,13 @@ namespace BantamTests
         {
             var e = ParserFactory.Create()("");
             Assert.IsInstanceOfType(e,
-                typeof(EmptyExpression<TokenType>)
+                typeof(EofExpression<TokenType>)
                 );
         }
          [TestMethod]
         public void Test3()
         {
-            var e = (EmptyExpression<TokenType>)ParserFactory.Create()("");
+            var e = (EofExpression<TokenType>)ParserFactory.Create()("");
             Assert.AreEqual(
                 TokenType.NONE,
                 actual: e.Token.TokenType

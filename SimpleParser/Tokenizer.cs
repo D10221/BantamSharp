@@ -36,7 +36,7 @@ namespace SimpleParser
                 var token = factory.GetToken(x);
                 if (token == null || token.IsEmpty)
                 {
-                    throw new ParseException($"Invalid Token:'{x}'");
+                    throw new ParseException($"Unkown/Invalid Token:'{x}'");
                 }
                 return token;
             };
