@@ -6,11 +6,11 @@ namespace SimpleParser
 {
     public class Parser<TTokenType> : IParser<TTokenType>
     {
-        private readonly ILexer<IToken<TTokenType>> _lexer;        
+        private readonly ILexer<IToken<TTokenType>> _lexer;
         private readonly IEnumerable<IParselet<TTokenType>> _parselets;
-        
-        private static readonly object EOF = new { EOF = true };    
-        IParselet<TTokenType> EofParselet = new EofParselet<TTokenType>();    
+
+        private static readonly object EOF = new { EOF = true };
+        IParselet<TTokenType> EofParselet = new EofParselet<TTokenType>();
 
         public Parser(
             ILexer<IToken<TTokenType>> lexer,
@@ -22,11 +22,14 @@ namespace SimpleParser
 
         private IParselet<TTokenType> GetParselet(TTokenType tokenType, ParseletType parseletType)
         {
-            return _parselets.FirstOrDefault(x => x.ParseletType == parseletType && x.TokenType.Equals(tokenType));
+            var result = _parselets.Where(x => x.ParseletType == parseletType && x.TokenType.Equals(tokenType)).ToArray();
+            var sorted = !result.Any() ? null : result.OrderBy(x => x.Precedence).ToArray();
+            // Warning ! more than 1 ? 
+            return sorted?.FirstOrDefault();
         }
         private int GetPrecedence(TTokenType tokenType)
         {
-            return GetParselet(tokenType, ParseletType.Infix)?.Precedence ?? 0;            
+            return GetParselet(tokenType, ParseletType.Infix)?.Precedence ?? 0;
         }
         private int NextPrecedence()
         {
@@ -47,23 +50,31 @@ namespace SimpleParser
 
         public ISimpleExpression<TTokenType> Parse(int precedence = 0)
         {
-            var token = Consume();
+            ISimpleExpression<TTokenType> left = null;
+            // ...
+            {
+                var token = Consume();
 
-            var parselet = (token.Value == EOF ? EofParselet:  null )
-                    ?? GetParselet(token.TokenType, ParseletType.Prefix)
-                    ?? GetParselet(token.TokenType, ParseletType.Infix);
-
-            var left = parselet?.Parse(this, _lexer,  token, null);
-
+                var parselet = (token.Value == EOF ? EofParselet : null)
+                        ?? GetParselet(token.TokenType, ParseletType.Prefix)
+                        ?? GetParselet(token.TokenType, ParseletType.Infix);
+                if (parselet != null)
+                {
+                    left = parselet.Parse(this, _lexer, token, null);
+                }
+            }
             while (precedence < NextPrecedence()) //Get Next Precedence
             {
-                var atoken = Consume();
-                if (!atoken.IsEmpty)
+                var token = Consume();
+                if (!token.IsEmpty)
                 {
-                    var p = GetParselet(atoken.TokenType, ParseletType.Infix);
-                    if (p != null)
+                    var parselet = (token.Value == EOF ? EofParselet : null)
+                       // ?? GetParselet(token.TokenType, ParseletType.Prefix)
+                        ?? GetParselet(token.TokenType, ParseletType.Infix);
+
+                    if (parselet != null)
                     {
-                        left = p.Parse(this,_lexer, atoken, left);
+                        left = parselet.Parse(this, _lexer, token, left);
                     }
                 }
             }

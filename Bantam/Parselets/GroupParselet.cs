@@ -26,20 +26,17 @@ namespace Bantam
         }
 
         public ISimpleExpression<TokenType> Parse(
-            IParser parser, 
+            IParser parser,
             ILexer<IToken<TokenType>> lexer,
             IToken<TokenType> token, ISimpleExpression<TokenType> _)
-        {           
+        {
             var expression = parser.Parse();
-            if(expression == null || expression is EmptyExpression<TokenType>)
+            if (expression == null || expression is EmptyExpression<TokenType>)
             {
                 throw new ParseException($"GroupExpression can't be empty");
             }
-            var next  = lexer.LookAhead();
-            if(next.TokenType != Right){
-                throw new ParseException("!Right");
-            }
-            lexer.Consume();
+            var (current, next) = lexer.ConsumeNext();
+            next.Expect(Right);
             return expression;
         }
     }

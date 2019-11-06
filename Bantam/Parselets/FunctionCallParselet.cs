@@ -41,8 +41,7 @@ namespace Bantam
                 next = lexer.LookAhead();
                 if(next.TokenType == TokenType.COMMA){
                     lexer.Consume();
-                }
-    
+                }    
             } while (next.TokenType == TokenType.COMMA);
 
             if (next.TokenType != TokenType.PARENT_RIGHT)

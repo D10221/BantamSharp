@@ -1,23 +1,17 @@
 ﻿namespace SimpleParser
 {
-    public static class LexerExtensions {
-         // Not Used
-        public static bool IsMatch<TTokenType>(this ILexer<IToken<TTokenType>> lexer, TTokenType expected)
+    public static class LexerExtensions {        
+        public static (IToken<TTokenType> current, IToken<TTokenType> next,bool isMatch) IsMatch<TTokenType>(this ILexer<IToken<TTokenType>> lexer, TTokenType expected)
         {
-            var token = lexer.LookAhead();
-            var result = Equals(token.TokenType, expected);
-            lexer.Consume();
-            return result;;
-        }
-        // Not used
-        public static IToken<TTokenType> ConsumeNextTokenType<TTokenType>(this ILexer<IToken<TTokenType>> lexer, TTokenType expected)
+            var next = lexer.LookAhead();
+            var isMatch = Equals(next.TokenType, expected);
+            var current = lexer.Consume();
+            return (current, next, isMatch);
+        }        
+        public static (IToken<TTokenType> current, IToken<TTokenType> next) ConsumeNext<TTokenType>(this ILexer<IToken<TTokenType>> lexer)
         {
-            var token = lexer.LookAhead();
-            if (!Equals(token.TokenType, expected))
-            {
-                throw new ParseException($"Expected token {expected} and found {token.TokenType}");
-            }
-            return lexer.Consume();
-        }
+            var next = lexer.LookAhead();            
+            return (lexer.Consume(), next);
+        }        
     }
 }
