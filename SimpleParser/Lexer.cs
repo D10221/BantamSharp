@@ -13,13 +13,13 @@ namespace SimpleParser
 
     public class Lexer<T> : ILexer<T>
     {
-        public IEnumerable<IToken<T>> Tokens { get; }
+        private readonly IEnumerable<IToken<T>> _tokens;
 
         private readonly IEnumerator<IToken<T>> _enumerator;
 
         public Lexer(IEnumerable<IToken<T>> tokens)
         {
-            Tokens = tokens;
+            _tokens = tokens;
             _enumerator = tokens.GetEnumerator();
         }
 
@@ -32,7 +32,7 @@ namespace SimpleParser
 
         public override string ToString()
         {
-            return Tokens.Select(a => $"'{a}'").Aggregate((a, b) => a + ";" + b);
+            return _tokens.Select(a => $"'{a}'").Aggregate((a, b) => a + ";" + b);
         }
     }
 }

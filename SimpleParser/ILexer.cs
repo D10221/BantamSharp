@@ -4,7 +4,7 @@ namespace SimpleParser
 {
     public interface ILexer<TTokenType>
     {
-        IEnumerable<IToken<TTokenType>> Tokens {get;}
+        // IEnumerable<IToken<TTokenType>> Tokens {get;}
         IToken<TTokenType> Next();
     }
 }

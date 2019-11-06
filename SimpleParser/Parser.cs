@@ -21,7 +21,15 @@ namespace SimpleParser
         {
             return _parselets.FirstOrDefault(x => x.ParseletType == parseletType && x.TokenType.Equals(tokenType));
         }
-
+        private int GetPrecedence(TTokenType tokenType)
+        {
+            return GetParselet(tokenType, ParseletType.Infix)?.Precedence ?? 0;            
+        }
+        private int NextPrecedence()
+        {
+            var token = LookAhead();
+            return GetPrecedence(token.TokenType);
+        }
         public IToken<TTokenType> LookAhead()
         {
             while (!_tokens.Any())
@@ -31,17 +39,13 @@ namespace SimpleParser
             }
             return _tokens.First();
         }
-        private int GetPrecedence(TTokenType tokenType)
+
+        public IToken<TTokenType> Consume()
         {
-            var result = GetParselet(tokenType, ParseletType.Infix);
-            if (result != null)
-                return result.Precedence;
-            return 0;
-        }
-        private int NextPrecedence()
-        {
-            var token = LookAhead();
-            return Equals(token.TokenType, default(TTokenType)) ? 0 : GetPrecedence(token.TokenType);
+            LookAhead();
+            var token = _tokens.First();
+            _tokens.RemoveAt(0);
+            return token;
         }
 
         #region IParser
@@ -70,13 +74,6 @@ namespace SimpleParser
             }
             return left ?? new EmptyExpression<TTokenType>();
         }       
-        public IToken<TTokenType> Consume()
-        {
-            LookAhead();
-            var token = _tokens.First();
-            _tokens.RemoveAt(0);
-            return token;
-        }
         #endregion
     }
 }
