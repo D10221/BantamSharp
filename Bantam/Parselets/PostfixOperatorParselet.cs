@@ -7,13 +7,13 @@ namespace Bantam
     /// Generic infix parselet for an unary arithmetic operator. Parses postfix
     /// unary "?" expressions.
     /// </summary>
-    public class SufixOperatorParselet : IParselet<TokenType>
+    public class PostfixOperatorParselet : IParselet<TokenType>
     {
         public TokenType TokenType { get; }
         public ParseletType ParseletType { get; } = ParseletType.Infix;
         public int Precedence { get; }
 
-        public SufixOperatorParselet(TokenType tokenType, int precedence)
+        public PostfixOperatorParselet(TokenType tokenType, int precedence)
         {
             TokenType = tokenType;
             Precedence = precedence;
@@ -24,7 +24,7 @@ namespace Bantam
             ILexer<IToken<TokenType>> lexer,
             IToken<TokenType> token, ISimpleExpression<TokenType> left)
         {
-            return new SufixExpression(token, left);
+            return new PostfixExpression(token, left);
         }
     }
 }

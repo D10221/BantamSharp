@@ -88,7 +88,7 @@ namespace Bantam
                         _builder.Append(e.Token);
                         break;
                     }
-                case SufixExpression e:
+                case PostfixExpression e:
                     {
                         _builder.Append("(");
                         Visit(e.Left);

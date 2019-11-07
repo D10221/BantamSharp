@@ -33,7 +33,7 @@ namespace BantamTests
             var parse = ParserFactory.Create();
             var e = parse("(!a)!");
             var s = e.ToString();
-            var sufix = (e as SufixExpression);
+            var sufix = (e as PostfixExpression);
             Assert.IsNotNull(sufix);
 
             var prefix = (sufix.Left as PrefixExpression);

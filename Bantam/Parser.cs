@@ -75,7 +75,7 @@ namespace Bantam
                 new PrefixOperatorParselet(TokenType.MINUS, (int)Precedence.PREFIX),
                 new PrefixOperatorParselet(TokenType.TILDE, (int)Precedence.PREFIX),
                 new PrefixOperatorParselet(TokenType.BANG, (int)Precedence.PREFIX),
-                new SufixOperatorParselet(TokenType.BANG, (int)Precedence.POSTFIX),
+                new PostfixOperatorParselet(TokenType.BANG, (int)Precedence.POSTFIX),
                 new AssignParselet(TokenType.ASSIGN, (int)Precedence.ASSIGNMENT),
                 new ConditionalParselet(TokenType.QUESTION, (int)Precedence.CONDITIONAL) ,
                 new FunctionCallParselet(TokenType.PAREN_LEFT, (int)Precedence.CALL) ,
