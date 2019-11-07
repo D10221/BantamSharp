@@ -8,8 +8,22 @@ namespace BantamTests
     [TestClass]
     public class GroupingTests
     {
-
-
+        [TestMethod]
+        public void GroupingTest()
+        {
+            var parse = ParserFactory.Create();
+            var e = parse("((a))");
+            var name = (e as NameExpression);
+            // is Function Call !
+            Assert.IsNotNull(name);
+            var s = name.ToString();
+            Assert.AreEqual("a", s)        ;
+            name.Token.ExpectValue("a");
+            const string expected = "a";
+            Assert.AreEqual(
+                expected,
+                actual: Printer.Create().Print(e));
+        }
         [TestMethod]
         public void GroupingTest1()
         {
@@ -17,7 +31,6 @@ namespace BantamTests
                 expected: "((a+(b+c))+d)",
                 actual: Printer.Create().Print(ParserFactory.Create()("a + (b + c) + d")));
         }
-
         [TestMethod]
         public void GroupingTest2()
         {
@@ -25,7 +38,6 @@ namespace BantamTests
                 expected: "(a^(b+c))",
                 actual: Printer.Create().Print(ParserFactory.Create()("a ^ (b + c)")));
         }
-
         [TestMethod]
         public void GroupingTest3()
         {
@@ -43,23 +55,7 @@ namespace BantamTests
             Assert.IsNotNull(name);
 
             name.Token.ExpectValue("a");
-            
-            Assert.AreEqual(
-                expected,
-                actual: Printer.Create().Print(e));
-        }
-        [TestMethod]
-        public void GroupingTest31()
-        {
-            var parse = ParserFactory.Create();
-            var e = parse("((a))");                        
-            var name = (e as NameExpression);
-            // is Function Call !
-            Assert.IsNotNull(name);
-            var s = name.ToString();    
-            Assert.AreEqual("a", s)        ;
-            name.Token.ExpectValue("a");            
-            const string expected = "a";
+
             Assert.AreEqual(
                 expected,
                 actual: Printer.Create().Print(e));
