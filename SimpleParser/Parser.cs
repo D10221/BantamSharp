@@ -31,12 +31,7 @@ namespace SimpleParser
         private int GetPrecedence(TTokenType tokenType)
         {
             return GetParselet(tokenType, ParseletType.Infix)?.Precedence ?? 0;
-        }
-        private int NextPrecedence()
-        {
-            var token = LookAhead();
-            return GetPrecedence(token.TokenType);
-        }
+        }        
 
         private IToken<TTokenType> LookAhead()
         {
@@ -54,6 +49,7 @@ namespace SimpleParser
             try
             {
                 ISimpleExpression<TTokenType> left = null;
+                // ...
                 {
                     var token = Consume();
 
@@ -65,27 +61,26 @@ namespace SimpleParser
                         left = parselet.Parse(this, _lexer, token, null);
                     }
                 }
-                while (precedence < NextPrecedence())
+                while (precedence < GetPrecedence(LookAhead().TokenType))
                 {
                     var token = Consume();
-                    var parselet = (token.Value == EOF ? EofParselet : null)
+                    var infix = (token.Value == EOF ? EofParselet : null)
                         // ?? GetParselet(token.TokenType, ParseletType.Prefix)
                         ?? GetParselet(token.TokenType, ParseletType.Infix);
 
-                    if (parselet != null)
+                    if (infix != null)
                     {
-                        left = parselet.Parse(this, _lexer, token, left);
+                        left = infix.Parse(this, _lexer, token, left);
                     }
                 }
                 return left ?? new EmptyExpression<TTokenType>();
-
             }
             catch (ParseException){
                 throw;
             }
             catch (System.Exception ex)
             {
-                throw new ParseException("Error parsing", ex);
+                throw new ParseException("Unexpected error parsing", ex);
             }
         }
 
