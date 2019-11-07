@@ -21,7 +21,7 @@ namespace Bantam
 
         public override string ToString()
         {
-            return $"{nameof(LiteralExpression)}:\"{Token}\"";
+            return $"{Token}";
         }
     }
 }

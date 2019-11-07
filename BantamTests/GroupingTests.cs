@@ -32,7 +32,7 @@ namespace BantamTests
             const string expected = "((!a)!)";
             var parse = ParserFactory.Create();
             var e = parse("(!a)!");
-
+            var s = e.ToString();
             var sufix = (e as SufixExpression);
             Assert.IsNotNull(sufix);
 
@@ -44,6 +44,22 @@ namespace BantamTests
 
             name.Token.ExpectValue("a");
             
+            Assert.AreEqual(
+                expected,
+                actual: Printer.Create().Print(e));
+        }
+        [TestMethod]
+        public void GroupingTest31()
+        {
+            var parse = ParserFactory.Create();
+            var e = parse("((a))");                        
+            var name = (e as NameExpression);
+            // is Function Call !
+            Assert.IsNotNull(name);
+            var s = name.ToString();    
+            Assert.AreEqual("a", s)        ;
+            name.Token.ExpectValue("a");            
+            const string expected = "a";
             Assert.AreEqual(
                 expected,
                 actual: Printer.Create().Print(e));

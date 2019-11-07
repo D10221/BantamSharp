@@ -23,6 +23,7 @@ namespace BantamTests
         {
             string actual = Printer.Create().Print(
                 ParserFactory.Create()("-a * b"));
+            // Actual:<(((-a)*b)-(a*b))>
             Assert.AreEqual(expected: "((-a)*b)", actual); //Fails           
         }
 
@@ -31,6 +32,7 @@ namespace BantamTests
         {
             string actual = Printer.Create().Print(
                 ParserFactory.Create()("!a + b"));
+            //Assert.AreEqual failed. Expected:<((!a)+b)>. Actual:<((!a)+(b!))>
             Assert.AreEqual(expected: "((!a)+b)", actual); //Fails     
         }
 
@@ -47,6 +49,7 @@ namespace BantamTests
         {
             string actual = Printer.Create().Print(
                 ParserFactory.Create()("-a!"));
+            // Assert.AreEqual failed. Expected:<(-(a!))>. Actual:<((-(a!))-(a!))>
             Assert.AreEqual(expected: "(-(a!))", actual); //Fails   
         }
 
@@ -55,16 +58,16 @@ namespace BantamTests
         {
             string actual = Printer.Create().Print(
                 ParserFactory.Create()("!a!"));
+            // Assert.AreEqual failed. Expected:<(!(a!))>. Actual:<(!((a!)!))>. 
             Assert.AreEqual(expected: "(!(a!))", actual); //Fails   
         }
-
-        // Binary(int) Precedence.
-        //test("a = b + c * d ^ e - f / g", "(a = ((b + (c * (d ^ e))) - (f / g)))");
+                
         [TestMethod]
         public void BinaryPrecedenceTest()
         {
             var actual = Printer.Create().Print(
                 ParserFactory.Create()("(a = ((b + (c * (d ^ e))) - (f / g)))"));
+            // Assert.AreEqual failed. Expected:<(a=((b+(c*(d^e)))-(f/g)))>. Actual:<(a=((b+(c*(d^e)))-(f/g)))((a=((b+(c*(d^e)))-(f/g))))>
             Assert.AreEqual(expected: "(a=((b+(c*(d^e)))-(f/g)))", actual); //Fails               
         }
     }

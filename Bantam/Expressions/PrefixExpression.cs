@@ -16,6 +16,9 @@ namespace Bantam
         {
             Token = token;
             Right = right;
-        }        
+        }     
+        public override string ToString() {
+            return $"{Token}{Right}";
+        }   
     }
 }

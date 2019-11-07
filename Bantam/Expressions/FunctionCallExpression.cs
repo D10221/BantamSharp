@@ -21,5 +21,9 @@ namespace Bantam
             Left = left;
             Right = right ?? new List<ISimpleExpression<TokenType>>();
         }
+        public override string ToString()
+        {
+            return $"{Token}";
+        }
     }
 }

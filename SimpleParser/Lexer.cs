@@ -46,7 +46,7 @@ namespace SimpleParser
         }
         public override string ToString()
         {
-            return _tokens.Select(a => $"'{a}'").Aggregate((a, b) => a + ";" + b);
+            return "[" +_tokens.Select(a => $"'{a}'").Aggregate((a, b) => a + "," + b) + "]";
         }
     }
 }

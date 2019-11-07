@@ -20,6 +20,10 @@ namespace Bantam
             Then = then;
             Else = @else;
         }
+        public override string ToString()
+        {
+            return $"{Token}";
+        }
 
     }
 }

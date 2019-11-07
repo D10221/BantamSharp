@@ -21,5 +21,9 @@ namespace Bantam
             Right = right;
             Token = token ?? throw new ParseException("Invalid punctuator");
         }       
+        public override string ToString()
+        {
+            return $"{Token}";
+        }
     }
 }

@@ -17,5 +17,9 @@ namespace Bantam
             Token = ((NameExpression)left).Token;
             Right = right ?? throw new ParseException($"Missing right side expression from {Left}");
         }
+        public override string ToString()
+        {
+            return $"{Token}";
+        }
     }
 }
