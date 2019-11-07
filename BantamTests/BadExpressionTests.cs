@@ -24,7 +24,7 @@ namespace BantamTests
         [TestMethod]
         public void DoesntWork2()
         {
-            Assert.ThrowsException<ParseletException>(() =>
+            Assert.ThrowsException<ParseException>(() =>
             {
                 // Parselet Throws?
                 var parse = ParserFactory.Create();

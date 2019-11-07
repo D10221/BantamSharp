@@ -1,20 +1,25 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace SimpleParser
 {
+    [Serializable]
     public class ParseException : Exception
     {
+        public ParseException()
+        {
+        }
+
         public ParseException(string message) : base(message)
         {
         }
-    }   
-    public class ParseletException : Exception
-    {
-        public object Parselet { get; }
 
-        public ParseletException(string message, object parselet) : base(message)
+        public ParseException(string message, Exception innerException) : base(message, innerException)
         {
-            this.Parselet = parselet;
+        }
+
+        protected ParseException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }

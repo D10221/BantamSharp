@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace SimpleParser
 {
@@ -50,26 +51,25 @@ namespace SimpleParser
 
         public ISimpleExpression<TTokenType> Parse(int precedence = 0)
         {
-            ISimpleExpression<TTokenType> left = null;
-            // ...
+            try
             {
-                var token = Consume();
+                ISimpleExpression<TTokenType> left = null;
+                {
+                    var token = Consume();
 
-                var parselet = (token.Value == EOF ? EofParselet : null)
-                        ?? GetParselet(token.TokenType, ParseletType.Prefix)
-                        ?? GetParselet(token.TokenType, ParseletType.Infix);
-                if (parselet != null)
-                {
-                    left = parselet.Parse(this, _lexer, token, null);
-                }
-            }
-            while (precedence < NextPrecedence()) //Get Next Precedence
-            {
-                var token = Consume();
-                if (!token.IsEmpty)
-                {
                     var parselet = (token.Value == EOF ? EofParselet : null)
-                       // ?? GetParselet(token.TokenType, ParseletType.Prefix)
+                            ?? GetParselet(token.TokenType, ParseletType.Prefix)
+                            ?? GetParselet(token.TokenType, ParseletType.Infix);
+                    if (parselet != null)
+                    {
+                        left = parselet.Parse(this, _lexer, token, null);
+                    }
+                }
+                while (precedence < NextPrecedence())
+                {
+                    var token = Consume();
+                    var parselet = (token.Value == EOF ? EofParselet : null)
+                        // ?? GetParselet(token.TokenType, ParseletType.Prefix)
                         ?? GetParselet(token.TokenType, ParseletType.Infix);
 
                     if (parselet != null)
@@ -77,10 +77,18 @@ namespace SimpleParser
                         left = parselet.Parse(this, _lexer, token, left);
                     }
                 }
+                return left ?? new EmptyExpression<TTokenType>();
+
             }
-            return left ?? new EmptyExpression<TTokenType>();
+            catch (ParseException){
+                throw;
+            }
+            catch (System.Exception ex)
+            {
+                throw new ParseException("Error parsing", ex);
+            }
         }
 
         #endregion
-    }
+    }    
 }

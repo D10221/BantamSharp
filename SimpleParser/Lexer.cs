@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace SimpleParser
@@ -11,7 +10,6 @@ namespace SimpleParser
             return new Lexer<IToken<T>>(tokens);
         }
     }
-
     public class Lexer<T> : ILexer<T>
     {
         private readonly IList<T> _tokens;
@@ -33,7 +31,6 @@ namespace SimpleParser
             }
             return _tokens.First();
         }
-
         public T Consume()
         {
             LookAhead();
@@ -41,16 +38,12 @@ namespace SimpleParser
             if (!Equals(token, default)) _tokens.RemoveAt(0);
             return token;
         }
-
-
-
         public T Next()
         {
             if (_enumerator.MoveNext())
                 return _enumerator.Current;
             return default;
         }
-
         public override string ToString()
         {
             return _tokens.Select(a => $"'{a}'").Aggregate((a, b) => a + ";" + b);

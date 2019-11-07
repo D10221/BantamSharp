@@ -27,7 +27,6 @@ namespace SimpleParser
             TokenType = type;
             Value = value;
         }
-
         public TTokenType TokenType { get; }
 
         public object Value { get; }
@@ -36,7 +35,6 @@ namespace SimpleParser
         {
             return Value?.ToString();
         }
-
         public bool IsEmpty
         {
             get { return Equals(TokenType, default(TTokenType)); }
