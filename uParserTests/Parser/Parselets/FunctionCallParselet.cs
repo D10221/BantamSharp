@@ -21,32 +21,21 @@ namespace uParserTests
             ISimpleExpression left)
         {
             var args = new List<ISimpleExpression>();
-            Token next = null;
-            do
+            Token next = default;
+            while (!lexer.ConsumeIf(Right, out next) && next != default)
             {
-                next = lexer.Lookup();
-                next = next ?? lexer.Consume(); // ignore EOF                
-                if (next == null)
-                {
-                    break;
-                }
-                if (next.TokenType != Right)
-                {
-                    var e = parser.Parse();
-                    if (e != null)
-                    {
-                        args.Add(e);
-                    }
-                }
-                else
+                if (lexer.Lookup(0, out next) && next != default && next.TokenType == TokenType.COMMA)
                 {
                     lexer.Consume();
                 }
-            } while (next.TokenType != Right);
-
+                else
+                {
+                    args.Add(parser.Parse());
+                }
+            }
             if (next?.TokenType != Right)
             {
-                throw new ParseException($"Expected {Right} but found {next?.TokenType}");
+                throw new ParseException($"Expected {Right} but found {next?.ToString() ?? "Nothing"}");
             }
             return new FunctionCallExpression(left, args);
         }

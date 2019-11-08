@@ -78,12 +78,21 @@ namespace uParserTests
             ParsedAreEqual("(a())", "(a())");
         }
         [TestMethod]
-        public void Grouping()
+        public void GroupingThrows()
         {
-            Assert.ThrowsException<ParseException>(() =>
+            var ex = Assert.ThrowsException<ParseException>(() =>
             {
                 var expr = Bantam.Parse("()");
             });
+            IsNotNull(ex);
+        }
+        [TestMethod]
+        public void GroupingThrows2()
+        {
+            var ex = ThrowsException<ParseException>(
+                () => Bantam.Parse("(a")
+                );
+            IsNotNull(ex);
         }
         [TestMethod]
         public void Grouping0()
@@ -120,12 +129,33 @@ namespace uParserTests
         public void Grouping2()
         {
             ParsedAreEqual("(b + c)", "(b+c)");
-            ParsedAreEqual("a + (b + c) + d", "((a+(b+c))+d)");
         }
         [TestMethod]
         public void Grouping3()
         {
-            ParsedAreEqual("a ^ (b + c)", "(a^(b+c))");
+            var e = Bantam.Parse("a + (b + c) + d");
+            var op1 = e as BinaryOperatorExpression;
+            IsNotNull(op1);
+            var left = op1.Left as BinaryOperatorExpression;
+            IsTrue((left.Left as NameExpression).ToString().Equals("a"));
+            var grp = left.Right as GroupExpression;
+            IsNotNull(grp);
+            var op2 = (grp.Elements.FirstOrDefault() as BinaryOperatorExpression);
+            IsNotNull(op2);
+            AreEqual((op2.Left as NameExpression).ToString(), "b");
+            AreEqual((op2.Right as NameExpression).ToString(), "c");
+
+        }
+        [TestMethod]
+        public void Grouping4()
+        {
+            var e = Bantam.Parse("a ^ (b + c)");
+            var b = (e as BinaryOperatorExpression);
+            IsNotNull(b);
+            AreEqual(
+                (b.Left as NameExpression).ToString(),
+                "a"
+            );
         }
         [TestMethod]
         public void FunctionCall()
@@ -136,13 +166,43 @@ namespace uParserTests
         [TestMethod]
         public void FunctionCall1()
         {
-            ParsedAreEqual("a(b, c)", "a(b,c)");
+            var e = Bantam.Parse("a(b, c)");
+            var f = e as FunctionCallExpression;
+            IsNotNull(f);
+            var a = f.Left as NameExpression;
+            AreEqual(a.ToString(), "a");
+            var param = f.Right.ToArray();
+            AreEqual((param[0] as NameExpression).ToString(), "b");
+            AreEqual((param[1] as NameExpression).ToString(), "c");
         }
         [TestMethod]
         public void FunctionCall2()
         {
-            ParsedAreEqual("a(b) + c(d)", "(a(b)+c(d))");
-            ParsedAreEqual("a(b ? c : d, e + f)", "a((b?c:d),(e+f))");
+            var e = Bantam.Parse("a(b) + c(d)");
+            var b = (e as BinaryOperatorExpression);
+            IsNotNull(b);
+            var f1 = (b.Left as FunctionCallExpression);
+            var f1Left = (f1.Left as NameExpression);
+            AreEqual(f1Left.ToString(), "a");
+            AreEqual(
+                (f1.Right.FirstOrDefault() as NameExpression).ToString(),
+                "b"
+            );
+            var f2 = b.Right as FunctionCallExpression;
+            AreEqual((f2.Left as NameExpression).ToString(), "c");
+            AreEqual(
+                f2.Right.FirstOrDefault().ToString(),
+                "d"
+            );
+        }
+        [TestMethod]
+        public void FunctionCallThrows()
+        {
+            var ex = ThrowsException<ParseException>(() =>
+            {
+                Bantam.Parse("a(a");
+            });
+            IsNotNull(ex as ParseException);
         }
         [TestMethod]
         public void FunctionChain()

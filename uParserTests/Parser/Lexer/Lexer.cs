@@ -93,12 +93,8 @@ namespace uParserTests
         public bool ConsumeIf(TokenType expected, out Token next)
         {
             next = FirstOrDefault();
-
             bool success = next?.TokenType == expected;
-            if (success)
-            {
-                Consume();
-            }
+            if (success) Consume();            
             return success;
         }
         ///<sumary>

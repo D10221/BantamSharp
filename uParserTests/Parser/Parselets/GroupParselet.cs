@@ -25,11 +25,11 @@ namespace uParserTests
             {
                 els.Add(parser.Parse());
             }
-            if (next.TokenType == Right)
+            if (next?.TokenType == Right)
             {
                 lexer.Consume(next);
-            }           
-            if (next?.TokenType != Right)
+            }
+            else
             {
                 throw new ParseException(
                     $"Expected {Right} but found {next?.ToString() ?? "default"}");
