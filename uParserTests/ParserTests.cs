@@ -60,6 +60,24 @@ namespace uParserTests
             ParsedAreEqual("((a))", "((a))");
         }
         [TestMethod]
+        public void GroupingVsFunctionCall1()
+        {
+            // Grouping vs Function Call
+            ParsedAreEqual("(a())()", "(a())()");
+        }
+        [TestMethod]
+        public void GroupingVsFunctionCall2()
+        {
+            // Grouping vs Function Call
+            ParsedAreEqual("(a+ b)()", "(a+b)()");
+        }
+        [TestMethod]
+        public void GroupingVsFunctionCall3()
+        {
+            // Grouping vs Function Call
+            ParsedAreEqual("(a())", "(a())");
+        }
+        [TestMethod]
         public void Grouping()
         {
             Assert.ThrowsException<ParseException>(() =>
@@ -69,7 +87,7 @@ namespace uParserTests
         }
         [TestMethod]
         public void Grouping0()
-        {   
+        {
             var e = Bantam.Parse("((a+b)+c)");
             var g = e as GroupExpression;
             IsNotNull(g);
@@ -87,7 +105,7 @@ namespace uParserTests
             IsTrue(b.Token.Value.ToString().Equals("b"));
         }
         [TestMethod]
-        public void Grouping1()
+        public void GroupingVsPostfix()
         {
             var e = Bantam.Parse("(a)!");
             var postFix = e as PostfixExpression;
