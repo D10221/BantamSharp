@@ -18,15 +18,25 @@ namespace uParserTests
         {
             return FirstOrDefault();
         }
+        ///<sumary>
+        /// Lookup n positions , return true success 
+        ///</sumary>
         public bool Lookup(int distance, out Token token)
-        {            
-            if ((queue.Count - 1) > distance)
+        {
+            if ((queue.Count - 1) >= distance)
             {
-                token = queue.ToArray()[distance];
+                token = Lookup(distance);
                 return true;
             }
             token = default;
             return false;
+        }
+        ///<sumary>
+        /// Lookup n positions 
+        ///</sumary>
+        public Token Lookup(int distance)
+        {
+            return queue.ToArray()[distance];
         }
         ///<sumary>
         /// Equeue next Token return is Match expected
@@ -102,7 +112,7 @@ namespace uParserTests
         ///<summary>
         /// Queue Count > 0 
         ///</summary>
-        private bool Any => queue.Count > 0;                
+        private bool Any => queue.Count > 0;
         ///<sumary>
         /// returns is not null 
         ///</sumary>
