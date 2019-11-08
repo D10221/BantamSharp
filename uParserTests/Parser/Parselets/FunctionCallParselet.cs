@@ -24,7 +24,7 @@ namespace uParserTests
             Token next = null;
             do
             {
-                next = lexer.LookAhead();
+                next = lexer.Lookup();
                 next = next ?? lexer.Consume(); // ignore EOF                
                 if (next == null)
                 {

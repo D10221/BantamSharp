@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace uParserTests
@@ -21,25 +20,20 @@ namespace uParserTests
             )
         {
             var els = new List<ISimpleExpression>();
-            do
+            Token next; // default is EOF
+            while (!lexer.Lookup(Right, out next) && next != default)
             {
-                var e = parser.Parse();
-                if (e != null)
-                {
-                    els.Add(e);
-                }
-                var next = lexer.LookAhead();
-                if (next == null)
-                {
-                    // End;
-                    break;
-                }
-                if (next.TokenType == Right)
-                {
-                    lexer.Consume();
-                    break;
-                }
-            } while (true);
+                els.Add(parser.Parse());
+            }
+            if (next.TokenType == Right)
+            {
+                lexer.Consume(next);
+            }           
+            if (next?.TokenType != Right)
+            {
+                throw new ParseException(
+                    $"Expected {Right} but found {next?.ToString() ?? "default"}");
+            }
             if (!els.Any())
             {
                 throw new ParseException($"{nameof(GroupExpression)} Can't be empty!");

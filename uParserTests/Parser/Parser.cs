@@ -1,16 +1,13 @@
+using System;
 using System.Collections.Generic;
 
 namespace uParserTests
 {
-    public class Parser
+    public class Registry
     {
-        private Lexer _lexer;
+
         private IDictionary<TokenType, PrefixParselet> prefixParselets = new Dictionary<TokenType, PrefixParselet>();
         private IDictionary<TokenType, InfixParselet> infixParselets = new Dictionary<TokenType, InfixParselet>();
-        public Parser(IEnumerable<Token> tokens)
-        {
-            _lexer = new Lexer(tokens);
-        }
         public void Register(TokenType token, PrefixParselet parselet)
         {
             prefixParselets.Add(token, parselet);
@@ -19,53 +16,79 @@ namespace uParserTests
         {
             infixParselets.Add(token, parselet);
         }
-        public Token consume(TokenType expected)
+        public void postfix(TokenType token, Precedence precedence)
         {
-            Token token = LookAhead();
-            if (token.TokenType != expected)
-            {
-                throw new ParseException("Expected token " + expected +
-                    " and found " + token.TokenType);
-            }
+            Register(token, new PostfixOperatorParselet((int)precedence));
+        }
+        public void prefix(TokenType token, Precedence precedence)
+        {
+            Register(token, new PrefixOperatorParselet((int)precedence));
+        }
 
-            return Consume();
-        }
-        public Token Consume()
+        public void infixLeft(TokenType token, Precedence precedence)
         {
-            return _lexer.Consume();
+            Register(token, new BinaryOperatorParselet((int)precedence, false));
         }
-        public Token LookAhead()
+
+        public void infixRight(TokenType token, Precedence precedence)
         {
-            return _lexer.LookAhead();
+            Register(token, new BinaryOperatorParselet((int)precedence, true));
         }
+
+        public bool TryGetInfix(TokenType tokenType, out InfixParselet Parselet)
+        {
+            return infixParselets.TryGetValue(tokenType, out Parselet);
+        }
+
+        public bool TryGetPrefix(TokenType tokenType, out PrefixParselet prefix)
+        {
+            return prefixParselets.TryGetValue(tokenType, out prefix);
+        }
+    }
+    public class Parser
+    {
+        private readonly Lexer _lexer;
+        private readonly Registry _registry;
+        public Parser(Lexer lexer, Registry registry)
+        {
+            _registry = registry;
+            _lexer = lexer;
+        }
+
         private int getPrecedence()
         {
-            var tokenType = LookAhead()?.TokenType;
-            return tokenType == null ? 0 :
-                (infixParselets.TryGetValue((TokenType)tokenType, out var parser))
-                ? parser.Precedence : 0;
+            if (!_lexer.Lookup(0, out var token))
+            {
+                return 0;
+            }
+            if (!_registry.TryGetInfix(token.TokenType, out var parser))
+            {
+                return 0;
+            }
+            return parser.Precedence;
         }
         public ISimpleExpression Parse(int precedence = 0)
         {
             ISimpleExpression left = EmptyExpression.Default;
 
-            var token = Consume();
-            if (token != null)
+            var token = _lexer.Consume();
+            if (token != default)
             {
-                prefixParselets.TryGetValue(token.TokenType, out var prefix);
-                if (prefix == null)
+                if (!_registry.TryGetPrefix(token.TokenType, out var prefix))
                 {
-                    // if token null EOF
-                    throw new ParseException($"Parselet for Token<{token.TokenType}>(\"{token.Value}\") NOT found.");
+                    throw new ParseException($"Parselet<Prefix<Token<{token.TokenType},<\"{token.Value}\">>>> NOT found.");
                 }
-                left = prefix.Parse(this, _lexer, token);
+                left = prefix?.Parse(this, _lexer, token);
                 while (precedence < getPrecedence())
                 {
-                    token = Consume();
-                    if (token != null)
+                    token = _lexer.Consume();
+                    if (token != default)
                     {
-                        infixParselets.TryGetValue(token.TokenType, out var infix);
-                        left = infix?.Parse(this, _lexer, token, left) ?? left;
+                        if (!_registry.TryGetInfix(token.TokenType, out var infix))
+                        {
+                            throw new ParseException($"Parselet<Infix<Token<{token.TokenType},<\"{token.Value}\">>>> NOT found.");
+                        }
+                        left = infix.Parse(this, _lexer, token, left) ?? left;
                     }
                 }
             }

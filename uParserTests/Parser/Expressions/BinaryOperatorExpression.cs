@@ -23,7 +23,7 @@ namespace uParserTests
         }       
         public override string ToString()
         {
-            return $"{Token}";
+            return $"{Left}{Token}{Right}";
         }
     }
 }
