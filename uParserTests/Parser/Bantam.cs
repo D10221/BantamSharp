@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace uParserTests
 {
@@ -36,8 +37,8 @@ namespace uParserTests
         static Tokenizer Tokenizer = new Tokenizer(Punctuators.Reverse);
         static Func<string, Parser> Parser = ((text) =>
         {
-            var tokens = Tokenizer.Tokenize(text);
-            var parser = new Parser(new Lexer(tokens), Registry.Value);
+            var tokens = Tokenizer.Tokenize(text).ToList();
+            var parser = new Parser(tokens, Registry.Value);
             return parser;
         });
         public static ISimpleExpression Parse(string text)

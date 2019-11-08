@@ -1,9 +1,11 @@
+using System.Collections.Generic;
+
 namespace uParserTests
 {
     public interface InfixParselet 
     {
          int Precedence { get; }
 
-         ISimpleExpression Parse(Parser parser, Lexer lexer, Token token, ISimpleExpression left);        
+         ISimpleExpression Parse(Parser parser, IList<Token> lexer, Token token, ISimpleExpression left);        
     }
 }

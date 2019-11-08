@@ -1,6 +1,8 @@
 ﻿
 
 
+using System.Collections.Generic;
+
 namespace uParserTests
 {
     /// <summary>
@@ -30,7 +32,7 @@ namespace uParserTests
 
         public ISimpleExpression Parse(
                 Parser parser,
-                Lexer lexer,
+                IList<Token> lexer,
                 Token token, ISimpleExpression left)
         {
             // To handle right-associative operators like "^", we allow a slightly

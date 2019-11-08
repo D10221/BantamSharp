@@ -1,4 +1,6 @@
-﻿namespace uParserTests
+﻿using System.Collections.Generic;
+
+namespace uParserTests
 {
     /// <summary>
     ///     Generic prefix parselet for an unary arithmetic operator. Parses prefix
@@ -13,7 +15,7 @@
             Precedence = precedence;
         }
 
-        public ISimpleExpression Parse(Parser parser, Lexer lexer, Token token)
+        public ISimpleExpression Parse(Parser parser, IList<Token> lexer, Token token)
         {
             // To handle right-associative operators like "^", we allow a slightly
             // lower precedence when parsing the right-hand side. This will let a

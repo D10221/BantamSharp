@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace uParserTests
 {
     public class AssignParselet : InfixParselet
@@ -10,7 +12,7 @@ namespace uParserTests
 
         public ISimpleExpression Parse(
                 Parser parser,
-                Lexer lexer,
+                IList<Token> lexer,
                 Token token,
                 ISimpleExpression left)
         {

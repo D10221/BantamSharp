@@ -15,7 +15,7 @@ namespace uParserTests
         }
         public ISimpleExpression Parse(
             Parser parser,
-            Lexer lexer,
+            IList<Token> lexer,
             Token token
             )
         {

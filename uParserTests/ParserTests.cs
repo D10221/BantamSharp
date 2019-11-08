@@ -232,7 +232,6 @@ namespace uParserTests
             AreEqual(x3.Token.ToString(), "+");
             var x4 = x3.Right as NameExpression;
             AreEqual(x4.ToString(), "a");
-
         }
 
         [TestMethod]
@@ -277,21 +276,6 @@ namespace uParserTests
             ParsedAreEqual("a ? b : c ? d : e", "a?b:c?d:e");
             ParsedAreEqual("a ? b ? c : d : e", "a?b?c:d:e");
             ParsedAreEqual("a + b ? c * d : e / f", "a+b?c*d:e/f");
-        }
-    }
-    [TestClass]
-    public class LexerTests
-    {
-        [TestMethod]
-        public void Test1()
-        {
-            var tokens = new[] {
-                new Token(TokenType.PARENT_LEFT,"("),
-                new Token(TokenType.PARENT_RIGHT,")")
-            };
-            var lexer = new Lexer(tokens);
-            var token = lexer.Consume();
-            IsNotNull(token);
         }
     }
 }

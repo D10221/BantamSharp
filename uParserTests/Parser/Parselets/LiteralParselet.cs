@@ -2,6 +2,8 @@
 
 
 
+using System.Collections.Generic;
+
 namespace uParserTests
 {
     public class LiteralParselet : PrefixParselet
@@ -13,7 +15,7 @@ namespace uParserTests
             TokenType = tokenType;
         }
 
-        public ISimpleExpression Parse(Parser parser, Lexer lexer, Token token)
+        public ISimpleExpression Parse(Parser parser, IList<Token> lexer, Token token)
         {
             return new LiteralExpression(token);
         }

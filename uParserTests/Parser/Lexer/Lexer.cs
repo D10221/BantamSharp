@@ -1,59 +1,107 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace uParserTests
 {
-    public class Lexer
+    public static class Lexer
     {
-        private List<Token> queue;
-        public Lexer(IEnumerable<Token> tokens)
+        ///<sumary>
+        /// Peek queue's index position
+        /// throws 'IndexOutOfRangeException'
+        ///</sumary>
+        public static Token Peek(this IList<Token> lexer, int index = 0)
         {
-            queue = new List<Token>(tokens);
-        }        
-        public Token[] ToArray(){
-            return queue.ToArray();
-        }
-        public int Count(){
-            return queue.Count;
+            if ((lexer.Count() - 1) >= index)
+            {
+                return lexer.ToArray()[index];
+            }
+            throw new IndexOutOfRangeException($"queue is less than {index} long");
         }
         ///<sumary>
-        /// Return and remove 1st Token from the queue
+        /// Lookup n positions , return true, success if no exceptions and token != default
         ///</sumary>
-        public void RemoveAt(int index)
+        public static bool TryPeek(this IList<Token> lexer, out Token token)
         {
-            queue.RemoveAt(index);
-        }        
-        public Token Find(Predicate<Token> predicate){            
-            return queue.Find(predicate);
+            try
+            {
+                token = lexer.Peek(0);
+                return token != default;
+            }
+            catch (System.Exception)
+            {
+                token = default;
+                return false;
+            }
+
         }
-        public void Remove(Token token){
-            queue.Remove(token);
+        ///<sumary>
+        /// Peek Token, returns Matches expected <TokenType/> ignores IndexOutOfRangeException
+        ///</sumary>
+        public static bool TryPeek(this IList<Token> lexer, TokenType tokenType, out Token token)
+        {
+            try
+            {
+                token = lexer.Peek();
+                return token?.TokenType == tokenType;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                token = default;
+                return false;
+            }
+        }
+        ///<sumary>
+        /// Peek next Token, return is Match expected
+        ///</sumary>
+        public static bool Peek(this IList<Token> lexer, TokenType tokenType, out Token token)
+        {
+            token = lexer.Peek();
+            return token?.TokenType == tokenType;
+        }
+        public static Token Consume(this IList<Token> lexer)
+        {
+            if (lexer.FirstOrDefault(out var token)) lexer.RemoveAt(0);
+            return token;
         }
         ///<summary>
-        /// Queue Count > 0 
+        /// Consume specific token
         ///</summary>
-        public bool Any()
+        public static void Consume(this IList<Token> lexer, Token token)
         {
-            return queue.Count > 0;
-        }
+            if (token == default) throw new System.ArgumentException("Input token required", nameof(token));
 
+            var found = lexer.FirstOrDefault(x => ReferenceEquals(x, token));
+            if (found != default) lexer.Remove(found);
+            else throw new TokenNotFoundException($"{token} NOT found!");
+        }
+        ///<sumary>
+        ///  Consume if matches expected, returns consumed
+        ///</sumary>
+        public static bool ConsumeIf(this IList<Token> lexer, TokenType expected, out Token next)
+        {
+            next = lexer.FirstOrDefault();
+            bool success = next?.TokenType == expected;
+            if (success) lexer.Consume();
+            return success;
+        }
         ///<sumary>
         /// returns is not null 
         ///</sumary>
-        public Token FirstOrDefault()
+        public static bool FirstOrDefault(this IList<Token> lexer, out Token token)
         {
-            return queue.Count > 0 ? queue.ToArray()[0] : default;
+            token = !lexer.Any() ? default : lexer.FirstOrDefault();
+            return token != default;
         }
-        ///<summary>
-        ///
-        ///</summary>
-        public override string ToString()
+
+        static string Text(this IList<Token> lexer)
         {
             var x = System.Linq.Enumerable.Aggregate(
-                System.Linq.Enumerable.Select(queue, t => t.ToString()),
+                System.Linq.Enumerable.Select(lexer, t => t.ToString()),
                 (a, b) => a + "," + b
             );
             return "[" + x + "]";
         }
+
     }
 }

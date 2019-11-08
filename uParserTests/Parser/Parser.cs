@@ -1,12 +1,13 @@
 using System;
+using System.Collections.Generic;
 
 namespace uParserTests
 {
     public class Parser
     {
-        private readonly Lexer _lexer;
+        private readonly IList<Token> _lexer;
         private readonly Registry _registry;
-        public Parser(Lexer lexer, Registry registry)
+        public Parser(IList<Token> lexer, Registry registry)
         {
             _registry = registry;
             _lexer = lexer;
