@@ -24,7 +24,7 @@ namespace uParserTests
             Token next = default;
             while (!lexer.ConsumeIf(Right, out next) && next != default)
             {
-                if (lexer.Lookup(0, out next) && next != default && next.TokenType == TokenType.COMMA)
+                if (lexer.TryPeek(out next) && next != default && next.TokenType == TokenType.COMMA)
                 {
                     lexer.Consume();
                 }

@@ -90,6 +90,7 @@ namespace uParserTests
         public void GroupingThrows2()
         {
             var ex = ThrowsException<ParseException>(
+                // IndexOutOfRangeException!
                 () => Bantam.Parse("(a")
                 );
             IsNotNull(ex);
@@ -217,8 +218,6 @@ namespace uParserTests
         [TestMethod]
         public void UnaryPrecedence()
         {
-            // Unary precedence.
-            ParsedAreEqual("a!!!", "(((a!)!)!)");
             ParsedAreEqual("~!-+a", "(~(!(-(+a))))");
         }
 
