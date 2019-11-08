@@ -21,7 +21,7 @@ namespace uParserTests
         {
             var els = new List<ISimpleExpression>();
             Token next; // default is EOF
-            while (!lexer.Peek(Right, out next) && next != default)
+            while (!lexer.TryPeek(Right, out next) && next != default)
             {
                 els.Add(parser.Parse());
             }

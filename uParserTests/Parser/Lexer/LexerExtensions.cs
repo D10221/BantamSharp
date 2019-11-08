@@ -31,9 +31,26 @@ namespace uParserTests
                 token = default;
                 return false;
             }
+
         }
         ///<sumary>
-        /// Equeue next Token return is Match expected
+        /// Peek Token, returns Matches expected <TokenType/> ignores IndexOutOfRangeException
+        ///</sumary>
+        public static bool TryPeek(this Lexer lexer, TokenType tokenType, out Token token)
+        {
+            try
+            {
+                token = lexer.Peek();
+                return token?.TokenType == tokenType;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                token = default;
+                return false;
+            }
+        }
+        ///<sumary>
+        /// Peek next Token, return is Match expected
         ///</sumary>
         public static bool Peek(this Lexer lexer, TokenType tokenType, out Token token)
         {

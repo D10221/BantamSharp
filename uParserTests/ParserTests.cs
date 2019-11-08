@@ -218,41 +218,65 @@ namespace uParserTests
         [TestMethod]
         public void UnaryPrecedence()
         {
-            ParsedAreEqual("~!-+a", "(~(!(-(+a))))");
+            //  "(~(!(-(+a))))"
+            var e = Bantam.Parse("~!-+a");
+            var x = e as PrefixExpression;
+            IsNotNull(x);
+            AreEqual(x.Token.ToString(), "~");
+            var x1 = x.Right as PrefixExpression;
+            IsNotNull(x1);
+            AreEqual(x1.Token.ToString(), "!");
+            var x2 = x1.Right as PrefixExpression;
+            AreEqual(x2.Token.ToString(), "-");
+            var x3 = x2.Right as PrefixExpression;
+            AreEqual(x3.Token.ToString(), "+");
+            var x4 = x3.Right as NameExpression;
+            AreEqual(x4.ToString(), "a");
+
         }
 
         [TestMethod]
         public void UnaryAndBinaryPrecedence()
         {
             // Unary and binary predecence.
-            ParsedAreEqual("-a * b", "((-a)*b)");
-            ParsedAreEqual("!a + b", "((!a)+b)");
-            ParsedAreEqual("~a ^ b", "((~a)^b)");
-            ParsedAreEqual("-a!", "(-(a!))");
-            ParsedAreEqual("!a!", "(!(a!))");
+            var e = Bantam.Parse("-a * b");
+            // "((-a)*b)"
+            var b = e as BinaryOperatorExpression;
+            IsTrue(b.Token.ToString().Equals("*"));
+            var p = (b.Left as PrefixExpression);
+            AreEqual(p.Token.ToString(), "-");
+            var n = p.Right as  NameExpression;            
+            IsTrue(n.ToString().Equals("a"));
+            var n2 = b.Right as NameExpression;
+            IsTrue(n2.ToString().Equals("b"));
+
+            ParsedAreEqual("!a + b", "!a+b");
+            ParsedAreEqual("~a ^ b", "~a^b");
+            ParsedAreEqual("-a!", "-a!");
+            ParsedAreEqual("!a!", "!a!");
         }
         [TestMethod]
         public void BinaryPrecedence()
         {
             // Binary precedence.
-            ParsedAreEqual("a = b + c * d ^ e - f / g", "(a=((b+(c*(d^e)))-(f/g)))");
+            ParsedAreEqual("a = b + c * d ^ e - f / g", "a=b+c*d^e-f/g");
         }
         [TestMethod]
         public void BinaryAssociativity()
         {
             // Binary associativity.
-            ParsedAreEqual("a = b = c", "(a=(b=c))");
-            ParsedAreEqual("a + b - c", "((a+b)-c)");
-            ParsedAreEqual("a * b / c", "((a*b)/c)");
-            ParsedAreEqual("a ^ b ^ c", "(a^(b^c))");
+            ParsedAreEqual("a = b = c", "a=b=c");
+            ParsedAreEqual("a + b - c", "a+b-c");
+            ParsedAreEqual("a * b / c", "a*b/c");
+            ParsedAreEqual("a ^ b ^ c", "a^b^c");
         }
         [TestMethod]
         public void ConditionalOperator()
         {
             // Conditional operator.
-            ParsedAreEqual("a ? b : c ? d : e", "(a?b:(c?d:e))");
-            ParsedAreEqual("a ? b ? c : d : e", "(a?(b?c:d):e)");
-            ParsedAreEqual("a + b ? c * d : e / f", "((a+b)?(c*d):(e/f))");
+            ParsedAreEqual("a ? b : c ? d : e", "a?b:c?d:e");
+            ParsedAreEqual("a ? b ? c : d : e", "a?b?c:d:e");
+            ParsedAreEqual("a + b ? c * d : e / f", "a+b?c*d:e/f");
         }
     }
     [TestClass]
