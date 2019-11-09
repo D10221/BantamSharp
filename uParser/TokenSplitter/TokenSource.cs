@@ -1,4 +1,4 @@
-namespace uParser
+namespace tokenSplitter
 {
     public class TokenSource
     {
