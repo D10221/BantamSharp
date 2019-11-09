@@ -3,12 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bantam", "Bantam\Bantam.csproj", "{53F609F1-ED5E-40B2-BBE5-C41341B158B2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BantamTests", "BantamTests\BantamTests.csproj", "{3C1A7C30-1493-4525-8D66-5F43C1B24C8D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleParser", "SimpleParser\SimpleParser.csproj", "{B3F8D821-5C5C-49C3-8250-1EE1A7F79F62}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uParserTests", "uParserTests\uParserTests.csproj", "{D135E97E-4B3B-43C6-BA35-DFD05302C891}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uParser", "uParser\uParser.csproj", "{A25DDE23-3249-4252-970C-0217EA82BEC0}"
