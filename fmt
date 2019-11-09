@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-./tools/CodeFormatter/CodeFormatter.exe SimpleParser/SimpleParser.csproj
-./tools/CodeFormatter/CodeFormatter.exe BantamTests/BantamTests.csproj
-./tools/CodeFormatter/CodeFormatter.exe Bantam/Bantam.csproj
