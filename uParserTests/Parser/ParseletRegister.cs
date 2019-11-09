@@ -6,38 +6,26 @@ namespace uParserTests
     using static Parselets;
     public static class ParseletRegister
     {
-        public static void Register(this IDictionary<TokenType, PrefixParselet> prefixParselets,
-            TokenType token, PrefixParselet parselet)
-        {
-            prefixParselets.Add(token, parselet);
-        }
-        public static void Register(this IDictionary<TokenType, (int, InfixParselet)> infixParselets,
-            TokenType token, (int, InfixParselet) parselet)
-        {
-            infixParselets.Add(token, parselet);
-        }
-        public static void Postfix(
+        public static void AddPostfix(
             this IDictionary<TokenType, (int, InfixParselet)> infixParselets,
             TokenType token, Precedence precedence)
         {
-            infixParselets.Register(token, PostfixOperatorParselet((int)precedence));
+            infixParselets.Add(token, PostfixOperatorParselet((int)precedence));
         }
-        public static void Prefix(this IDictionary<TokenType, PrefixParselet> prefixParselets,
+        public static void AddPrefix(this IDictionary<TokenType, PrefixParselet> prefixParselets,
             TokenType token, Precedence precedence)
         {
-            prefixParselets.Register(token, PrefixOperatorParselet((int)precedence));
+            prefixParselets.Add(token, PrefixOperatorParselet((int)precedence));
         }
-
-        public static void InfixLeft(this IDictionary<TokenType, (int, InfixParselet)> infixParselets,
+        public static void AddInfixLeft(this IDictionary<TokenType, (int, InfixParselet)> infixParselets,
             TokenType token, Precedence precedence)
         {
-            infixParselets.Register(token, BinaryOperatorParselet((int)precedence, false));
+            infixParselets.Add(token, BinaryOperatorParselet((int)precedence, false));
         }
-
-        public static void InfixRight(this IDictionary<TokenType, (int, InfixParselet)> infixParselets,
+        public static void Add(this IDictionary<TokenType, (int, InfixParselet)> infixParselets,
             TokenType token, Precedence precedence)
         {
-            infixParselets.Register(token, BinaryOperatorParselet((int)precedence, true));
+            infixParselets.Add(token, BinaryOperatorParselet((int)precedence, true));
         }
     }
 }

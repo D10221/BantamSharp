@@ -16,26 +16,26 @@ namespace uParserTests
             IDictionary<TokenType, (int, InfixParselet)> infixes = new Dictionary<TokenType, (int, InfixParselet)>();
             // Register all of the parselets for the grammar.
             // Register the ones that need special parselets.
-            prefixes.Register(TokenType.NAME, NameParselet());
-            infixes.Register(TokenType.ASSIGN, AssignParselet());
-            infixes.Register(TokenType.QUESTION, ConditionalParselet());
-            prefixes.Register(TokenType.PARENT_LEFT, GroupParselet(TokenType.PARENT_RIGHT));
-            infixes.Register(TokenType.PARENT_LEFT, CallParselet());
+            prefixes.Add(TokenType.NAME, NameParselet());
+            infixes.Add(TokenType.ASSIGN, AssignParselet());
+            infixes.Add(TokenType.QUESTION, ConditionalParselet());
+            prefixes.Add(TokenType.PARENT_LEFT, GroupParselet(TokenType.PARENT_RIGHT));
+            infixes.Add(TokenType.PARENT_LEFT, CallParselet());
 
             // Register the simple operator parselets.
-            prefixes.Prefix(TokenType.PLUS, Precedence.PREFIX);
-            prefixes.Prefix(TokenType.MINUS, Precedence.PREFIX);
-            prefixes.Prefix(TokenType.TILDE, Precedence.PREFIX);
-            prefixes.Prefix(TokenType.BANG, Precedence.PREFIX);
+            prefixes.AddPrefix(TokenType.PLUS, Precedence.PREFIX);
+            prefixes.AddPrefix(TokenType.MINUS, Precedence.PREFIX);
+            prefixes.AddPrefix(TokenType.TILDE, Precedence.PREFIX);
+            prefixes.AddPrefix(TokenType.BANG, Precedence.PREFIX);
 
             // For kicks, we'll make "!" both prefix and postfix, kind of like ++.
-            infixes.Postfix(TokenType.BANG, Precedence.POSTFIX);
+            infixes.AddPostfix(TokenType.BANG, Precedence.POSTFIX);
 
-            infixes.InfixLeft(TokenType.PLUS, Precedence.SUM);
-            infixes.InfixLeft(TokenType.MINUS, Precedence.SUM);
-            infixes.InfixLeft(TokenType.ASTERISK, Precedence.PRODUCT);
-            infixes.InfixLeft(TokenType.SLASH, Precedence.PRODUCT);
-            infixes.InfixRight(TokenType.CARET, Precedence.EXPONENT);
+            infixes.AddInfixLeft(TokenType.PLUS, Precedence.SUM);
+            infixes.AddInfixLeft(TokenType.MINUS, Precedence.SUM);
+            infixes.AddInfixLeft(TokenType.ASTERISK, Precedence.PRODUCT);
+            infixes.AddInfixLeft(TokenType.SLASH, Precedence.PRODUCT);
+            infixes.Add(TokenType.CARET, Precedence.EXPONENT);
             return (prefixes, infixes);
         });
         static Tokenizer Tokenizer = new Tokenizer(Punctuators.Reverse);
