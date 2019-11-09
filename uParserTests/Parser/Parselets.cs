@@ -17,66 +17,69 @@ namespace uParserTests
         ///     Generic prefix parselet for an unary arithmetic operator. Parses prefix
         ///     unary "-", "+", "~", and "!" expressions.
         /// </summary>
-        public static PrefixParselet PrefixOperatorParselet(int precedence)
-        {
-            return (parse, Lexer, token) =>
-            {
-                // To handle right-associative operators like "^", we allow a slightly
-                // lower precedence when parsing the right-hand side. This will let a
-                // parselet with the same precedence appear on the right, which will then
-                // take *this* parselet's result as its left-hand argument.
-                var right = parse(precedence);
-                return new PrefixExpression(token, right);
-            };
-        }
+        public static PrefixParselet PrefixOperatorParselet(int precedence) =>
+            // To handle right-associative operators like "^", we allow a slightly
+            // lower precedence when parsing the right-hand side. This will let a
+            // parselet with the same precedence appear on the right, which will then
+            // take *this* parselet's result as its left-hand argument.                
+            (parse, Lexer, token) => new PrefixExpression(token, right: parse(precedence));
+        /// <summary>
+        /// TODO
+        /// </summary>
+        public static PrefixParselet LiteralParselet(TokenType tokenType) =>
+            (Parse, Lexer, token) =>
+                new LiteralExpression(token);
+        /// <summary>
+        /// Parses token used to group an expression, like "a * (b + c)".
+        /// </summary>
+        public static PrefixParselet GroupParselet(TokenType right) =>
+            (parse, lexer, token) =>
+             {
+                 var els = new List<ISimpleExpression>();
+                 Token next; // default is EOF
+                 while (!lexer.TryPeek(right, out next) && next != default)
+                 {
+                     els.Add(parse(0));
+                 }
+                 if (next?.TokenType == right)
+                 {
+                     lexer.Consume(next);
+                 }
+                 else
+                 {
+                     throw new ParseException(
+                         $"Expected {right} but found {next?.ToString() ?? "default"}");
+                 }
+                 if (!els.Any())
+                 {
+                     throw new ParseException($"{nameof(GroupExpression)} Can't be empty!");
+                 }
+                 return new GroupExpression(token, els.ToArray());
+             };
         /// <summary>
         /// Generic infix parselet for an unary arithmetic operator. Parses postfix
         /// unary "?" expressions.
         /// </summary>
         public static (int, InfixParselet) PostfixOperatorParselet(int precedence)
         {
-            ISimpleExpression Parse(
-            Parse parse,
-            IList<Token> lexer,
-            Token token, ISimpleExpression left)
-            {
-                return new PostfixExpression(token, left);
-            }
-            return (precedence, Parse);
-
+            InfixParselet parselet = (parse, lexer, token, left) => new PostfixExpression(token, left);
+            return (precedence, parselet);
         }
-        public static PrefixParselet LiteralParselet(TokenType tokenType)
-        {
-            ISimpleExpression Parse(Parse parse, IList<Token> lexer, Token token)
-            {
-                return new LiteralExpression(token);
-            }
-            return Parse;
-        }
+        /// <summary>
+        /// TODO
+        /// </summary>
         public static (int, InfixParselet) AssignParselet()
         {
-
             int precedence = (int)uParserTests.Precedence.ASSIGNMENT;
-
-            ISimpleExpression Left;
-            ISimpleExpression Right;
-
-            ISimpleExpression Parse(
-                    Parse parse,
-                    IList<Token> lexer,
-                    Token token,
-                    ISimpleExpression left)
+            InfixParselet parselet = (parse, lexer, token, left) =>
             {
-                //Why -1
-                Right = parse(precedence - 1);
-                Left = left;
+                var right = parse(precedence - 1);//Why -1
                 if (left as NameExpression == null)
                     throw new ParseException($"Expected {nameof(NameExpression)} but found {left}.");
 
-                return new AssignExpression(left, Right);
-            }
-
-            return (precedence, Parse);
+                return new AssignExpression(left, right);
+            };
+            return (precedence, parselet);
         }
         /// <summary>
         /// Generic infix parselet for a binary arithmetic operator. The only
@@ -85,10 +88,7 @@ namespace uParserTests
         /// </summary>
         public static (int, InfixParselet) BinaryOperatorParselet(int precedence, bool isRight)
         {
-            ISimpleExpression Parse(
-                Parse parse,
-                IList<Token> lexer,
-                Token token, ISimpleExpression left)
+            InfixParselet parselet = (parse, lexer, token, left) =>
             {
                 // To handle right-associative operators like "^", we allow a slightly
                 // lower precedence when parsing the right-hand side. This will let a
@@ -96,45 +96,35 @@ namespace uParserTests
                 // take *this* parselet's result as its left-hand argument.
                 var right = parse(precedence - (isRight ? 1 : 0));
                 return new BinaryOperatorExpression(token, left, right);
-            }
-            return (precedence, Parse);
+            };
+            return (precedence, parselet);
         }
         /// <summary>
         ///     Parselet for the condition or "ternary" operator, like "a ? b : c".
         /// </summary>
         public static (int, InfixParselet) ConditionalParselet()
         {
-            int Precedence = (int)uParserTests.Precedence.CONDITIONAL;
-
-            ISimpleExpression Parse(
-                        Parse parse,
-                        IList<Token> lexer,
-                        Token token,
-                        ISimpleExpression left)
+            int precedence = (int) Precedence.CONDITIONAL;
+            InfixParselet parselet = (parse, lexer, token, left) =>
             {
                 var thenArm = parse(0);
                 var next = lexer.Consume();
                 if (next.TokenType != TokenType.COLON)
                     throw new ParseException("Expected COLON");
                 //WHy  precedence -1 
-                var elseArm = parse(Precedence - 1);
+                var elseArm = parse(precedence - 1);
                 return new ConditionalExpression(left, thenArm, elseArm);
-            }
-            return (Precedence, Parse);
+            };
+            return (precedence, parselet);
         }
         /// <summary>
         ///     Parselet to parse a function call like "a(b, c, d)".
         /// </summary>
         public static (int, InfixParselet) CallParselet()
         {
-            int precedence = (int)uParserTests.Precedence.CALL;
-
+            int precedence = (int) Precedence.CALL;
             var right = TokenType.PARENT_RIGHT;
-            ISimpleExpression Parse(
-            Parse parse,
-            IList<Token> lexer,
-            Token token,
-            ISimpleExpression left)
+            InfixParselet parselet = (parse, lexer, token, left) =>
             {
                 var args = new List<ISimpleExpression>();
                 Token next = default;
@@ -154,43 +144,8 @@ namespace uParserTests
                     throw new ParseException($"Expected {right} but found {next?.ToString() ?? "Nothing"}");
                 }
                 return new FunctionCallExpression(left, args);
-            }
-            return (precedence, Parse);
-
-        }
-        /// <summary>
-        /// Parses token used to group an expression, like "a * (b + c)".
-        /// </summary>
-        public static PrefixParselet GroupParselet(TokenType right)
-        {
-            ISimpleExpression Parse(
-                Parse parse,
-                IList<Token> lexer,
-                Token token
-                )
-            {
-                var els = new List<ISimpleExpression>();
-                Token next; // default is EOF
-                while (!lexer.TryPeek(right, out next) && next != default)
-                {
-                    els.Add(parse(0));
-                }
-                if (next?.TokenType == right)
-                {
-                    lexer.Consume(next);
-                }
-                else
-                {
-                    throw new ParseException(
-                        $"Expected {right} but found {next?.ToString() ?? "default"}");
-                }
-                if (!els.Any())
-                {
-                    throw new ParseException($"{nameof(GroupExpression)} Can't be empty!");
-                }
-                return new GroupExpression(token, els.ToArray());
-            }
-            return Parse;
+            };
+            return (precedence, parselet);
         }
     }
 }
