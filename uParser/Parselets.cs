@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace uParser
-{
-    public delegate ISimpleExpression InfixParselet(Parse parse, IList<Token> lexer, Token token, ISimpleExpression left);
-    public delegate ISimpleExpression PrefixParselet(Parse parse, IList<Token> lexer, Token token);
-
+{   
     public static class Parselets
     {
         /// <summary>

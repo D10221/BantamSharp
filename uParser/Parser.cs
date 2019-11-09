@@ -4,9 +4,11 @@ using System.Collections.Generic;
 namespace uParser
 {
     public delegate ISimpleExpression Parse(int precedence = 0);
+    public delegate ISimpleExpression InfixParselet(Parse parse, IList<Token> lexer, Token token, ISimpleExpression left);
+    public delegate ISimpleExpression PrefixParselet(Parse parse, IList<Token> lexer, Token token);
     public static class Parser
     {
-        public static Parse Parse(
+        public static Parse ParseFty(
             IList<Token> lexer,
             IDictionary<TokenType, PrefixParselet> prefixes,
             IDictionary<TokenType, (int, InfixParselet)> infixes)
@@ -23,38 +25,36 @@ namespace uParser
                 }
                 var (precedence, _) = parser;
                 return precedence;
-            };
+            };    
+            Parse parse = null; parse = (precedence) =>
+             {
+                 ISimpleExpression left = EmptyExpression.Default;
 
-            Parse parse = null;
-            parse = (precedence) =>
-            {
-                ISimpleExpression left = EmptyExpression.Default;
+                 var token = lexer.Consume();
+                 if (token != default)
+                 {
+                     if (!prefixes.TryGetValue(token.TokenType, out var prefix))
+                     {
+                         throw new ParseException($"Parselet<Prefix<Token<{token.TokenType},<\"{token.Value}\">>>> NOT found.");
+                     }
+                     left = prefix(parse, lexer, token);
 
-                var token = lexer.Consume();
-                if (token != default)
-                {
-                    if (!prefixes.TryGetValue(token.TokenType, out var prefix))
-                    {
-                        throw new ParseException($"Parselet<Prefix<Token<{token.TokenType},<\"{token.Value}\">>>> NOT found.");
-                    }
-                    left = prefix(parse, lexer, token);
-
-                    while (precedence < getPrecedence())
-                    {
-                        token = lexer.Consume();
-                        if (token != default)
-                        {
-                            if (!infixes.TryGetValue(token.TokenType, out var infixParselet))
-                            {
-                                throw new ParseException($"Parselet<Infix<Token<{token.TokenType},<\"{token.Value}\">>>> NOT found.");
-                            }
-                            var (_, parseInfix) = infixParselet;
-                            left = parseInfix(parse, lexer, token, left) ?? left;
-                        }
-                    }
-                }
-                return left;
-            };
+                     while (precedence < getPrecedence())
+                     {
+                         token = lexer.Consume();
+                         if (token != default)
+                         {
+                             if (!infixes.TryGetValue(token.TokenType, out var infixParselet))
+                             {
+                                 throw new ParseException($"Parselet<Infix<Token<{token.TokenType},<\"{token.Value}\">>>> NOT found.");
+                             }
+                             var (_, parseInfix) = infixParselet;
+                             left = parseInfix(parse, lexer, token, left) ?? left;
+                         }
+                     }
+                 }
+                 return left;
+             };
             return parse;
         }
 

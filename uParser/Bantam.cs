@@ -43,7 +43,7 @@ namespace uParser
         {
             var tokens = Tokenizer.Tokenize(text).ToList();
             var (prefixes, infixes) = Parselets.Value;
-            return Parser.Parse(tokens, prefixes, infixes)(0);
+            return Parser.ParseFty(tokens, prefixes, infixes).Invoke();
         }
     }
 }
