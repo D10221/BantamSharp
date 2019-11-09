@@ -1,4 +1,4 @@
-namespace tokenSplitter
+namespace TokenSplitting
 {
     public class TokenSource
     {
