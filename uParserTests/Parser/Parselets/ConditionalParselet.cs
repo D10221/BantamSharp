@@ -1,6 +1,7 @@
 ﻿
 
 
+using System;
 using System.Collections.Generic;
 
 namespace uParserTests
@@ -12,17 +13,17 @@ namespace uParserTests
     {
       
         public ISimpleExpression Parse(
-            Parser parser, 
+            Func<int,ISimpleExpression> parse, 
             IList<Token> lexer,
             Token token, 
             ISimpleExpression left)
         {
-            var thenArm = parser.Parse();
+            var thenArm = parse(0);
             var next  = lexer.Consume();
             if(next.TokenType != TokenType.COLON) 
             throw new ParseException("Expected COLON");
             //WHy  precedence -1 
-            var elseArm = parser.Parse(Precedence - 1);
+            var elseArm = parse(Precedence - 1);
             return new ConditionalExpression(left, thenArm, elseArm);
         }
 

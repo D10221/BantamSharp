@@ -3,56 +3,58 @@ using System.Collections.Generic;
 
 namespace uParserTests
 {
-    public class Parser
-    {
-        private readonly IList<Token> _lexer;
-        private readonly Registry _registry;
-        public Parser(IList<Token> lexer, Registry registry)
+    using Parse = Func<int, ISimpleExpression>;
+    public static class Parser
+    {        
+        public static Parse Parse(
+            IList<Token> lexer,
+            IDictionary<TokenType, PrefixParselet> prefixes,
+            IDictionary<TokenType, InfixParselet> infixes)
         {
-            _registry = registry;
-            _lexer = lexer;
-        }
-        ///<summary>
-        /// Gets next Token precedence
-        ///</summary>
-        private int getPrecedence()
-        {
-            if (!_lexer.TryPeek(out var token))
+            Func<int> getPrecedence = () =>
             {
-                return 0;
-            }
-            if (!_registry.TryGetInfix(token.TokenType, out var parser))
-            {
-                return 0;
-            }
-            return parser.Precedence;
-        }
-        public ISimpleExpression Parse(int precedence = 0)
-        {
-            ISimpleExpression left = EmptyExpression.Default;
-
-            var token = _lexer.Consume();
-            if (token != default)
-            {
-                if (!_registry.TryGetPrefix(token.TokenType, out var prefix))
+                if (!lexer.TryPeek(out var token))
                 {
-                    throw new ParseException($"Parselet<Prefix<Token<{token.TokenType},<\"{token.Value}\">>>> NOT found.");
+                    return 0;
                 }
-                left = prefix?.Parse(this, _lexer, token);
-                while (precedence < getPrecedence())
+                if (!infixes.TryGetValue(token.TokenType, out var parser))
                 {
-                    token = _lexer.Consume();
-                    if (token != default)
+                    return 0;
+                }
+                return parser.Precedence;
+            };
+
+            Parse parse = null;
+            parse = (precedence) =>
+            {
+                ISimpleExpression left = EmptyExpression.Default;
+
+                var token = lexer.Consume();
+                if (token != default)
+                {
+                    if (!prefixes.TryGetValue(token.TokenType, out var prefix))
                     {
-                        if (!_registry.TryGetInfix(token.TokenType, out var infix))
+                        throw new ParseException($"Parselet<Prefix<Token<{token.TokenType},<\"{token.Value}\">>>> NOT found.");
+                    }
+                    left = prefix.Parse(parse, lexer, token);
+
+                    while (precedence < getPrecedence())
+                    {
+                        token = lexer.Consume();
+                        if (token != default)
                         {
-                            throw new ParseException($"Parselet<Infix<Token<{token.TokenType},<\"{token.Value}\">>>> NOT found.");
+                            if (!infixes.TryGetValue(token.TokenType, out var infix))
+                            {
+                                throw new ParseException($"Parselet<Infix<Token<{token.TokenType},<\"{token.Value}\">>>> NOT found.");
+                            }
+                            left = infix.Parse(parse, lexer, token, left) ?? left;
                         }
-                        left = infix.Parse(this, _lexer, token, left) ?? left;
                     }
                 }
-            }
-            return left;
+                return left;
+            };
+            return parse;
         }
+
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace uParserTests
@@ -6,6 +7,6 @@ namespace uParserTests
     {
          int Precedence { get; }
 
-         ISimpleExpression Parse(Parser parser, IList<Token> lexer, Token token, ISimpleExpression left);        
+         ISimpleExpression Parse(Func<int,ISimpleExpression> parse, IList<Token> lexer, Token token, ISimpleExpression left);        
     }
 }

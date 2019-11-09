@@ -1,5 +1,6 @@
 ﻿
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,7 +20,7 @@ namespace uParserTests
         }
 
         public ISimpleExpression Parse(
-            Parser parser,
+            Func<int,ISimpleExpression> parse,
             IList<Token> lexer,
             Token token
             )

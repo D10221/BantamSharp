@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace uParserTests
 {
     public interface PrefixParselet
     {
-        ISimpleExpression Parse(Parser parser, IList<Token> lexer, Token token);
+        ISimpleExpression Parse(Func<int,ISimpleExpression> parse, IList<Token> lexer, Token token);
     }
 }

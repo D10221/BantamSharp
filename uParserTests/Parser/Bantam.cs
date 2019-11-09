@@ -4,46 +4,45 @@ using System.Linq;
 
 namespace uParserTests
 {
+    using ParseLetRegistry = ValueTuple<IDictionary<TokenType, PrefixParselet>, IDictionary<TokenType, InfixParselet>>;
     public static class Bantam
     {
-        static Lazy<Registry> Registry = new Lazy<Registry>(() =>
+        static Lazy<ParseLetRegistry> Parselets = new Lazy<ParseLetRegistry>(() =>
         {
-            var registry = new Registry();
+            IDictionary<TokenType, PrefixParselet> prefixes = new Dictionary<TokenType, PrefixParselet>();
+            IDictionary<TokenType, InfixParselet> infixes = new Dictionary<TokenType, InfixParselet>();
+
 
             // Register all of the parselets for the grammar.
             // Register the ones that need special parselets.
-            registry.Register(TokenType.NAME, new NameParselet());
-            registry.Register(TokenType.ASSIGN, new AssignParselet());
-            registry.Register(TokenType.QUESTION, new ConditionalParselet());
-            registry.Register(TokenType.PARENT_LEFT, new GroupParselet(TokenType.PARENT_RIGHT));
-            registry.Register(TokenType.PARENT_LEFT, new CallParselet());
+            prefixes.Register(TokenType.NAME, new NameParselet());
+            infixes.Register(TokenType.ASSIGN, new AssignParselet());
+            infixes.Register(TokenType.QUESTION, new ConditionalParselet());
+            prefixes.Register(TokenType.PARENT_LEFT, new GroupParselet(TokenType.PARENT_RIGHT));
+            infixes.Register(TokenType.PARENT_LEFT, new CallParselet());
 
             // Register the simple operator parselets.
-            registry.prefix(TokenType.PLUS, Precedence.PREFIX);
-            registry.prefix(TokenType.MINUS, Precedence.PREFIX);
-            registry.prefix(TokenType.TILDE, Precedence.PREFIX);
-            registry.prefix(TokenType.BANG, Precedence.PREFIX);
+            prefixes.prefix(TokenType.PLUS, Precedence.PREFIX);
+            prefixes.prefix(TokenType.MINUS, Precedence.PREFIX);
+            prefixes.prefix(TokenType.TILDE, Precedence.PREFIX);
+            prefixes.prefix(TokenType.BANG, Precedence.PREFIX);
 
             // For kicks, we'll make "!" both prefix and postfix, kind of like ++.
-            registry.postfix(TokenType.BANG, Precedence.POSTFIX);
+            infixes.postfix(TokenType.BANG, Precedence.POSTFIX);
 
-            registry.infixLeft(TokenType.PLUS, Precedence.SUM);
-            registry.infixLeft(TokenType.MINUS, Precedence.SUM);
-            registry.infixLeft(TokenType.ASTERISK, Precedence.PRODUCT);
-            registry.infixLeft(TokenType.SLASH, Precedence.PRODUCT);
-            registry.infixRight(TokenType.CARET, Precedence.EXPONENT);
-            return registry;
+            infixes.infixLeft(TokenType.PLUS, Precedence.SUM);
+            infixes.infixLeft(TokenType.MINUS, Precedence.SUM);
+            infixes.infixLeft(TokenType.ASTERISK, Precedence.PRODUCT);
+            infixes.infixLeft(TokenType.SLASH, Precedence.PRODUCT);
+            infixes.infixRight(TokenType.CARET, Precedence.EXPONENT);
+            return (prefixes, infixes);
         });
-        static Tokenizer Tokenizer = new Tokenizer(Punctuators.Reverse);
-        static Func<string, Parser> Parser = ((text) =>
-        {
-            var tokens = Tokenizer.Tokenize(text).ToList();
-            var parser = new Parser(tokens, Registry.Value);
-            return parser;
-        });
+        static Tokenizer Tokenizer = new Tokenizer(Punctuators.Reverse);        
         public static ISimpleExpression Parse(string text)
         {
-            return Parser(text).Parse();
+             var tokens = Tokenizer.Tokenize(text).ToList();
+            var (prefixes, infixes) = Parselets.Value;            
+            return Parser.Parse(tokens, prefixes, infixes)(0);
         }
     }
 }

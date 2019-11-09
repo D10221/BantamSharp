@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace uParserTests
 {
@@ -14,14 +15,13 @@ namespace uParserTests
         {
             Precedence = precedence;
         }
-
-        public ISimpleExpression Parse(Parser parser, IList<Token> lexer, Token token)
+        public ISimpleExpression Parse(Func<int,ISimpleExpression> parse, IList<Token> lexer, Token token)
         {
             // To handle right-associative operators like "^", we allow a slightly
             // lower precedence when parsing the right-hand side. This will let a
             // parselet with the same precedence appear on the right, which will then
             // take *this* parselet's result as its left-hand argument.
-            var right = parser.Parse(Precedence);
+            var right = parse(Precedence);
             return new PrefixExpression(token, right);
         }
     }

@@ -1,6 +1,7 @@
 ﻿
 
 
+using System;
 using System.Collections.Generic;
 
 namespace uParserTests
@@ -31,7 +32,7 @@ namespace uParserTests
         }
 
         public ISimpleExpression Parse(
-                Parser parser,
+                Func<int,ISimpleExpression> parse,
                 IList<Token> lexer,
                 Token token, ISimpleExpression left)
         {
@@ -39,7 +40,7 @@ namespace uParserTests
             // lower precedence when parsing the right-hand side. This will let a
             // parselet with the same precedence appear on the right, which will then
             // take *this* parselet's result as its left-hand argument.
-            var right = parser.Parse(Precedence - (IsRight ? 1 : 0));
+            var right = parse(Precedence - (IsRight ? 1 : 0));
             return new BinaryOperatorExpression(token, left, right);
         }
     }

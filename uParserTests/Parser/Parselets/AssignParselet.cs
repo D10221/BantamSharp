@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 
 namespace uParserTests
@@ -11,13 +12,13 @@ namespace uParserTests
         public ISimpleExpression Right { get; set; }
 
         public ISimpleExpression Parse(
-                Parser parser,
+                Func<int,ISimpleExpression> parse,
                 IList<Token> lexer,
                 Token token,
                 ISimpleExpression left)
         {
             //Why -1
-            Right = parser.Parse(Precedence - 1);
+            Right = parse(Precedence - 1);
             Left = left;
             if (left as NameExpression == null)
                 throw new ParseException($"Expected {nameof(NameExpression)} but found {left}.");

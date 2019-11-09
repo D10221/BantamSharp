@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace uParserTests
@@ -14,7 +15,7 @@ namespace uParserTests
             Right = right;
         }
         public ISimpleExpression Parse(
-            Parser parser,
+            Func<int,ISimpleExpression> parse,
             IList<Token> lexer,
             Token token
             )
@@ -23,7 +24,7 @@ namespace uParserTests
             Token next; // default is EOF
             while (!lexer.TryPeek(Right, out next) && next != default)
             {
-                els.Add(parser.Parse());
+                els.Add(parse(0));
             }
             if (next?.TokenType == Right)
             {

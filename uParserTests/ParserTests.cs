@@ -89,10 +89,7 @@ namespace uParserTests
         [TestMethod]
         public void GroupingThrows2()
         {
-            var ex = ThrowsException<ParseException>(
-                // IndexOutOfRangeException!
-                () => Bantam.Parse("(a")
-                );
+            var ex = ThrowsException<ParseException>(() => Bantam.Parse("(a")); 
             IsNotNull(ex);
         }
         [TestMethod]
@@ -244,7 +241,7 @@ namespace uParserTests
             IsTrue(b.Token.ToString().Equals("*"));
             var p = (b.Left as PrefixExpression);
             AreEqual(p.Token.ToString(), "-");
-            var n = p.Right as  NameExpression;            
+            var n = p.Right as NameExpression;
             IsTrue(n.ToString().Equals("a"));
             var n2 = b.Right as NameExpression;
             IsTrue(n2.ToString().Equals("b"));
