@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-# VSTEST_RUNNER_DEBUG=1 and it will wait for debugger to attach
-dotnet test BantamTests
