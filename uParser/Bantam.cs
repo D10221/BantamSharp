@@ -6,7 +6,8 @@ using System.Linq;
 namespace uParser
 {
     using ParseLetRegistry = ValueTuple<IDictionary<TokenType, PrefixParselet>, IDictionary<TokenType, (int, InfixParselet)>>;
-    using static Parselets;    
+    using static Parselets;
+    using static Tokenizer;
 
     public static class Bantam
     {
@@ -35,13 +36,13 @@ namespace uParser
             infixes.AddInfixLeft(TokenType.MINUS, Precedence.SUM);
             infixes.AddInfixLeft(TokenType.ASTERISK, Precedence.PRODUCT);
             infixes.AddInfixLeft(TokenType.SLASH, Precedence.PRODUCT);
-            infixes.Add(TokenType.CARET, Precedence.EXPONENT);
+            infixes.AddInfixRight(TokenType.CARET, Precedence.EXPONENT);
             return (prefixes, infixes);
         });
-        static Tokenizer Tokenizer = new Tokenizer(Punctuators.Reverse);
+        
         public static ISimpleExpression Parse(string text)
         {
-            var tokens = Tokenizer.Tokenize(text).ToList();
+            var tokens = Tokenize(text).ToList();
             var (prefixes, infixes) = Parselets.Value;
             return Parser.ParseFty(tokens, prefixes, infixes).Invoke();
         }

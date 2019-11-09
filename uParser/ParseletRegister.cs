@@ -20,12 +20,12 @@ namespace uParser
         public static void AddInfixLeft(this IDictionary<TokenType, (int, InfixParselet)> infixParselets,
             TokenType token, Precedence precedence)
         {
-            infixParselets.Add(token, BinaryOperatorParselet((int)precedence, false));
+            infixParselets.Add(token, BinaryOperatorParselet((int)precedence, isRight: false));
         }
-        public static void Add(this IDictionary<TokenType, (int, InfixParselet)> infixParselets,
+        public static void AddInfixRight(this IDictionary<TokenType, (int, InfixParselet)> infixParselets,
             TokenType token, Precedence precedence)
         {
-            infixParselets.Add(token, BinaryOperatorParselet((int)precedence, true));
+            infixParselets.Add(token, BinaryOperatorParselet((int)precedence, isRight: true));
         }
     }
 }
