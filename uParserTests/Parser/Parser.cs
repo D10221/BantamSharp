@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace uParserTests
 {
-    using Parse = Func<int, ISimpleExpression>;
+    public delegate ISimpleExpression Parse(int precedence = 0);
     public static class Parser
-    {        
+    {
         public static Parse Parse(
             IList<Token> lexer,
             IDictionary<TokenType, PrefixParselet> prefixes,
-            IDictionary<TokenType, InfixParselet> infixes)
+            IDictionary<TokenType, (int, InfixParselet)> infixes)
         {
             Func<int> getPrecedence = () =>
             {
@@ -21,7 +21,8 @@ namespace uParserTests
                 {
                     return 0;
                 }
-                return parser.Precedence;
+                var (precedence, _) = parser;
+                return precedence;
             };
 
             Parse parse = null;
@@ -36,18 +37,19 @@ namespace uParserTests
                     {
                         throw new ParseException($"Parselet<Prefix<Token<{token.TokenType},<\"{token.Value}\">>>> NOT found.");
                     }
-                    left = prefix.Parse(parse, lexer, token);
+                    left = prefix(parse, lexer, token);
 
                     while (precedence < getPrecedence())
                     {
                         token = lexer.Consume();
                         if (token != default)
                         {
-                            if (!infixes.TryGetValue(token.TokenType, out var infix))
+                            if (!infixes.TryGetValue(token.TokenType, out var infixParselet))
                             {
                                 throw new ParseException($"Parselet<Infix<Token<{token.TokenType},<\"{token.Value}\">>>> NOT found.");
                             }
-                            left = infix.Parse(parse, lexer, token, left) ?? left;
+                            var (_, parseInfix) = infixParselet;
+                            left = parseInfix(parse, lexer, token, left) ?? left;
                         }
                     }
                 }
