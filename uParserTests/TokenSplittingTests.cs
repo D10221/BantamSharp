@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -11,87 +12,184 @@ namespace TokenSplittingTests
     [TestClass]
     public class TokenSplittingTests
     {
-        TokenSplitter spliter => new TokenSplitter(
-            Concat(
-                grouping,
-                delimiters,
-                logical,
-                binary,
-                quotes,
-                comments
-            ).ToArray()
-        );
-
-        IList<TokenSource> split(string x) => spliter.Split(x);
-
         [TestMethod]
-        public void TokenSplitterTest()
+        public void LineSplit1()
         {
-            var values = Values(split(@"
-1
-2
-3
-            "));
-            AreEqual("123", Joined(values));
+            var lsp = new LineSplitter(new Matcher(new[] { "" }, false), false);
+            var x = lsp.SplitLine("!");
+            var (value, column) = x.FirstOrDefault();
+            AreEqual(0, column);
+            AreEqual("!", value);
         }
         [TestMethod]
-        public void AcceptsEmptyString()
+        public void LineSplitIncudeEmpty()
         {
-            AreEqual("", Joined(Values(split(""))));
+            var lsp = new LineSplitter(new Matcher(new[] { "" }, false), true);
+            var x = lsp.SplitLine(" a");
+            var (value, column) = x.FirstOrDefault();
+            AreEqual(0, column);
+            AreEqual("", value);
+        }
+        [TestMethod]
+        public void TokenSplitterLines()
+        {
+            // "",1,b,!,""
+            var tokens = new TokenSplitter(new[] { "." }).Split("\n1\na\n!\n").ToArray();
+            AreEqual(tokens[0].Column, 0);
+            AreEqual(tokens[1].Column, 0);
+            AreEqual(tokens[2].Column, 0);
+
+            AreEqual(tokens[0].Line, 1);
+            AreEqual(tokens[1].Line, 2);
+            AreEqual(tokens[2].Line, 3);
+
+            AreEqual(tokens[0].Value, "1");
+            AreEqual(tokens[1].Value, "a");
+            AreEqual(tokens[2].Value, "!");
+        }
+        [TestMethod]
+        public void TokenSplitterAcceptsEmptyString()
+        {
+            AreEqual(0, split("").Count());
+        }
+        [TestMethod]
+        public void TokenSplitterAsTokenSource()
+        {
+            var splitter = new TokenSplitter(new[] { "." });
+            var tokens = spliter.Split(" a");
+            var x = tokens.FirstOrDefault();
+            AreEqual(1, x.Column);
+            AreEqual(0, x.Line);
+            AreEqual("a", x.Value);
         }
         ///<summary>
-        /// Contradicts NoDelimiterPriority choose one
+        /// SHow why Symbols2 doesn't work
         ///</summary>
         [TestMethod]
-        public void DelimiterPriority()
+        public void Symbols()
         {
-            // may not be a good idea parsing instead of splitting
-            // can be soved using the parse use 'names' as values in a group expression
-            // but spaces have to be preserved
-            AreEqual("[A B]", Joined(Values(split("[A B]"))));
+            var splitter = new TokenSplitter(new[]{
+                  // "/*",  "*/", "*" , !Order Matter, means is wrong!
+                    "/*", "*" , "*/"
+            });
+            var tokens = Values(splitter.Split(@"/***/")).ToArray();
+            AreEquivalent(tokens, "/*", "*", "*/");
         }
-        ///<summary>
-        /// Contradicts DelimiterPriority choose one
-        ///</summary>
         [TestMethod]
-        public void NoDelimiterPriority()
+        public void Symbols2()
         {
-            // may not be a good idea parsing instead of splitting
-            // can be soved using the parse use 'names' as values in a group expression
-            // but spaces have to be preserved
-            AreEqual("[,A,B,]", Joined(Values(split("[A B]")), ","));
+            var splitter = new TokenSplitter(new[]{
+                 ",",";",".", // delimiters
+                    "(",")", "[","]","<",">","{","}", // grouping
+                    "=",  //asignment
+                    "+", "-", "*","/", "%",// operators                        
+                    "!","?",":", // logical
+                    "~","#","@","$", // modifiers
+                    "\"","'","`", //quotes
+                    "^","&","|", // binary & logical
+                    // composite
+                     "&&", "||",
+                    "==", "!=", "=>",
+                    "<>", ">=", "<=",
+                    "/*", "*/",
+                    "<-", "->"
+            });
+            var tokens = Values(splitter.Split(@"
+                ,;.
+                ()
+                []
+                <a>
+                {}
+                :=
+                +-*/%
+                !?
+                ~#@$
+                \""'`
+                ^&|
+                TODO
+                && ||
+                == != =>
+                <> >= <=
+                /***/
+                -> <-
+            ")).ToArray();
+            AreEquivalent(tokens,
+                    ",", ";", ".",
+                    "(", ")",
+                    "[", "]",
+                    "<", "a", ">",
+                    "{", "}", // grouping
+                    ":", "=", //asignment
+                    "+", "-", "*", "/", "%",// operators                        
+                    "!", "?", // logical
+                    "~", "#", "@", "$", // modifiers
+                    "\"", "'", "`", //quotes
+                    "^", "&", "|", // binary & logical
+                    "TODO",
+                    // composite
+                    "&&", "||",
+                    "==", "!=", "=>",
+                    "<>", ">=", "<=",
+                    "/*", "*", "*/",
+                    "->", "<-"
+                );
         }
         [TestMethod]
         public void CompositePostFix()
         {
             // use '+=' as  1 token or let the parser figure out +=            
             AreEqual("i,+,=,1",
-                Joined(Values(split("i+=1")), ","));
+                Joined(",")(Values(split("i+=1"))));
         }
         [TestMethod]
         public void BinaryVsLogical()
         {
-            // & vs && ...and || vd |
-            AreEqual("a,|,1,%%,b,&,2",
-                Joined(Values(split(
-                    "a | 1 %% b & 2"
-                    )), ","));
+            // & vs && ...and || vs | they are 
+            AreEqual("a,|,1,&,&,b,&,2",
+                Joined(",")(Values(split(
+                    "a | 1 && b & 2"
+                    ))));
         }
         [TestMethod]
         public void Comments()
         {
-            AreEqual("--,a,/*,?,*/,//,b,<!-,x,->",
-                Joined(Values(split(
+            AreEqual("-,-,a,/,*,?,*,/,/,/,b,<,!,-,x,-,>",
+                Joined(",")(Values(split(
                     "--a /*?*/ \r //b <!-x->"
-                    )), ","));
+                    ))));
         }
+        string[] operators = {
+                    ",",";",".", // delimiters
+                    "(",")", "[","]","<",">","{","}", // grouping
+                    "=",  //asignment
+                    "+", "-", "*","/", "%",// operators                        
+                    "!","?",":", // logical
+                    "~","#","@","$", // modifiers
+                    "\"","'","`", //quotes
+                    "^","&","|", // binary & logical
+                };
+        TokenSplitter spliter => new TokenSplitter(operators);
+
+        bool AreEquivalent<T>(IEnumerable<T> expected, IEnumerable<T> actual)
+        {
+            var e = expected is T[]? (T[])expected : expected.ToArray();
+            var a = actual is T[]? (T[])actual : actual.ToArray();
+            if (e.Length != a.Length) throw new Exception($"Expected {e.Length} length but found {a.Length} length");
+            for (var i = 0; i < e.Length; i++)
+            {
+                AreEqual(e[i], a[i]);
+            }
+            return true;
+        }
+        bool AreEquivalent<T>(IEnumerable<T> actual, params T[] expected) => AreEquivalent(expected, actual);
+        IList<TokenSource> split(string x) => spliter.Split(x);
         IEnumerable<string> Values(IList<TokenSource> input)
         {
             return input.Select(x => x.Value);
         }
-        string Joined(IEnumerable<string> input, string separator = "")
+        Func<IEnumerable<string>, string> Joined(string separator = "")
         {
-            return input.Aggregate((a, b) => a + separator + b);
+            return input => input.Aggregate((a, b) => a + separator + b);
         }
         IList<T> Concat<T>(IList<T> a, params IList<T>[] param)
         {
@@ -105,45 +203,5 @@ namespace TokenSplittingTests
             }
             return output;
         }
-        //string[] EOL = new[] { "\n\r", "\n", "\r" };
-        //Regex Space = new Regex(@"\s+");
-
-        string[] grouping = {
-                "(",")",
-                "[", "]",
-                "<",">",
-                "{","}"
-        };
-        // special characters        
-        string[] delimiters = {
-                  ",",";",":",
-                  "=",
-                  "+", "-",
-                  "*","/",
-                  "~", "%",
-                  "!",
-                  "?",":",
-                  "#","@","$",
-                  "."
-            };
-        string[] logical = {
-                  "&&", "||"
-        };
-        string[] binary = {
-                "^","&","|",
-            };
-        string[] quotes = {
-            "\"","'","`",
-        };
-        // too many choose 1 style of comments
-        // they are compose of primitive symbols anyway
-        // parse or split ? 
-        // prefixes
-        string[] comments = {
-            "--",
-            "/*","*/",
-            "<!-", "->",
-            "//"
-        };
     }
 }

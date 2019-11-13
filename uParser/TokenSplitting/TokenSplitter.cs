@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TokenSplitting
 {
@@ -11,7 +12,7 @@ namespace TokenSplitting
         string[] delimiters;
         bool ignoreCase = false;
         bool includeEmpty = false;
-        private readonly Matcher matcher;
+
         private readonly LineSplitter lineSplitter;
         public TokenSplitter(
             string[] delimiters,
@@ -19,7 +20,7 @@ namespace TokenSplitting
             bool includeEmpty = false
         )
         {
-            matcher = new Matcher(delimiters, ignoreCase);
+            var matcher = new Matcher(delimiters, ignoreCase);
             lineSplitter = new LineSplitter(matcher, includeEmpty);
         }
         static readonly string[] EOL = new[] { "\n\r", "\n", "\r" };
@@ -30,9 +31,12 @@ namespace TokenSplitting
             for (int lineIndex = 0; lineIndex < array.Length; lineIndex++)
             {
                 string line = array[lineIndex];
-                result.AddRange(
-                    lineSplitter.SplitLine(line, lineIndex)
-                );
+                var columns = lineSplitter.SplitLine(line);
+                result.AddRange(columns.Select(x =>
+                {
+                    var (value, column) = x;
+                    return (TokenSource)(value, line: lineIndex, column);
+                }));
             }
             return result;
         }

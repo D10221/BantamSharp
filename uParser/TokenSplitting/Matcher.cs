@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace TokenSplitting
 {
+    using static Util;
     ///<summary>
     ///
     ///</summary>
@@ -16,6 +18,12 @@ namespace TokenSplitting
         ///</summary>
         public Matcher(string[] delimiters, bool ignoreCase)
         {
+            for(var i =0; i< delimiters.Length; i++){
+                var slice = Exclude(delimiters, i);
+                if(slice.Contains(delimiters[i])){
+                    throw new Exception($"{delimiters[i]} specified more than once");
+                }
+            }
             this.delimiters = delimiters;
             this.ignoreCase = ignoreCase;
             finder = new Finder(ignoreCase);

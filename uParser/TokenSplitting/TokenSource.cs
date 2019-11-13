@@ -19,5 +19,21 @@ namespace TokenSplitting
         {
             return Value?.ToString();
         }
+
+        public void Deconstruct(out string value, out int line, out int column)
+        {
+            value = Value;
+            line = Line;
+            column = Column;
+        }
+        public static implicit operator TokenSource((string value, int line, int column) x)
+        {
+            var (value, line, column) = x;
+            return TokenSource.From(value, line, column);
+        }
+        public static implicit operator (string value, int line, int column)(TokenSource x){
+            var (value, line, column) = x;
+            return (value, line, column);
+        }
     }
 }
