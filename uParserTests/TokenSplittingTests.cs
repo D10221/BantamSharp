@@ -80,19 +80,19 @@ namespace TokenSplittingTests
         {
             var splitter = new TokenSplitter(new[]{
                  ",",";",".", // delimiters
-                    "(",")", "[","]","<",">","{","}", // grouping
-                    "=",  //asignment
-                    "+", "-", "*","/", "%",// operators                        
-                    "!","?",":", // logical
-                    "~","#","@","$", // modifiers
-                    "\"","'","`", //quotes
-                    "^","&","|", // binary & logical
-                    // composite
-                     "&&", "||",
-                    "==", "!=", "=>",
-                    "<>", ">=", "<=",
-                    "/*", "*/",
-                    "<-", "->"
+                 "(",")", "[","]","<",">","{","}", // grouping
+                 "=",  //asignment
+                 "+", "-", "*","/", "%",// operators                        
+                 "!","?",":", // logical
+                 "~","#","@","$", // modifiers
+                 "\"","'","`", //quotes
+                 "^","&","|", // binary & logical
+                 // composite
+                  "&&", "||",
+                 "==", "!=", "=>",
+                 "<>", ">=", "<=",
+                 "/*", "*/",
+                 "<-", "->"
             });
             var tokens = Values(splitter.Split(@"
                 ,;.
