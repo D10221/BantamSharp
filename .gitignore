@@ -381,3 +381,4 @@ tools/
 **/.vscode/*
 *.zip
 *.tgz
+**/.ionide/*
